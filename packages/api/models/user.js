@@ -27,11 +27,12 @@ const userSchema = new Schema(
     bio: {
       type: String,
     },
-    posts: {
+    posts: [{
       type: Schema.Types.ObjectId,
       ref: "Post",
-    },
+    }],
   },
+  //todo: add user interactions
   { timestamps: true }
 );
 
