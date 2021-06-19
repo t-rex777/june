@@ -1,0 +1,24 @@
+{
+  "name": "june",
+  "version": "1.0.0",
+  "main": "index.js",
+  "private": "true",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "app": "yarn workspace @june/app start",
+    "server": "yarn workspace @june/api serve",
+    "build-app": "yarn workspace @june/app build",
+    "build-server": "yarn workspace @june/api build",
+    "start": "concurrently --kill-others-on-fail \"yarn app\"  \"yarn server\"",
+    "start:server": "yarn workspace @june/api start"
+  },
+  "engines": {
+    "node": "14.15.0"
+  },
+  "dependencies": {
+    "concurrently": "^6.1.0"
+  }
+}
