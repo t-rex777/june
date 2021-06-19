@@ -1,14 +1,8 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-
-import { config } from "dotenv";
-config();
-
-import express from "express";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
-import cors from "cors";
-
+require("dotenv").config();
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -18,13 +12,19 @@ app.use(cors());
 
 // mongoose connection
 mongoose
-  .connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.URI, {
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useNewUrlParser: true,
+  })
   .then(console.log("DB CONNECTED!!!!!!!!!!!"))
   .catch((err) => console.log(err));
 
 // routes
+const userRoutes = require("./routes/user");
 
 // api
+app.use("/api", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("hello world!");

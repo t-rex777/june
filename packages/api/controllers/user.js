@@ -1,5 +1,6 @@
-import User from "../models/user";
-import { jwt } from "jsonwebtoken";
+const User = require("../models/user");
+const jwt = require("jsonwebtoken");
+const { extend, concat } = require("lodash");
 
 // middleware
 exports.isAuthenticatedToken = (req, res, next) => {
@@ -36,15 +37,11 @@ exports.getUser = async (req, res) => {
 };
 
 // create
-exports.signup = (req, res) => {
+exports.signup = async(req, res) => {
   try {
-    const user = new User(req.body);
-    if (user === undefined) {
-      return res.status.json({
-        message: "user doen not signed up!",
-      });
-      res.json({ user });
-    }
+      const user = new User(req.body);
+      const savedUser = await user.save();
+      res.send(savedUser)
   } catch (error) {
     res.status(400).json({
       message: error.message,

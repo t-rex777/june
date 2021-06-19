@@ -7,7 +7,6 @@
     "start": "node index.js",
     "serve": "nodemon index.js"
   },
-  "type": "module",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
