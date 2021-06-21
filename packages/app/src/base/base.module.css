@@ -1,0 +1,12 @@
+.desktopNav {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .mobileNav {
+    display: none;
+  }
+  .desktopNav {
+    display: block;
+  }
+}
