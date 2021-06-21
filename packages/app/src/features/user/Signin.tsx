@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import Base from "./../../base/Base";
-import { Link } from "react-router-dom";
+import { Link , Redirect} from "react-router-dom";
 import { SigninUser } from "./userTypes";
+import { signin } from "./helper";
 
 const Signin: React.FC = () => {
   const [userData, setUserData] = useState<SigninUser>({
     username: "",
     password: "",
   });
+  const [shouldRedirect, setRedirect] = useState<Boolean>(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setUserData((prevValue) => {
@@ -17,15 +19,28 @@ const Signin: React.FC = () => {
       };
     });
   };
-  const submitForm = () => {};
+  const submitForm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const signedUserData = await signin(userData);
+    try {
+      if (signedUserData === undefined) {
+        // error message snackbar
+        return "";
+      }
+      setRedirect(true);
+    } catch (error) {
+      
+    }
+  };
   return (
     <Base className="flex flex-col items-center	 pt-20">
+      {shouldRedirect && <Redirect to="/" />}
       <h1 className="text-center text-4xl mb-5 text-purple-800 font-bold">
         Sign In
       </h1>
       <form
         onSubmit={submitForm}
-        className="bg-purple-300 p-8 rounded-lg w-max xsm:w-96"
+        className="bg-purple-300 p-8 rounded-lg w-72 xsm:w-96"
       >
         <input
           type="text"
@@ -60,7 +75,6 @@ const Signin: React.FC = () => {
           Sign Up
         </Link>
       </p>
-
     </Base>
   );
 };

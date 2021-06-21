@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Base from "./../../base/Base";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { SignupUser } from "./userTypes";
+import { signup } from "./helper";
 
 const Signup: React.FC = () => {
   const [userData, setUserData] = useState<SignupUser>({
@@ -22,9 +23,21 @@ const Signup: React.FC = () => {
       };
     });
   };
-  const submitForm = () => {};
+  const [shouldRedirect, setRedirect] = useState<Boolean>(false);
+  const submitForm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const signedUserData = await signup(userData);
+    try {
+      if (signedUserData === undefined) {
+        // error snackbar
+        return "";
+      }
+      setRedirect(true);
+    } catch (error) {}
+  };
   return (
     <Base className="flex flex-col items-center	 pt-16 pb-16">
+      {shouldRedirect && <Redirect to="/login" />}
       <h1 className="text-center text-4xl mb-5 text-purple-800 font-bold">
         Sign Up
       </h1>
@@ -81,9 +94,9 @@ const Signup: React.FC = () => {
         </div>
       </form>
       <p>
-        New here?{" "}
-        <Link to="/signup" className="text-purple-700 font-bold	">
-          Sign Up
+        New here?
+        <Link to="/signin" className="text-purple-700 font-bold	">
+          Sign In
         </Link>
       </p>
       <p>{userData.bio}</p>
