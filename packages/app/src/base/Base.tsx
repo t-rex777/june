@@ -1,6 +1,6 @@
 import React from "react";
-import TopNav from "./TopNav";
-import BottomNav from "./BottomNav";
+import TopNav from "./MobileTopNav";
+import BottomNav from "./MobileBottomNav";
 import DesktopNav from "./DesktopNav";
 import baseStyles from "./base.module.css"
 interface Props {
@@ -18,7 +18,7 @@ const Base: React.FC<Props> = (props) => {
       <div className={baseStyles.desktopNav}>
         <DesktopNav />
       </div>
-      <div className={`${props.className} pt-1 pb-5`}>{props.children}</div>
+      <div className={`${props.className}`}>{props.children}</div>
     </>
   );
 };
