@@ -27,7 +27,7 @@ exports.isAuthenticatedToken = (req, res, next) => {
 // read
 exports.getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.usedId);
+    const user = await User.findById(req.userId)
     res.json({ user });
   } catch (error) {
     res.status(400).json({

@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, Mongoose } = require("mongoose");
 
 const postSchema = new Schema({
   name: {
@@ -12,15 +12,16 @@ const postSchema = new Schema({
   photo: {
     type: String,
   },
-  tags: {
-    type: String,
-  },
-  likes: {
-    type: String,
-  },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   comments: [
     {
-      type: String, //todo: link to users
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
   ],
 });

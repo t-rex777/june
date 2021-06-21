@@ -11,10 +11,16 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique : true
+      unique: true,
     },
-    bio : {
-      type : String,
+    bio: {
+      type: String,
+    },
+    followers: {
+      type: Number,
+    },
+    followings: {
+      type: Number,
     },
     salt: {
       type: String,
@@ -35,6 +41,7 @@ const userSchema = new mongoose.Schema(
         ref: "Post",
       },
     ],
+    // todo: add saved posts
   },
   { timestamps: true }
 );
@@ -47,7 +54,7 @@ userSchema
     this.encrypted_password = this.securePassword(password);
   })
   .get(function () {
-    return _password;
+    return this._password;
   });
 
 userSchema.methods = {
