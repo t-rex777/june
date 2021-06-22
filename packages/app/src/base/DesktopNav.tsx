@@ -30,7 +30,7 @@ const DesktopNav: React.FC<Props> = () => {
             Notification
           </li>
         </Link>
-        <Link to="/">
+        <Link to="/user/dashboard">
           <li className="text-white text-xs font-semibold sm:text-lg">User</li>
         </Link>
       </ul>

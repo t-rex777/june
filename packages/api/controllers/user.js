@@ -19,6 +19,7 @@ exports.isAuthenticatedToken = (req, res, next) => {
     return next();
   } catch (error) {
     res.status(400).json({
+      error: error.message,
       message: "token cannot be verified",
     });
   }
@@ -28,7 +29,19 @@ exports.isAuthenticatedToken = (req, res, next) => {
 exports.getUser = async (req, res) => {
   try {
     const user = await User.findById(req.userId);
-    res.json({ user });
+    const { _id, name, username, email, posts, followers, followings, bio } =
+        user;
+      const userDetails = {
+        _id,
+        name,
+        username,
+        email,
+        posts,
+        followers,
+        followings,
+        bio,
+      };
+      return res.json(userDetails);
   } catch (error) {
     res.status(400).json({
       message: error.message,
@@ -41,7 +54,19 @@ exports.signup = async (req, res) => {
   try {
     const user = new User(req.body);
     const savedUser = await user.save();
-    res.send(savedUser);
+    const { _id, name, username, email, posts, followers, followings, bio } =
+      savedUser;
+    const userDetails = {
+      _id,
+      name,
+      username,
+      email,
+      posts,
+      followers,
+      followings,
+      bio,
+    };
+    return res.json(userDetails);
   } catch (error) {
     res.status(400).json({
       message: error.message,
@@ -79,8 +104,18 @@ exports.signin = async (req, res) => {
           expiresIn: "7d",
         }
       );
-      const { _id, name, username, email, posts, followers, followings } = user;
-      const userDetails = { _id, name, username, email, posts, followers, followings}
+      const { _id, name, username, email, posts, followers, followings, bio } =
+        user;
+      const userDetails = {
+        _id,
+        name,
+        username,
+        email,
+        posts,
+        followers,
+        followings,
+        bio,
+      };
       return res.json({ userDetails, accessToken, refreshToken });
     });
   } catch (error) {
@@ -99,7 +134,6 @@ exports.createAccessToken = (req, res) => {
       message: "No refresh tokens found",
     });
   }
-
   try {
     const oldRefreshToken = req.headers["refresh-token"].split(" ")[1];
     const { userId } = jwt.verify(
