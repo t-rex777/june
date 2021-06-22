@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import Base from "./../../base/Base";
 import { Link, Redirect } from "react-router-dom";
 import { SignupUser } from "./userTypes";
-import { signup } from "./helper";
+import { useAppDispatch } from "../../app/hooks";
+import { userSignup } from "./userSlice";
 
 const Signup: React.FC = () => {
+  const dispatch = useAppDispatch()
   const [userData, setUserData] = useState<SignupUser>({
     name: "",
     email: "",
@@ -26,18 +28,15 @@ const Signup: React.FC = () => {
   const [shouldRedirect, setRedirect] = useState<Boolean>(false);
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
-    const signedUserData = await signup(userData);
+    const resData = await dispatch(userSignup(userData));
     try {
-      if (signedUserData === undefined) {
-        // error snackbar
-        return "";
-      }
+      console.log(resData)
       setRedirect(true);
     } catch (error) {}
   };
   return (
     <Base className="flex flex-col items-center	 pt-16 pb-16">
-      {shouldRedirect && <Redirect to="/login" />}
+      {shouldRedirect && <Redirect to="/signin" />}
       <h1 className="text-center text-4xl mb-5 text-purple-800 font-bold">
         Sign Up
       </h1>
@@ -99,7 +98,6 @@ const Signup: React.FC = () => {
           Sign In
         </Link>
       </p>
-      <p>{userData.bio}</p>
     </Base>
   );
 };

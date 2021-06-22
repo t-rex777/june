@@ -8,6 +8,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+    },
     email: {
       type: String,
       required: true,
@@ -15,12 +21,15 @@ const userSchema = new mongoose.Schema(
     },
     bio: {
       type: String,
+      default : ""
     },
     followers: {
       type: Number,
+      default : 0
     },
     followings: {
       type: Number,
+      default : 0
     },
     salt: {
       type: String,
@@ -29,19 +38,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    username: {
-      type: String,
-      required: true,
-      trim: true,
-      unique: true,
-    },
     posts: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Post",
       },
     ],
-    // todo: add saved posts
+    // todo: add saved posts collection
   },
   { timestamps: true }
 );

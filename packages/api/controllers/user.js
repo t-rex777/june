@@ -27,7 +27,7 @@ exports.isAuthenticatedToken = (req, res, next) => {
 // read
 exports.getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.userId)
+    const user = await User.findById(req.userId);
     res.json({ user });
   } catch (error) {
     res.status(400).json({
@@ -37,11 +37,11 @@ exports.getUser = async (req, res) => {
 };
 
 // create
-exports.signup = async(req, res) => {
+exports.signup = async (req, res) => {
   try {
-      const user = new User(req.body);
-      const savedUser = await user.save();
-      res.send(savedUser)
+    const user = new User(req.body);
+    const savedUser = await user.save();
+    res.send(savedUser);
   } catch (error) {
     res.status(400).json({
       message: error.message,
@@ -52,10 +52,10 @@ exports.signup = async(req, res) => {
 exports.signin = async (req, res) => {
   try {
     const user = req.body;
-    const { email, password } = user;
-    const userEmail = email;
+    const { username, password } = user;
+    console.log({ username, password });
 
-    await User.findOne({ email: userEmail }).exec((err, user) => {
+    await User.findOne({ username }).exec((err, user) => {
       if (err || user === null) {
         return res.status(400).json({
           message: "user does not exists!",
@@ -79,7 +79,9 @@ exports.signin = async (req, res) => {
           expiresIn: "7d",
         }
       );
-      res.json({ user, accessToken, refreshToken });
+      const { _id, name, username, email, posts, followers, followings } = user;
+      const userDetails = { _id, name, username, email, posts, followers, followings}
+      return res.json({ userDetails, accessToken, refreshToken });
     });
   } catch (error) {
     res.status(400).json({

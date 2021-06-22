@@ -8,9 +8,12 @@ const postSchema = new Schema({
   },
   caption: {
     type: String,
+    default : ""
   },
   photo: {
     type: String,
+    default : ""
+
   },
   likes: [
     {

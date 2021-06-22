@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import Base from "./../../base/Base";
-import { Link , Redirect} from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { SigninUser } from "./userTypes";
-import { signin } from "./helper";
+import { useAppDispatch } from "../../app/hooks";
+import { userSignin } from "./userSlice";
 
 const Signin: React.FC = () => {
+  const dispatch = useAppDispatch();
   const [userData, setUserData] = useState<SigninUser>({
-    username: "",
-    password: "",
+    username: "dev_admin",
+    password: "admin@123456789",
   });
   const [shouldRedirect, setRedirect] = useState<Boolean>(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,15 +23,16 @@ const Signin: React.FC = () => {
   };
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
-    const signedUserData = await signin(userData);
+    const resData = await dispatch(userSignin(userData));
     try {
-      if (signedUserData === undefined) {
-        // error message snackbar
-        return "";
-      }
+      // if (signedUserData === undefined) {
+      // error message snackbar
+      //   return "";
+      // }
+      console.log(resData);
       setRedirect(true);
     } catch (error) {
-      
+      console.log(error);
     }
   };
   return (
