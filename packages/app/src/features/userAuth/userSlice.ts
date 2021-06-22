@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { JuneAPI, setJuneHeader } from "../../utils";
-import { SigninUser, UserState } from "./userTypes";
+import { SigninUser, UpdateUserType, UserState } from "./userTypes";
 import { axiosRequestError } from "../../utils";
 
 const initialState: UserState = {
@@ -48,6 +48,20 @@ export const getUserData = createAsyncThunk("user/data", async () => {
   }
 });
 
+export const updateUser = createAsyncThunk(
+  "user/update",
+  async (userData: UpdateUserType) => {
+    try {
+      const response = await JuneAPI.post("/user/update", {
+        ...userData,
+      });
+      return response.data;
+    } catch (error) {
+      axiosRequestError(error);
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -79,6 +93,13 @@ export const userSlice = createSlice({
       .addCase(getUserData.fulfilled, (state, action) => {
         state.user = action.payload;
         state.status = "signed in";
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.status = "success";
       });
   },
 });

@@ -49,6 +49,7 @@ exports.getUser = async (req, res) => {
   }
 };
 
+
 // create
 exports.signup = async (req, res) => {
   try {
@@ -168,6 +169,7 @@ exports.updateUser = async (req, res) => {
     let updatedUser = req.body;
     let user = await User.findById(req.userId);
     updatedUser = await extend(user, updatedUser);
+    
     updatedUser.save((err, updatedUser) => {
       if (err) {
         return res.status(400).json({

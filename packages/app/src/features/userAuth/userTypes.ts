@@ -19,6 +19,13 @@ export interface PostType {
   comments: any;
 }
 
+export interface UpdateUserType {
+  username?: string;
+  email?: string;
+  name?: string;
+  bio?: string;
+}
+
 export interface UserType extends SignupUser {
   followers: number;
   followings: number;

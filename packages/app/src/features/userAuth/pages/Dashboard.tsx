@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Base from "./../../../base/Base";
 import { useSelector } from "react-redux";
 import { selectUser } from "../userSlice";
 import Posts from "./../components/Posts";
 import NoPosts from "./../components/NoPosts";
+import EditUser from "./EditUser";
 
 interface Props {}
 
 const Dashboard: React.FC<Props> = () => {
   const { user } = useSelector(selectUser);
-  console.log({ user });
+
+  const [editModal, setEditModal] = useState<Boolean>(false);
+
+  const closeModal = () => {
+    setEditModal(false);
+  };
   return (
     <Base className="">
       <div className="flex justify-center my-2  ">
@@ -26,13 +32,13 @@ const Dashboard: React.FC<Props> = () => {
           </p>
 
           <span className="flex justify-evenly">
-            <p className="self-center mx-2 text-sm">
+            <p className="self-center mx-2 text-sm sm:text-xl">
               {user?.posts.length} posts
             </p>
-            <p className="self-center mx-2 text-sm">
+            <p className="self-center mx-2 text-sm sm:text-xl">
               {user?.followers} followers
             </p>
-            <p className="self-center mx-2 text-sm">
+            <p className="self-center mx-2 text-sm sm:text-xl">
               {user?.followings} followings
             </p>
           </span>
@@ -41,7 +47,12 @@ const Dashboard: React.FC<Props> = () => {
             <p className="sm:text-xl">{user?.bio}</p>
           </span>
           <div className="flex justify-center  w-1/2 ">
-            <button className=" text-purple-700 font-bold w-full text-sm p-1 mt-3 rounded-lg hover:bg-purple-300 border-2 border-purple-700">
+            <button
+              className=" text-purple-500 font-bold w-full text-sm p-1 mt-3 rounded-lg hover:bg-purple-100 border-2 border-purple-400"
+              onClick={() => {
+                setEditModal(true);
+              }}
+            >
               Edit
             </button>
           </div>
@@ -51,6 +62,7 @@ const Dashboard: React.FC<Props> = () => {
       <div className="flex justify-center my-5 p-4">
         {user?.posts ? <NoPosts /> : <Posts />}
       </div>
+      {editModal && <EditUser setEditModal={() => closeModal()} />}
     </Base>
   );
 };
