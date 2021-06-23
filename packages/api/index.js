@@ -22,9 +22,12 @@ mongoose
 
 // routes
 const userRoutes = require("./routes/user");
+const postRoutes = require("./routes/post");
 
 // api
 app.use("/api", userRoutes);
+app.use("/api", postRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("hello world!");

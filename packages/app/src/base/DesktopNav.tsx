@@ -12,7 +12,7 @@ interface Props {}
 const DesktopNav: React.FC<Props> = () => {
   return (
     <nav className="bg-purple-400 px-10 py-3 fixed w-screen">
-      <ul className="flex justify-between">
+      <ul className="flex justify-between items-center">
         <Link to="">
           <li className="mr-10 ">
             <img src={JuneLogo} alt="june" className="h-10" />
@@ -21,7 +21,7 @@ const DesktopNav: React.FC<Props> = () => {
 
         {/* Search bar */}
           <li className="flex-grow text-white text-xs  font-semibold sm:text-lg">
-            <input type="text" name="" id="" placeholder="search lost your homie" className="text-sm p-1 w-9/12 rounded-sm" />
+            <input type="text" name="" id="" placeholder="search your lost homie" className="text-sm p-1 w-9/12 rounded-sm" />
           </li>
 
         <span className="flex justify-end">

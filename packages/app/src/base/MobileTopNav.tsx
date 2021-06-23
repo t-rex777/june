@@ -16,7 +16,7 @@ const MobileTopNav: React.FC<Props> = () => {
         </Link>
         
           <li className="flex-grow text-white text-xs font-semibold sm:text-lg">
-            <input type="text" name="" id="" placeholder="search your lost homie" 
+            <input type="text" name="" id="" placeholder="search" 
             className="text-sm p-1 w-9/12 rounded-sm" /></li>
       
         <Link to="/">

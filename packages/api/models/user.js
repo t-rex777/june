@@ -21,15 +21,20 @@ const userSchema = new mongoose.Schema(
     },
     bio: {
       type: String,
+      default: "",
+    },
+    profile_photo: {
+      data: Buffer,
+      contentType: String,
       default : ""
     },
     followers: {
       type: Number,
-      default : 0
+      default: 0,
     },
     followings: {
       type: Number,
-      default : 0
+      default: 0,
     },
     salt: {
       type: String,
