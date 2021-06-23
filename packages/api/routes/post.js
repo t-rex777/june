@@ -12,7 +12,7 @@ router.param("postId", findPostById);
 
 router
   .post("/post/create", createPost)
-  .post("post/update/:postId", updatePost)
+  .put("/post/update/:postId", updatePost)
   .delete("/post/delete/:postId", deletePost);
 
 module.exports = router;

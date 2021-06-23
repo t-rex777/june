@@ -49,23 +49,22 @@ exports.createPost = async (req, res) => {
         }
         post.photo.data = fs.readFileSync(file.photo.path);
         post.photo.contentType = file.photo.type;
-
-        const savedPost = await post.save();
-        if (savedPost === undefined) {
-          return res.status(400).json({
-            message: "post didn't save",
-          });
-        }
-
-        user.posts.push(savedPost);
-        const savedUser = await user.save();
-        if (savedPost === undefined) {
-          return res.status(400).json({
-            message: "post didn't save to user",
-          });
-        }
-        return res.json(savedPost);
       }
+      const savedPost = await post.save();
+      if (savedPost === undefined) {
+        return res.status(400).json({
+          message: "post didn't save",
+        });
+      }
+
+      user.posts.push(savedPost);
+      const savedUser = await user.save();
+      if (savedPost === undefined) {
+        return res.status(400).json({
+          message: "post didn't save to user",
+        });
+      }
+      return res.json(savedPost);
     });
   } catch (error) {
     res.status(400).json({
@@ -77,7 +76,7 @@ exports.createPost = async (req, res) => {
 // update post
 exports.updatePost = async (req, res) => {
   try {
-    let user = await User.findById(req.userId);
+    // let user = await User.findById(req.userId);
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
     form.parse(req, async (err, fields, file) => {
@@ -100,23 +99,14 @@ exports.updatePost = async (req, res) => {
         }
         post.photo.data = fs.readFileSync(file.photo.path);
         post.photo.contentType = file.photo.type;
-
-        const savedPost = await post.save();
-        if (savedPost === undefined) {
-          return res.status(400).json({
-            message: "post didn't save",
-          });
-        }
-
-        user.posts.push(savedPost);
-        const savedUser = await user.save();
-        if (savedPost === undefined) {
-          return res.status(400).json({
-            message: "post didn't save to user",
-          });
-        }
-        return res.json(savedPost);
       }
+      const savedPost = await post.save();
+      if (savedPost === undefined) {
+        return res.status(400).json({
+          message: "post didn't save",
+        });
+      }
+      return res.json(savedPost);
     });
   } catch (error) {
     res.status(400).json({
@@ -130,7 +120,6 @@ exports.deletePost = async (req, res) => {
   try {
     let user = await User.findById(req.userId);
     let post = req.post;
-    console.log(post._id);
     const filteredUser = user.posts.filter(
       (item) => post._id.toString() !== item._id.toString()
     );
@@ -141,6 +130,7 @@ exports.deletePost = async (req, res) => {
       });
     }
     user.posts = filteredUser;
+
     // deleteting post from user DB
     const savedUser = await user.save();
 

@@ -28,7 +28,7 @@ exports.isAuthenticatedToken = (req, res, next) => {
 // read
 exports.getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.userId);
+    const user = await User.findById(req.userId).populate("posts");
     const { _id, name, username, email, posts, followers, followings, bio } =
         user;
       const userDetails = {
