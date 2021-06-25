@@ -6,6 +6,7 @@ import { axiosRequestError } from "../../utils";
 
 const initialState: UserState = {
   user: null,
+  posts: null,
   status: "idle",
 };
 
@@ -38,6 +39,16 @@ export const userSignup = createAsyncThunk(
     }
   }
 );
+
+export const getPosts = createAsyncThunk("user/posts", async () => {
+  try {
+    const response = await JuneAPI.get("/posts");
+    return response.data;
+
+  } catch (error) {
+    axiosRequestError(error);
+  }
+});
 
 export const getUserData = createAsyncThunk("user/data", async () => {
   try {
@@ -99,6 +110,13 @@ export const userSlice = createSlice({
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.user = action.payload;
+        state.status = "success";
+      })
+      .addCase(getPosts.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getPosts.fulfilled, (state, action) => {
+        state.posts = action.payload;
         state.status = "success";
       });
   },

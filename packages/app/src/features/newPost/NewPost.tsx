@@ -21,7 +21,6 @@ const NewPost: React.FC<Props> = () => {
     const reader = new FileReader();
     reader.readAsDataURL(selectedFile);
     reader.onloadend = () => {
-      console.log(reader.result);
       const postFile = {
         caption: post.caption,
         photo: reader.result,

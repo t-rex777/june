@@ -7,16 +7,17 @@ const {
   findPostById,
   getPostPic,
   uploadPost,
+  updateCaption,
+  getPosts,
 } = require("../controllers/post");
 
 // middleware
 router.param("postId", findPostById);
 
 router
+  .get("/posts",getPosts)
   .post("/post/upload", uploadPost)
-  .get("/post/photo/:postId", getPostPic)
-  .post("/post/create", createPost)
-  .put("/post/update/:postId", updatePost)
+  .put("/post/update/caption/:postId", updateCaption)
   .delete("/post/delete/:postId", deletePost);
 
 module.exports = router;

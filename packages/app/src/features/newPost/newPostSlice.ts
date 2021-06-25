@@ -22,15 +22,15 @@ export const fetchPosts = createAsyncThunk("newPost/fetch", async () => {
 export const uploadPost = createAsyncThunk(
   "newPost/upload",
   async (postfile : any) => {
-    console.log("postfile")
-    // try {
-    //   const response = await JuneAPI.post("/post/upload", {
-    //     ...postfile,
-    //   });
-    //   return response.data;
-    // } catch (error) {
-    //   axiosRequestError(error);
-    // }
+    // console.log("postfile")
+    try {
+      const response = await JuneAPI.post("/post/upload", {
+        ...postfile,
+      });
+      return response.data;
+    } catch (error) {
+      axiosRequestError(error);
+    }
   }
 );
 

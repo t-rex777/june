@@ -1,73 +1,62 @@
-import React, { useState } from "react";
-import { JuneAPI } from "./../../../utils";
+import React, { useEffect } from "react";
+import { Image } from "cloudinary-react";
+import { JuneAPI } from "../../../utils";
+import { useSelector } from "react-redux";
+import { selectUser, getPosts } from "./../userSlice";
+import { AiFillHeart } from "react-icons/ai";
+import { BsFillChatFill, BsThreeDotsVertical } from "react-icons/bs";
+import { RiSendPlaneFill } from "react-icons/ri";
+import { useAppDispatch } from "./../../../app/hooks";
 
-export default function Upload() {
-  const [fileInputState, setFileInputState] = useState("");
-  const [previewSource, setPreviewSource] = useState("");
-  const [selectedFile, setSelectedFile] = useState();
-  const handleFileInputChange = (e) => {
-    const file = e.target.files[0];
-    previewFile(file);
-    setSelectedFile(file);
-    setFileInputState(e.target.value);
-  };
+const Posts = () => {
+  const dispatch = useAppDispatch();
+  const { user, posts } = useSelector(selectUser);
 
-  const previewFile = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPreviewSource(reader.result);
-    };
-  };
-
-  const handleSubmitFile = (e) => {
-    e.preventDefault();
-    if (!selectedFile) return;
-    const reader = new FileReader();
-    reader.readAsDataURL(selectedFile);
-    reader.onloadend = () => {
-      uploadImage(reader.result);
-    };
-    reader.onerror = () => {
-      console.error("AHHHHHHHH!!");
-    };
-  };
-
-  const uploadImage = async (base64EncodedImage) => {
-    console.log(base64EncodedImage);
-    const data = {
-      image: base64EncodedImage,
-    };
-    try {
-      await JuneAPI.post("/post/upload", {
-        ...data,
-      });
-    //   setFileInputState("");
-    //   setPreviewSource("");
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  useEffect(() => {
+    dispatch(getPosts())
+  }, [dispatch]);
   return (
-    <div>
-      <h1 className="title">Upload an Image</h1>
+    
+    <div className="flex flex-wrap justify-center">
+      {posts &&
+        posts.map((imageId, index) => (
+          <div className="m-3 py-2 px-4 bg-purple-100 rounded-md">
+            <div className="flex justify-between">
+              <p>{user.username}</p>
+              <span className="cursor-pointer my-2">
+                <BsThreeDotsVertical />
+              </span>
+            </div>
+            <Image
+              key={index}
+              responsive
+              cloudName="june-social"
+              publicId={imageId}
+              width="250"
+              height="300"
+              responsiveUseBreakpoints="true"
+              crop="fill"
+            />
+            <div>
+              <p>
 
-      <form onSubmit={handleSubmitFile} className="form">
-        <input
-          id="fileInput"
-          type="file"
-          name="image"
-          onChange={handleFileInputChange}
-          value={fileInputState}
-          className="form-input"
-        />
-        <button className="btn" type="submit">
-          Submit
-        </button>
-      </form>
-      {previewSource && (
-        <img src={previewSource} alt="chosen" style={{ height: "300px" }} />
-      )}
+              </p>
+            </div>
+            <div className="flex flex-start">
+              <span className="mx-3 my-2 cursor-pointer">
+                <AiFillHeart size="25" />
+              </span>
+              <span className="mx-3 my-2 cursor-pointer">
+                <BsFillChatFill size="21" />
+              </span>
+              <span className="mx-3 my-2 cursor-pointer">
+                <RiSendPlaneFill size="25" />
+              </span>
+            </div>
+          </div>
+        ))}
     </div>
-  );
-}
+  )
+};
+
+export default Posts;
