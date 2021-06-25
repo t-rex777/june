@@ -21,7 +21,7 @@ const DesktopNav: React.FC<Props> = () => {
 
         {/* Search bar */}
           <li className="flex-grow text-white text-xs  font-semibold sm:text-lg">
-            <input type="text" name="" id="" placeholder="search your lost homie" className="text-sm p-1 w-9/12 rounded-sm" />
+            <input type="text" placeholder="search your lost homie" className="text-sm p-1 w-9/12 rounded-sm" />
           </li>
 
         <span className="flex justify-end">
@@ -31,7 +31,7 @@ const DesktopNav: React.FC<Props> = () => {
             {/* todo: add counts */}
           </li>
         </Link>
-        <Link to="/">
+        <Link to="/user/newpost">
           <li className="text-white text-xs mx-5 font-semibold sm:text-lg">
           <BsPlusSquareFill size={28} />
           </li>

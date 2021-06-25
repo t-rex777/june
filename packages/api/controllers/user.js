@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-const { extend, concat } = require("lodash");
+const { extend, concat, set } = require("lodash");
 
 // middleware
 exports.isAuthenticatedToken = (req, res, next) => {
@@ -30,18 +30,18 @@ exports.getUser = async (req, res) => {
   try {
     const user = await User.findById(req.userId).populate("posts");
     const { _id, name, username, email, posts, followers, followings, bio } =
-        user;
-      const userDetails = {
-        _id,
-        name,
-        username,
-        email,
-        posts,
-        followers,
-        followings,
-        bio,
-      };
-      return res.json(userDetails);
+      user;
+    const userDetails = {
+      _id,
+      name,
+      username,
+      email,
+      posts,
+      followers,
+      followings,
+      bio,
+    };
+    return res.json(userDetails);
   } catch (error) {
     res.status(400).json({
       message: error.message,
@@ -49,6 +49,23 @@ exports.getUser = async (req, res) => {
   }
 };
 
+exports.getUserPosts = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).populate("posts");
+    const { posts } = user;
+
+    // const convertedPosts = posts.forEach((post) =>
+    //   res.set("Content-Type", post.photo.contentType)
+    // );
+    // console.log({convertedPosts})
+ const x =   posts[0].set("Content-Type", posts[0].photo.contentType)
+    return res.send(x);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
 
 // create
 exports.signup = async (req, res) => {
@@ -169,7 +186,7 @@ exports.updateUser = async (req, res) => {
     let updatedUser = req.body;
     let user = await User.findById(req.userId);
     updatedUser = await extend(user, updatedUser);
-    
+
     updatedUser.save((err, updatedUser) => {
       if (err) {
         return res.status(400).json({

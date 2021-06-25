@@ -16,7 +16,7 @@ const MobileBottomNav: React.FC<Props> = () => {
             <AiFillHome size={28}/>
           </li>
         </Link>
-        <Link to="/">
+        <Link to="/user/newpost">
           <li  className="text-white text-xs font-semibold sm:text-lg">
             <BsPlusSquareFill size={28}/>
           </li>

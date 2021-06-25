@@ -12,7 +12,8 @@ import Signup from "./features/userAuth/pages/Signup";
 import Dashboard from "./features/userAuth/pages/Dashboard";
 import { useAppDispatch } from "./app/hooks";
 import { JuneAPI, setJuneHeader, axiosRequestError } from "./utils";
-import { getUserData } from "./features/userAuth/userSlice";
+import { getUserData, signout } from "./features/userAuth/userSlice";
+import NewPost from './features/newPost/NewPost';
 
 const rToken = localStorage.getItem("__rtoken");
 
@@ -50,8 +51,21 @@ const JuneRoutes: React.FC = () => {
           localStorage.setItem("__rtoken", refreshToken);
           await dispatch(getUserData());
         } catch (error) {
+          dispatch(signout());
           axiosRequestError(error);
         }
+
+        // fetches accessToken token before every 15 mins
+        setInterval(async () => {
+          const response = await JuneAPI.get("/token/refresh", {
+            headers: {
+              "refresh-token": `Bearer ${rToken}`,
+            },
+          });
+          const { accessToken, refreshToken } = response.data;
+          setJuneHeader(accessToken);
+          localStorage.setItem("__rtoken", refreshToken);
+        }, 840000);
       })();
     }
   }, [dispatch]);
@@ -63,6 +77,7 @@ const JuneRoutes: React.FC = () => {
         <Route path="/signin" exact component={Signin} />
         <Route path="/signup" exact component={Signup} />
         <PrivateRoute path="/user/dashboard" exact component={Dashboard} />
+        <PrivateRoute path="/user/newpost" exact component={NewPost} />
       </Switch>
     </BrowserRouter>
   );

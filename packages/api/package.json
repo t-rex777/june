@@ -8,6 +8,7 @@
     "serve": "nodemon index.js"
   },
   "dependencies": {
+    "cloudinary": "^1.26.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",

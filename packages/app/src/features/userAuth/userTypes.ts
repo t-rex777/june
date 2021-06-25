@@ -12,7 +12,6 @@ export interface SignupUser {
 }
 
 export interface PostType {
-  name: string;
   caption?: string;
   photo?: string;
   likes: any;

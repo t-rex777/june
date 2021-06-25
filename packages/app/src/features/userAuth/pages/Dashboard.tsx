@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Base from "./../../../base/Base";
 import { useSelector } from "react-redux";
 import { selectUser } from "../userSlice";
-import Posts from "./../components/Posts";
+import Posts from "./../components/Posts.js";
 import NoPosts from "./../components/NoPosts";
 import EditUser from "./EditUser";
 
@@ -60,7 +60,7 @@ const Dashboard: React.FC<Props> = () => {
       </div>
       <hr style={{ border: "solid 1px #C4B5FD", marginTop: "1rem" }} />
       <div className="flex justify-center my-5 p-4">
-        {user?.posts ? <NoPosts /> : <Posts />}
+        {user?.posts ? <Posts /> : <NoPosts />}
       </div>
       {editModal && <EditUser setEditModal={() => closeModal()} />}
     </Base>

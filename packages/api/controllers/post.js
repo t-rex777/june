@@ -3,6 +3,7 @@ const User = require("../models/user");
 const formidable = require("formidable");
 const fs = require("fs");
 const { extend } = require("lodash");
+const { cloudinary } = require("../utils/cloudinary");
 
 // middleware
 exports.findPostById = async (req, res, next, postId) => {
@@ -22,9 +23,31 @@ exports.findPostById = async (req, res, next, postId) => {
   }
 };
 
-// read posts
+exports.getPostPic = (req, res) => {
+  if (req.post.photo.data) {
+    res.set("Content-Type", req.post.photo.contentType);
+    res.send(req.post.photo.data);
+  }
+};
 
 // create post
+exports.uploadPost = async (req, res) => {
+  try {
+    const fileStr = req.body.photo;
+    console.log(fileStr)
+    const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+      upload_preset: "june_gallary",
+    });
+    console.log(uploadResponse);
+    res.json(uploadResponse);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ err: "Something went wrong", message: error.message });
+  }
+};
+
 exports.createPost = async (req, res) => {
   try {
     let user = await User.findById(req.userId);

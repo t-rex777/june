@@ -9,6 +9,7 @@ const {
   updateUser,
   deleteUser,
   createAccessToken,
+  getUserPosts,
 } = require("../controllers/user");
 
 router
@@ -19,6 +20,7 @@ router
 router
   .use(isAuthenticatedToken)
   .get("/user", getUser)
+  .get("/user/posts", getUserPosts)
   .post("/user/update", updateUser)
   .delete("/user/delete", deleteUser);
 
