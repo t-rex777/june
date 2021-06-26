@@ -4,10 +4,8 @@ const { extend, concat, set } = require("lodash");
 
 // middleware
 exports.isAuthenticatedToken = (req, res, next) => {
-  if (
-    !req.headers["authorization"] &&
-    typeof req.headers["authorization"] !== "string"
-  ) {
+  const authHeader = req.headers["authorization"];
+  if (!authHeader && typeof authHeader !== "string") {
     return res.status(400).json({
       message: "no token found!",
     });
@@ -25,12 +23,54 @@ exports.isAuthenticatedToken = (req, res, next) => {
   }
 };
 
+exports.getPersonByUserName = async (req, res) => {
+  try {
+    const person = await User.find({ username: req.params.personUserName });
+    const {
+      _id,
+      name,
+      username,
+      email,
+      posts,
+      followers,
+      followings,
+      bio,
+      profile_photo,
+    } = person[0];
+    const personDetails = {
+      _id,
+      name,
+      username,
+      email,
+      posts,
+      followers,
+      followings,
+      bio,
+      profile_photo,
+    };
+    return res.json(personDetails);
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+};
+
 // read
 exports.getUser = async (req, res) => {
   try {
     const user = await User.findById(req.userId).populate("posts");
-    const { _id, name, username, email, posts, followers, followings, bio,profile_photo } =
-      user;
+    const {
+      _id,
+      name,
+      username,
+      email,
+      posts,
+      followers,
+      followings,
+      bio,
+      profile_photo,
+    } = user;
     const userDetails = {
       _id,
       name,
@@ -40,7 +80,7 @@ exports.getUser = async (req, res) => {
       followers,
       followings,
       bio,
-      profile_photo
+      profile_photo,
     };
     return res.json(userDetails);
   } catch (error) {
@@ -59,7 +99,7 @@ exports.getUserPosts = async (req, res) => {
     //   res.set("Content-Type", post.photo.contentType)
     // );
     // console.log({convertedPosts})
- const x =   posts[0].set("Content-Type", posts[0].photo.contentType)
+    const x = posts[0].set("Content-Type", posts[0].photo.contentType);
     return res.send(x);
   } catch (error) {
     res.status(400).json({
@@ -73,8 +113,17 @@ exports.signup = async (req, res) => {
   try {
     const user = new User(req.body);
     const savedUser = await user.save();
-    const { _id, name, username, email, posts, followers, followings, bio , profile_photo} =
-      savedUser;
+    const {
+      _id,
+      name,
+      username,
+      email,
+      posts,
+      followers,
+      followings,
+      bio,
+      profile_photo,
+    } = savedUser;
     const userDetails = {
       _id,
       name,
@@ -84,7 +133,7 @@ exports.signup = async (req, res) => {
       followers,
       followings,
       bio,
-      profile_photo
+      profile_photo,
     };
     return res.json(userDetails);
   } catch (error) {
@@ -123,8 +172,17 @@ exports.signin = async (req, res) => {
           expiresIn: "7d",
         }
       );
-      const { _id, name, username, email, posts, followers, followings, bio ,profile_photo} =
-        user;
+      const {
+        _id,
+        name,
+        username,
+        email,
+        posts,
+        followers,
+        followings,
+        bio,
+        profile_photo,
+      } = user;
       const userDetails = {
         _id,
         name,
@@ -134,7 +192,7 @@ exports.signin = async (req, res) => {
         followers,
         followings,
         bio,
-        profile_photo
+        profile_photo,
       };
       return res.json({ userDetails, accessToken, refreshToken });
     });

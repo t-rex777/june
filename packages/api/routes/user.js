@@ -10,7 +10,10 @@ const {
   deleteUser,
   createAccessToken,
   getUserPosts,
+  getPersonByUserName,
 } = require("../controllers/user");
+
+
 
 router
   .post("/signin", signin)
@@ -19,6 +22,7 @@ router
 
 router
   .use(isAuthenticatedToken)
+  .get("/person/:personUserName",getPersonByUserName)
   .get("/user", getUser)
   .get("/user/posts", getUserPosts)
   .post("/user/update", updateUser)

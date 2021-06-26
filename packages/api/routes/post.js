@@ -16,8 +16,11 @@ router.param("postId", findPostById);
 
 router
   .get("/posts",getPosts)
+
+// get friends posts
+
   .post("/post/upload", uploadPost)
   .put("/post/update/caption/:postId", updateCaption)
-  .delete("/post/delete/:postId", deletePost);
+  .delete("/post/delete/:postId", deletePost)
 
 module.exports = router;

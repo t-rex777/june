@@ -10,6 +10,7 @@ import App from "./App";
 import Signin from "./features/userAuth/pages/Signin";
 import Signup from "./features/userAuth/pages/Signup";
 import Dashboard from "./features/userAuth/pages/Dashboard";
+import PersonPage from "./features/person/PersonPage";
 import { useAppDispatch } from "./app/hooks";
 import { JuneAPI, setJuneHeader, axiosRequestError } from "./utils";
 import { getUserData, signout } from "./features/userAuth/userSlice";
@@ -77,6 +78,7 @@ const JuneRoutes: React.FC = () => {
         <Route path="/signin" exact component={Signin} />
         <Route path="/signup" exact component={Signup} />
         <PrivateRoute path="/user/dashboard" exact component={Dashboard} />
+        <PrivateRoute path="/person/:personUsername" exact component={PersonPage} />
         <PrivateRoute path="/user/newpost" exact component={NewPost} />
       </Switch>
     </BrowserRouter>
