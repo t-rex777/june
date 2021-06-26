@@ -7,7 +7,7 @@ interface Props {}
 
 const MobileTopNav: React.FC<Props> = () => {
   return (
-    <nav className="bg-purple-400 px-10 py-2 fixed w-screen">
+    <nav className="bg-purple-400 px-10 py-2 fixed w-screen z-10">
       <ul className="flex justify-evenly items-center">
         <Link to="/">
           <li className="mr-5">

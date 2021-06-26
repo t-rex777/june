@@ -26,6 +26,7 @@ export const userSignin = createAsyncThunk(
     }
   }
 );
+
 export const userSignup = createAsyncThunk(
   "user/signup",
   async (userData: SigninUser) => {
@@ -39,16 +40,6 @@ export const userSignup = createAsyncThunk(
     }
   }
 );
-
-export const getPosts = createAsyncThunk("user/posts", async () => {
-  try {
-    const response = await JuneAPI.get("/posts");
-    return response.data;
-
-  } catch (error) {
-    axiosRequestError(error);
-  }
-});
 
 export const getUserData = createAsyncThunk("user/data", async () => {
   try {
@@ -112,13 +103,6 @@ export const userSlice = createSlice({
         state.user = action.payload;
         state.status = "success";
       })
-      .addCase(getPosts.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getPosts.fulfilled, (state, action) => {
-        state.posts = action.payload;
-        state.status = "success";
-      });
   },
 });
 export const { signout } = userSlice.actions;

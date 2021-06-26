@@ -8,7 +8,10 @@ const postSchema = new mongoose.Schema({
   photo: {
     type: String,
     default: "",
-    
+  },
+  public_id: {
+    type: String,
+    default: "",
   },
   likes: [
     {

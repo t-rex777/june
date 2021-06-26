@@ -29,7 +29,7 @@ exports.isAuthenticatedToken = (req, res, next) => {
 exports.getUser = async (req, res) => {
   try {
     const user = await User.findById(req.userId).populate("posts");
-    const { _id, name, username, email, posts, followers, followings, bio } =
+    const { _id, name, username, email, posts, followers, followings, bio,profile_photo } =
       user;
     const userDetails = {
       _id,
@@ -40,6 +40,7 @@ exports.getUser = async (req, res) => {
       followers,
       followings,
       bio,
+      profile_photo
     };
     return res.json(userDetails);
   } catch (error) {
@@ -72,7 +73,7 @@ exports.signup = async (req, res) => {
   try {
     const user = new User(req.body);
     const savedUser = await user.save();
-    const { _id, name, username, email, posts, followers, followings, bio } =
+    const { _id, name, username, email, posts, followers, followings, bio , profile_photo} =
       savedUser;
     const userDetails = {
       _id,
@@ -83,6 +84,7 @@ exports.signup = async (req, res) => {
       followers,
       followings,
       bio,
+      profile_photo
     };
     return res.json(userDetails);
   } catch (error) {
@@ -96,7 +98,6 @@ exports.signin = async (req, res) => {
   try {
     const user = req.body;
     const { username, password } = user;
-    console.log({ username, password });
 
     await User.findOne({ username }).exec((err, user) => {
       if (err || user === null) {
@@ -122,7 +123,7 @@ exports.signin = async (req, res) => {
           expiresIn: "7d",
         }
       );
-      const { _id, name, username, email, posts, followers, followings, bio } =
+      const { _id, name, username, email, posts, followers, followings, bio ,profile_photo} =
         user;
       const userDetails = {
         _id,
@@ -133,6 +134,7 @@ exports.signin = async (req, res) => {
         followers,
         followings,
         bio,
+        profile_photo
       };
       return res.json({ userDetails, accessToken, refreshToken });
     });

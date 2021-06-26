@@ -8,7 +8,7 @@ import Base from "../../../base/Base";
 const Signin: React.FC = () => {
   const dispatch = useAppDispatch();
   const [userData, setUserData] = useState<SigninUser>({
-    username: "dev_admin",
+    username: "i_am_meanish",
     password: "admin@123456789",
   });
   const [shouldRedirect, setRedirect] = useState<Boolean>(false);
@@ -23,12 +23,9 @@ const Signin: React.FC = () => {
   };
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
-    const resData = await dispatch(userSignin(userData));
     try {
-      // if (signedUserData === undefined) {
-      // error message snackbar
-      //   return "";
-      // }
+      const resData = await dispatch(userSignin(userData));
+      (() => <Redirect to="/user/dashboard" />)();
       console.log(resData);
       setRedirect(true);
     } catch (error) {
@@ -38,7 +35,7 @@ const Signin: React.FC = () => {
   };
   return (
     <Base className="flex flex-col items-center	 pt-20">
-      {shouldRedirect && <Redirect to="/user/dashboard" />}
+     
       <h1 className="text-center text-4xl mb-5 text-purple-800 font-bold">
         Sign In
       </h1>
@@ -86,6 +83,7 @@ const Signin: React.FC = () => {
       >
         Sign Out
       </button> */}
+       {shouldRedirect && <Redirect to="/user/dashboard" />}
     </Base>
   );
 };

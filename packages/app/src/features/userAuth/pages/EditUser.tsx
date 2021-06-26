@@ -11,7 +11,7 @@ interface UserProps {
   bio: string;
 }
 
-const modalStyle: React.CSSProperties = {
+export const modalStyle: React.CSSProperties = {
   position: "absolute",
   top: "0",
   left: "0",

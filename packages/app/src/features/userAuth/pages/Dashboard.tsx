@@ -5,6 +5,7 @@ import { selectUser } from "../userSlice";
 import Posts from "./../components/Posts.js";
 import NoPosts from "./../components/NoPosts";
 import EditUser from "./EditUser";
+import ProfilePic from './../components/ProfilePic';
 
 interface Props {}
 
@@ -20,11 +21,7 @@ const Dashboard: React.FC<Props> = () => {
     <Base className="">
       <div className="flex justify-center my-2  ">
         <span className="self-center w-20 mr-4 sm:w-32 md:w-40">
-          <img
-            src="https://avatars0.githubusercontent.com/u/56619260?v=4"
-            alt="profile_pic"
-            className=" rounded-full mr-5 p-1 border-2 border-purple-400 "
-          />
+          <ProfilePic user_profile_pic={user?.profile_photo} />
         </span>
         <div className="self-center">
           <p className="text-lg font-bold ml-1 sm:text-3xl mb-2">

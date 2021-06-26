@@ -54,12 +54,13 @@ exports.uploadPost = async (req, res) => {
     const post = await new Post({
       caption: req.body.caption,
       photo: uploadResponse.url,
+      public_id: uploadResponse.public_id,
     });
     // saving post to post DB
     const savedPost = await post.save();
 
     // saving post to user DB
-    user.posts.push(savedPost._id);
+    user.posts.unshift(savedPost._id);
     await user.save();
 
     res.json(savedPost);
@@ -78,7 +79,7 @@ exports.updateCaption = async (req, res) => {
     // let changedCaption = req.body.caption;
     post = extend(post, req.body);
     await post.save();
-    res.json(post)
+    res.json(post);
   } catch (error) {
     res.status(400).json({
       error: error.message,
@@ -100,6 +101,9 @@ exports.deletePost = async (req, res) => {
         message: "post didn't delete",
       });
     }
+    // deleting from cloudinary DB
+    cloudinary.v2.uploader.destroy(post.public_id);
+
     user.posts = filteredUser;
 
     // deleteting post from user DB

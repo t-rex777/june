@@ -24,9 +24,8 @@ const userSchema = new mongoose.Schema(
       default: "",
     },
     profile_photo: {
-      data: Buffer,
-      contentType: String,
-      default : ""
+      type: String,
+      default: "june_gallary/user_mncarl",
     },
     followers: {
       type: Number,

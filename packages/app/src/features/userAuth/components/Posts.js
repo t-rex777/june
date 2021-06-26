@@ -1,49 +1,45 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Image } from "cloudinary-react";
-import { JuneAPI } from "../../../utils";
 import { useSelector } from "react-redux";
-import { selectUser, getPosts } from "./../userSlice";
+import { selectUser } from "./../userSlice";
 import { AiFillHeart } from "react-icons/ai";
 import { BsFillChatFill, BsThreeDotsVertical } from "react-icons/bs";
 import { RiSendPlaneFill } from "react-icons/ri";
-import { useAppDispatch } from "./../../../app/hooks";
+import PostEdit from "./PostEdit";
 
 const Posts = () => {
-  const dispatch = useAppDispatch();
-  const { user, posts } = useSelector(selectUser);
+  const { user } = useSelector(selectUser);
 
-  useEffect(() => {
-    dispatch(getPosts())
-  }, [dispatch]);
   return (
-    
-    <div className="flex flex-wrap justify-center">
-      {posts &&
-        posts.map((imageId, index) => (
-          <div className="m-3 py-2 px-4 bg-purple-100 rounded-md">
+    <div className="flex flex-wrap justify-start">
+      {user.posts &&
+        user.posts.map((post, index) => (
+          <div className="m-3 py-2 px-4 border-2 rounded-md" key={index}>
             <div className="flex justify-between">
               <p>{user.username}</p>
-              <span className="cursor-pointer my-2">
+              <span className="cursor-pointer my-2 ">
                 <BsThreeDotsVertical />
               </span>
             </div>
-            <Image
-              key={index}
-              responsive
-              cloudName="june-social"
-              publicId={imageId}
-              width="250"
-              height="300"
-              responsiveUseBreakpoints="true"
-              crop="fill"
-            />
+            <span className="hover:filter brightness-75">
+              <span> 
+              {/* <PostEdit/> */}
+              </span>
+              {/*todo: hover and change brightness*/}
+              <Image
+                cloudName="june-social"
+                publicId={post.public_id}
+                width="250"
+                height="300"
+                responsiveUseBreakpoints="true"
+                crop="fill"
+              />
+            </span>
             <div>
-              <p>
-
-              </p>
+              <p className="my-1">{post.caption}</p>
             </div>
             <div className="flex flex-start">
-              <span className="mx-3 my-2 cursor-pointer">
+              <span className="mr-3 my-2 cursor-pointer">
                 <AiFillHeart size="25" />
               </span>
               <span className="mx-3 my-2 cursor-pointer">
@@ -53,10 +49,11 @@ const Posts = () => {
                 <RiSendPlaneFill size="25" />
               </span>
             </div>
+            <div>{post.likes.length} likes</div>
           </div>
         ))}
     </div>
-  )
+  );
 };
 
 export default Posts;
