@@ -2,14 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { JuneAPI } from "../../utils";
 import { axiosRequestError } from "../../utils";
-import { newPostState } from "./newPostTypes";
+import { postState } from "./postTypes";
 
-const initialState: newPostState = {
+const initialState: postState = {
   posts: null,
   postStatus: "idle",
 };
 
-export const fetchPosts = createAsyncThunk("newPost/fetch", async () => {
+export const fetchPosts = createAsyncThunk("post/fetch", async () => {
   try {
     const response = await JuneAPI.get("/user/posts");
     return response.data;
@@ -18,15 +18,38 @@ export const fetchPosts = createAsyncThunk("newPost/fetch", async () => {
   }
 });
 
-
 export const uploadPost = createAsyncThunk(
-  "newPost/upload",
-  async (postfile : any) => {
+  "post/upload",
+  async (postfile: any) => {
     // console.log("postfile")
     try {
       const response = await JuneAPI.post("/post/upload", {
         ...postfile,
       });
+      return response.data;
+    } catch (error) {
+      axiosRequestError(error);
+    }
+  }
+);
+
+export const likePost = createAsyncThunk(
+  "post/like",
+  async (postId: string) => {
+    try {
+      const response = await JuneAPI.patch(`/post/like/${postId}`);
+      return response.data;
+    } catch (error) {
+      axiosRequestError(error);
+    }
+  }
+);
+
+export const unlikePost = createAsyncThunk(
+  "post/unlike",
+  async (postId: string) => {
+    try {
+      const response = await JuneAPI.patch(`/post/unlike/${postId}`);
       return response.data;
     } catch (error) {
       axiosRequestError(error);
@@ -52,10 +75,21 @@ export const userSlice = createSlice({
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.posts = action.payload;
         state.postStatus = "posts_fetched";
+      })
+      .addCase(likePost.pending, (state) => {
+        state.postStatus = "posts_loading";
+      })
+      .addCase(likePost.fulfilled, (state) => {
+        state.postStatus = "posts_fetched";
+      })
+      .addCase(unlikePost.pending, (state) => {
+        state.postStatus = "posts_loading";
+      })
+      .addCase(unlikePost.fulfilled, (state) => {
+        state.postStatus = "posts_fetched";
       });
   },
 });
-
 
 export const selectPost = (state: RootState) => state.newPost;
 

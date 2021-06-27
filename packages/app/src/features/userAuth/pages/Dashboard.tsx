@@ -60,7 +60,7 @@ const Dashboard: React.FC<Props> = () => {
           </div>
           <hr style={{ border: "solid 1px #C4B5FD", marginTop: "1rem" }} />
           <div className="flex justify-center my-5 p-4">
-            {user?.posts ? <Posts user={user} /> : <NoPosts />}
+            {user?.posts ? <Posts userDetails={user} /> : <NoPosts />}
           </div>
           {editModal && <EditUser setEditModal={() => closeModal()} />}
         </>

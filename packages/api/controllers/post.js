@@ -108,12 +108,13 @@ exports.likePost = async (req, res) => {
 exports.unlikePost = async (req, res) => {
   try {
     let post = req.post;
-    let person = await User.findById(req.userId);
+    let user = await User.findById(req.userId);
 
-    let userIndex = post.likes.findByIndex(
+
+    let userIndex = post.likes.findIndex(
       (like) => like.toString() == req.userId.toString()
     );
-    let postIndex = user.likedPosts.findByIndex(
+    let postIndex = user.likedPosts.findIndex(
       (like) => like.toString() == post._id.toString()
     );
 

@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import { useAppDispatch } from "../../app/hooks";
-import { uploadPost } from "./newPostSlice";
-import { newPostInput } from "./newPostTypes";
+import { uploadPost } from "./postSlice";
+import { postInput } from "./postTypes";
 import Base from "../../base/Base";
 
-interface Props {}
-
-const NewPost: React.FC<Props> = () => {
+const NewPost: React.FC= () => {
   const dispatch = useAppDispatch();
 
-  const [post, setPost] = useState<newPostInput>({
+  const [post, setPost] = useState<postInput>({
     caption: "",
     photo: "",
   });

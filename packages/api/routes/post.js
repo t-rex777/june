@@ -19,8 +19,8 @@ router
   .get("/posts", getPosts)
   .post("/post/upload", uploadPost)
   .patch("/post/update/caption/:postId", updateCaption) //todo:
-  .patch("/post/update/like/:postId", likePost)
-  .patch("/post/update/unlike/:postId", unlikePost)
+  .patch("/post/like/:postId", likePost)
+  .patch("/post/unlike/:postId", unlikePost)
   .delete("/post/delete/:postId", deletePost);
 
 module.exports = router;
