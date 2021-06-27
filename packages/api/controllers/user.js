@@ -122,54 +122,56 @@ exports.signin = async (req, res) => {
     const user = req.body;
     const { username, password } = user;
 
-    await User.findOne({ username }).exec((err, user) => {
-      if (err || user === null) {
-        return res.status(400).json({
-          message: "user does not exists!",
-        });
-      } else if (!user.authenticate(password)) {
-        return res.status(401).json({
-          message: "please enter the correct password!",
-        });
-      }
-      const accessToken = jwt.sign(
-        { userId: user._id },
-        process.env.ACCESS_TOKEN_SECRET,
-        {
-          expiresIn: "7d",
+    await User.findOne({ username })
+      .populate("posts")
+      .exec((err, user) => {
+        if (err || user === null) {
+          return res.status(400).json({
+            message: "user does not exists!",
+          });
+        } else if (!user.authenticate(password)) {
+          return res.status(401).json({
+            message: "please enter the correct password!",
+          });
         }
-      );
-      const refreshToken = jwt.sign(
-        { userId: user._id },
-        process.env.REFRESH_TOKEN_SECRET,
-        {
-          expiresIn: "7d",
-        }
-      );
-      const {
-        _id,
-        name,
-        username,
-        email,
-        posts,
-        followers,
-        followings,
-        bio,
-        profile_photo,
-      } = user;
-      const userDetails = {
-        _id,
-        name,
-        username,
-        email,
-        posts,
-        followers,
-        followings,
-        bio,
-        profile_photo,
-      };
-      return res.json({ userDetails, accessToken, refreshToken });
-    });
+        const accessToken = jwt.sign(
+          { userId: user._id },
+          process.env.ACCESS_TOKEN_SECRET,
+          {
+            expiresIn: "7d",
+          }
+        );
+        const refreshToken = jwt.sign(
+          { userId: user._id },
+          process.env.REFRESH_TOKEN_SECRET,
+          {
+            expiresIn: "7d",
+          }
+        );
+        const {
+          _id,
+          name,
+          username,
+          email,
+          posts,
+          followers,
+          followings,
+          bio,
+          profile_photo,
+        } = user;
+        const userDetails = {
+          _id,
+          name,
+          username,
+          email,
+          posts,
+          followers,
+          followings,
+          bio,
+          profile_photo,
+        };
+        return res.json({ userDetails, accessToken, refreshToken });
+      });
   } catch (error) {
     res.status(400).json({
       message: error.message,

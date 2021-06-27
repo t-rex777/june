@@ -25,7 +25,6 @@ const Signin: React.FC = () => {
     e.preventDefault();
     try {
       const resData = await dispatch(userSignin(userData));
-      (() => <Redirect to="/user/dashboard" />)();
       console.log(resData);
       setRedirect(true);
     } catch (error) {
@@ -35,7 +34,7 @@ const Signin: React.FC = () => {
   };
   return (
     <Base className="flex flex-col items-center	 pt-20">
-     
+     {shouldRedirect && <Redirect to="/user/dashboard" />}
       <h1 className="text-center text-4xl mb-5 text-purple-800 font-bold">
         Sign In
       </h1>

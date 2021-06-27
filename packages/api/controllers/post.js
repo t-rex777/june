@@ -4,6 +4,7 @@ const formidable = require("formidable");
 const fs = require("fs");
 const { extend } = require("lodash");
 const { cloudinary } = require("../utils/cloudinary");
+const user = require("../models/user");
 
 // middleware
 exports.findPostById = async (req, res, next, postId) => {
@@ -74,6 +75,7 @@ exports.uploadPost = async (req, res) => {
 
 // update posts
 exports.updateCaption = async (req, res) => {
+  //todo
   try {
     let post = req.post;
     // let changedCaption = req.body.caption;
@@ -83,6 +85,48 @@ exports.updateCaption = async (req, res) => {
   } catch (error) {
     res.status(400).json({
       error: error.message,
+    });
+  }
+};
+
+exports.likePost = async (req, res) => {
+  try {
+    let post = req.post;
+    let user = await User.findById(req.userId);
+    post.likes.unshift(req.userId);
+    user.likedPosts.unshift(post._id);
+    post.save();
+    user.save();
+    res.json(post);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
+exports.unlikePost = async (req, res) => {
+  try {
+    let post = req.post;
+    let person = await User.findById(req.userId);
+
+    let userIndex = post.likes.findByIndex(
+      (like) => like.toString() == req.userId.toString()
+    );
+    let postIndex = user.likedPosts.findByIndex(
+      (like) => like.toString() == post._id.toString()
+    );
+
+    post.likes.splice(userIndex, 1);
+    user.likedPosts.splice(postIndex, 1);
+
+    post.save();
+    user.save();
+    
+    res.json(post);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
     });
   }
 };

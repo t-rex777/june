@@ -6,7 +6,7 @@ import { newPostState } from "./newPostTypes";
 
 const initialState: newPostState = {
   posts: null,
-  status: "idle",
+  postStatus: "idle",
 };
 
 export const fetchPosts = createAsyncThunk("newPost/fetch", async () => {
@@ -41,17 +41,17 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(uploadPost.pending, (state) => {
-        state.status = "loading";
+        state.postStatus = "loading";
       })
       .addCase(uploadPost.fulfilled, (state) => {
-        state.status = "uploaded";
+        state.postStatus = "uploaded";
       })
       .addCase(fetchPosts.pending, (state) => {
-        state.status = "posts_loading";
+        state.postStatus = "posts_loading";
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.posts = action.payload;
-        state.status = "posts_fetched";
+        state.postStatus = "posts_fetched";
       });
   },
 });

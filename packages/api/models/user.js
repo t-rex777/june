@@ -27,10 +27,22 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "june_gallary/user_mncarl",
     },
+    likedPosts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
     followers: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",   
+        ref: "User",
       },
     ],
     followings: [

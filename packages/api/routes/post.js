@@ -8,15 +8,19 @@ const {
   uploadPost,
   updateCaption,
   getPosts,
+  likePost,
+  unlikePost,
 } = require("../controllers/post");
 
 // middleware
 router.param("postId", findPostById);
 
 router
-  .get("/posts",getPosts)
+  .get("/posts", getPosts)
   .post("/post/upload", uploadPost)
-  .put("/post/update/caption/:postId", updateCaption)
-  .delete("/post/delete/:postId", deletePost)
+  .patch("/post/update/caption/:postId", updateCaption) //todo:
+  .patch("/post/update/like/:postId", likePost)
+  .patch("/post/update/unlike/:postId", unlikePost)
+  .delete("/post/delete/:postId", deletePost);
 
 module.exports = router;

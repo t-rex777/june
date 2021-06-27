@@ -2,7 +2,7 @@ import { PostType } from "../userAuth/userTypes";
 
 export interface newPostState {
   posts: PostType | null;
-  status: "idle" | "loading" | "uploaded" | "posts_loading" | "posts_fetched";
+  postStatus: "idle" | "loading" | "uploaded" | "posts_loading" | "posts_fetched";
 }
 
 export interface newPostInput {
