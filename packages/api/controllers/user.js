@@ -218,7 +218,7 @@ exports.createAccessToken = (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     let updatedUser = req.body;
-    let user = await User.findById(req.userId);
+    let user = await User.findById(req.userId).populate("posts");
     updatedUser = await extend(user, updatedUser);
 
     updatedUser.save((err, updatedUser) => {
@@ -238,7 +238,7 @@ exports.updateUser = async (req, res) => {
 
 exports.updatePersonFollowers = async (req, res) => {
   try {
-    let person = await User.findById(req.personId);
+    let person = await User.findById(req.personId).populate("posts");
     let user = await User.findById(req.userId);
     person.followers.unshift(req.userId);
     user.followings.unshift(req.personId);
@@ -254,6 +254,31 @@ exports.updatePersonFollowers = async (req, res) => {
   }
 };
 
+exports.UnfollowPerson = async (req, res) => {
+  try {
+    let person = await User.findById(req.personId).populate("posts");
+    let user = await User.findById(req.userId);
+
+    userIndex = person.followers.findIndex(
+      (follower) => follower == req.userId.toString()
+    );
+    personIndex = user.followings.findIndex(
+      (following) => following == req.personId.toString()
+    );
+
+    person.followers.splice(userIndex, 1);
+    user.followings.splice(personIndex, 1);
+
+    const updatedPerson = await person.save();
+    const updatedUser = await user.save();
+
+    res.json(updatedPerson);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
 
 // delete
 exports.deleteUser = async (req, res) => {

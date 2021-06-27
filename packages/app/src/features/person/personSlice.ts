@@ -33,9 +33,21 @@ export const followPerson = createAsyncThunk(
   }
 );
 
+export const unfollowPerson = createAsyncThunk(
+  "person/unfollow",
+  async (personUsername: string) => {
+    try {
+      const response = await JuneAPI.patch(`person/${personUsername}/unfollow`);
+      return response.data;
+    } catch (error) {
+      axiosRequestError(error);
+    }
+  }
+);
+
 const initialState: PersonStateType = {
   person: null,
-  status: "idle",
+  personStatus: "idle",
 };
 
 export const PersonSlice = createSlice({
@@ -45,19 +57,26 @@ export const PersonSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getPerson.pending, (state) => {
-        state.status = "loading";
+        state.personStatus = "loading";
       })
       .addCase(getPerson.fulfilled, (state, action) => {
         state.person = action.payload;
-        state.status = "success";
+        state.personStatus = "success";
       })
       .addCase(followPerson.pending, (state) => {
-        state.status = "loading";
+        state.personStatus = "loading";
       })
       .addCase(followPerson.fulfilled, (state, action) => {
         state.person = action.payload;
-        state.status = "success";
+        state.personStatus = "success";
       })
+      .addCase(unfollowPerson.pending, (state) => {
+        state.personStatus = "loading";
+      })
+      .addCase(unfollowPerson.fulfilled, (state, action) => {
+        state.person = action.payload;
+        state.personStatus = "success";
+      });
   },
 });
 

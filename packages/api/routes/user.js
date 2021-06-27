@@ -12,6 +12,7 @@ const {
   getPerson,
   getPersonByUserName,
   updatePersonFollowers,
+  UnfollowPerson
 } = require("../controllers/user");
 
 // middlewware
@@ -30,5 +31,6 @@ router
   .delete("/user/delete", deleteUser)
 
   .patch("/person/:personUsername/updateFollowers",updatePersonFollowers)
+  .patch("/person/:personUsername/unfollow",UnfollowPerson)
 
 module.exports = router;

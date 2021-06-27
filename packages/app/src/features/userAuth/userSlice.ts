@@ -7,7 +7,7 @@ import { axiosRequestError } from "../../utils";
 const initialState: UserState = {
   user: null,
   posts: null,
-  status: "idle",
+  userStatus: "idle",
 };
 
 export const userSignin = createAsyncThunk(
@@ -70,38 +70,38 @@ export const userSlice = createSlice({
   reducers: {
     signout: (state) => {
       state.user = null;
-      state.status = "signed out";
+      state.userStatus = "signed out";
       localStorage.removeItem("__rtoken");
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(userSignin.pending, (state) => {
-        state.status = "loading";
+        state.userStatus = "loading";
       })
       .addCase(userSignin.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.status = "signed in";
+        state.userStatus = "signed in";
       })
       .addCase(userSignup.pending, (state) => {
-        state.status = "loading";
+        state.userStatus = "loading";
       })
       .addCase(userSignup.fulfilled, (state) => {
-        state.status = "success";
+        state.userStatus = "success";
       })
       .addCase(getUserData.pending, (state) => {
-        state.status = "loading";
+        state.userStatus = "loading";
       })
       .addCase(getUserData.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.status = "signed in";
+        state.userStatus = "signed in";
       })
       .addCase(updateUser.pending, (state) => {
-        state.status = "loading";
+        state.userStatus = "loading";
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.status = "success";
+        state.userStatus = "success";
       })
   },
 });

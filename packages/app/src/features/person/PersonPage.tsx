@@ -1,35 +1,64 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ProfilePic from "./../userAuth/components/ProfilePic";
 import Base from "./../../base/Base";
 import Posts from "./../userAuth/components/Posts";
 import NoPosts from "./../userAuth/components/NoPosts";
 import { useSelector } from "react-redux";
-import { followPerson, getPerson, selectPerson } from "./personSlice";
+import {
+  followPerson,
+  unfollowPerson,
+  getPerson,
+  selectPerson,
+} from "./personSlice";
 import { useAppDispatch } from "../../app/hooks";
 import { useParams } from "react-router-dom";
 import { paramsType } from "./personTypes";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
-import { isFollowing } from "./helper";
-import { UserType } from "./../userAuth/userTypes";
+import Loader from "../../base/Loader";
 
 const Dashboard: React.FC = () => {
   const { personUsername } = useParams<paramsType>();
-  const { person, status } = useSelector(selectPerson);
-  const { user } = useSelector(selectUser);
+  const { person, personStatus } = useSelector(selectPerson);
+  const { user, userStatus } = useSelector(selectUser);
   const dispatch = useAppDispatch();
 
+  const [isFollowing, setIsFollowings] = useState(false);
+
   useEffect(() => {
-    if (status === "idle") {
+    if (personStatus === "idle") {
       setTimeout(() => {
         dispatch(getPerson(personUsername));
-      }, 500);
+      }, 300);
     }
-  }, [dispatch, personUsername, status]);
+  }, [dispatch, personUsername, personStatus]);
 
-  const followThePerson = () => {
+  useEffect(() => {
+    user &&
+      person &&
+      user.followings.includes(person._id) &&
+      setIsFollowings(true);
+  }, [user, person]);
+
+
+  const unfollow = async () => {
+    try {
+      dispatch(unfollowPerson(personUsername));
+      setTimeout(async () => {
+        dispatch(getUserData());
+        setIsFollowings(false);
+      }, 500);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const follow = async () => {
     try {
       dispatch(followPerson(personUsername));
-      dispatch(getUserData);
+      setTimeout(async () => {
+        dispatch(getUserData());
+        setIsFollowings(true);
+      }, 500);
     } catch (error) {
       console.log(error);
     }
@@ -37,7 +66,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Base className="">
-      {person && (
+      {person && personStatus !== "loading" && userStatus !== "loading" ? (
         <>
           <div className="flex justify-center my-2  ">
             <span className="self-center w-20 mr-4 sm:w-32 md:w-40">
@@ -63,15 +92,23 @@ const Dashboard: React.FC = () => {
                 <p className="sm:text-xl">{person?.bio}</p>
               </span>
               <div className="flex justify-center  w-1/2 ">
-                <button
-                  className=" bg-purple-500 text-white font-bold w-full
+                {isFollowing ? (
+                  <button
+                    className=" bg-purple-500 text-white font-bold w-full
                  text-sm p-1 mt-3 rounded-lg hover:bg-purple-400"
-                  onClick={followThePerson}
-                >
-                  {isFollowing(user as UserType, person)
-                    ? "Unfollow"
-                    : "Follow"}
-                </button>
+                    onClick={unfollow}
+                  >
+                    Unfollow
+                  </button>
+                ) : (
+                  <button
+                    className=" bg-purple-500 text-white font-bold w-full
+                 text-sm p-1 mt-3 rounded-lg hover:bg-purple-400"
+                    onClick={follow}
+                  >
+                    Follow
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -80,6 +117,8 @@ const Dashboard: React.FC = () => {
             {person?.posts ? <Posts user={person} /> : <NoPosts />}
           </div>
         </>
+      ) : (
+        <Loader />
       )}
     </Base>
   );
