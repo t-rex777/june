@@ -5,7 +5,6 @@ const {
   updatePost,
   deletePost,
   findPostById,
-  getPostPic,
   uploadPost,
   updateCaption,
   getPosts,
@@ -16,9 +15,6 @@ router.param("postId", findPostById);
 
 router
   .get("/posts",getPosts)
-
-// get friends posts
-
   .post("/post/upload", uploadPost)
   .put("/post/update/caption/:postId", updateCaption)
   .delete("/post/delete/:postId", deletePost)

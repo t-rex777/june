@@ -29,9 +29,10 @@ export interface UpdateUserType {
 
 export interface UserType extends SignupUser {
   profile_photo?: string;
-  followers: number;
-  followings: number;
+  followers: string[];
+  followings: string[];
   posts: PostType[];
+  _id: string;
 }
 
 export interface UserState {

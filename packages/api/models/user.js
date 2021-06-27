@@ -27,14 +27,18 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "june_gallary/user_mncarl",
     },
-    followers: {
-      type: Number,
-      default: 0,
-    },
-    followings: {
-      type: Number,
-      default: 0,
-    },
+    followers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",   
+      },
+    ],
+    followings: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     salt: {
       type: String,
     },

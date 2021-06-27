@@ -33,10 +33,10 @@ const Dashboard: React.FC<Props> = () => {
               {user?.posts.length} posts
             </p>
             <p className="self-center mx-2 text-sm sm:text-xl">
-              {user?.followers} followers
+              {user?.followers.length} followers
             </p>
             <p className="self-center mx-2 text-sm sm:text-xl">
-              {user?.followings} followings
+              {user?.followings.length} followings
             </p>
           </span>
           <span className="flex flex-col mx-2 mt-3">
@@ -57,7 +57,7 @@ const Dashboard: React.FC<Props> = () => {
       </div>
       <hr style={{ border: "solid 1px #C4B5FD", marginTop: "1rem" }} />
       <div className="flex justify-center my-5 p-4">
-        {user?.posts ? <Posts /> : <NoPosts />}
+        {user?.posts ? <Posts user={user}/> : <NoPosts />}
       </div>
       {editModal && <EditUser setEditModal={() => closeModal()} />}
     </Base>

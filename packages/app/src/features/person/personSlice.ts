@@ -8,16 +8,27 @@ export const getPerson = createAsyncThunk(
   "person/fetch",
   async (personUserName: string) => {
     const accessToken = JuneAPI.defaults.headers.common["authorization"];
-    console.log(accessToken)
     if (accessToken) {
-      
       try {
         const response = await JuneAPI.get(`/person/${personUserName}`);
         return response.data;
       } catch (error) {
-        console.log(error);
         axiosRequestError(error);
       }
+    }
+  }
+);
+
+export const followPerson = createAsyncThunk(
+  "person/follow",
+  async (personUsername: string) => {
+    try {
+      const response = await JuneAPI.patch(
+        `person/${personUsername}/updateFollowers`
+      );
+      return response.data;
+    } catch (error) {
+      axiosRequestError(error);
     }
   }
 );
@@ -39,7 +50,14 @@ export const PersonSlice = createSlice({
       .addCase(getPerson.fulfilled, (state, action) => {
         state.person = action.payload;
         state.status = "success";
-      });
+      })
+      .addCase(followPerson.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(followPerson.fulfilled, (state, action) => {
+        state.person = action.payload;
+        state.status = "success";
+      })
   },
 });
 

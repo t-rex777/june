@@ -9,11 +9,13 @@ const {
   updateUser,
   deleteUser,
   createAccessToken,
-  getUserPosts,
+  getPerson,
   getPersonByUserName,
+  updatePersonFollowers,
 } = require("../controllers/user");
 
-
+// middlewware
+router.param("personUsername",getPersonByUserName);
 
 router
   .post("/signin", signin)
@@ -22,10 +24,11 @@ router
 
 router
   .use(isAuthenticatedToken)
-  .get("/person/:personUserName",getPersonByUserName)
+  .get("/person/:personUsername",getPerson)
   .get("/user", getUser)
-  .get("/user/posts", getUserPosts)
   .post("/user/update", updateUser)
-  .delete("/user/delete", deleteUser);
+  .delete("/user/delete", deleteUser)
+
+  .patch("/person/:personUsername/updateFollowers",updatePersonFollowers)
 
 module.exports = router;

@@ -1,14 +1,11 @@
 import React from "react";
 import { Image } from "cloudinary-react";
-import { useSelector } from "react-redux";
-import { selectUser } from "./../userSlice";
 import { AiFillHeart } from "react-icons/ai";
 import { BsFillChatFill, BsThreeDotsVertical } from "react-icons/bs";
 import { RiSendPlaneFill } from "react-icons/ri";
 import PostEdit from "./PostEdit";
 
-const Posts = () => {
-  const { user } = useSelector(selectUser);
+const Posts = ({user}) => {
 
   return (
     <div className="flex flex-wrap justify-start">

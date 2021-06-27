@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-const { extend, concat, set } = require("lodash");
+const { extend } = require("lodash");
 
 // middleware
 exports.isAuthenticatedToken = (req, res, next) => {
@@ -23,32 +23,24 @@ exports.isAuthenticatedToken = (req, res, next) => {
   }
 };
 
-exports.getPersonByUserName = async (req, res) => {
+exports.getPersonByUserName = async (req, res, next, personUsername) => {
   try {
-    const person = await User.find({ username: req.params.personUserName });
-    const {
-      _id,
-      name,
-      username,
-      email,
-      posts,
-      followers,
-      followings,
-      bio,
-      profile_photo,
-    } = person[0];
-    const personDetails = {
-      _id,
-      name,
-      username,
-      email,
-      posts,
-      followers,
-      followings,
-      bio,
-      profile_photo,
-    };
-    return res.json(personDetails);
+    const person = await User.find({
+      username: personUsername,
+    });
+    req.personId = person[0]._id;
+    return next();
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+};
+
+exports.getPerson = async (req, res) => {
+  try {
+    const person = await User.findById(req.personId).populate("posts");
+    return res.json(person);
   } catch (error) {
     res.status(400).json({
       error: error.message,
@@ -83,24 +75,6 @@ exports.getUser = async (req, res) => {
       profile_photo,
     };
     return res.json(userDetails);
-  } catch (error) {
-    res.status(400).json({
-      message: error.message,
-    });
-  }
-};
-
-exports.getUserPosts = async (req, res) => {
-  try {
-    const user = await User.findById(req.userId).populate("posts");
-    const { posts } = user;
-
-    // const convertedPosts = posts.forEach((post) =>
-    //   res.set("Content-Type", post.photo.contentType)
-    // );
-    // console.log({convertedPosts})
-    const x = posts[0].set("Content-Type", posts[0].photo.contentType);
-    return res.send(x);
   } catch (error) {
     res.status(400).json({
       message: error.message,
@@ -162,7 +136,7 @@ exports.signin = async (req, res) => {
         { userId: user._id },
         process.env.ACCESS_TOKEN_SECRET,
         {
-          expiresIn: "2h",
+          expiresIn: "7d",
         }
       );
       const refreshToken = jwt.sign(
@@ -261,6 +235,25 @@ exports.updateUser = async (req, res) => {
     });
   }
 };
+
+exports.updatePersonFollowers = async (req, res) => {
+  try {
+    let person = await User.findById(req.personId);
+    let user = await User.findById(req.userId);
+    person.followers.unshift(req.userId);
+    user.followings.unshift(req.personId);
+
+    const updatedPerson = await person.save();
+    const updatedUser = await user.save();
+
+    res.json(updatedPerson);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
 
 // delete
 exports.deleteUser = async (req, res) => {

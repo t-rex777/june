@@ -14,7 +14,7 @@ import PersonPage from "./features/person/PersonPage";
 import { useAppDispatch } from "./app/hooks";
 import { JuneAPI, setJuneHeader, axiosRequestError } from "./utils";
 import { getUserData, signout } from "./features/userAuth/userSlice";
-import NewPost from './features/newPost/NewPost';
+import NewPost from "./features/newPost/NewPost";
 
 const rToken = localStorage.getItem("__rtoken");
 
@@ -34,6 +34,12 @@ export const PrivateRoute = (props: PrivateProps) => {
   );
   //
 };
+
+export const invalidRoute = () => (
+  <div className="flex justify-center mt-20">
+    <h1>Invalid Route</h1>
+  </div>
+);
 
 const JuneRoutes: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -78,8 +84,13 @@ const JuneRoutes: React.FC = () => {
         <Route path="/signin" exact component={Signin} />
         <Route path="/signup" exact component={Signup} />
         <PrivateRoute path="/user/dashboard" exact component={Dashboard} />
-        <PrivateRoute path="/person/:personUsername" exact component={PersonPage} />
+        <PrivateRoute
+          path="/person/:personUsername"
+          exact
+          component={PersonPage}
+        />
         <PrivateRoute path="/user/newpost" exact component={NewPost} />
+        <Route path="*" exact component={invalidRoute} />
       </Switch>
     </BrowserRouter>
   );
