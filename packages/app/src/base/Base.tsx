@@ -3,7 +3,6 @@ import TopNav from "./MobileTopNav";
 import BottomNav from "./MobileBottomNav";
 import DesktopNav from "./DesktopNav";
 import baseStyles from "./base.module.css";
-import Loader from "./Loader";
 interface Props {
   className?: string;
   children: React.ReactNode;

@@ -3,7 +3,6 @@ import { Image } from "cloudinary-react";
 import { AiFillHeart } from "react-icons/ai";
 import { BsFillChatFill, BsThreeDotsVertical } from "react-icons/bs";
 import { RiSendPlaneFill } from "react-icons/ri";
-import PostEdit from "./PostEdit";
 import { useAppDispatch } from "./../../../app/hooks";
 import { likePost, selectPost, unlikePost } from "./../../post/postSlice";
 import { useSelector } from "react-redux";
@@ -19,6 +18,7 @@ const Posts = ({ userDetails }) => {
   const { postStatus } = useSelector(selectPost);
 
   const [commentModal, setCommentModal] = useState(false);
+  const [commentPost, setCommentPost] = useState("");
 
   const isLiked = (post) => {
     return post.likes.includes(user._id);
@@ -47,7 +47,7 @@ const Posts = ({ userDetails }) => {
   return (
     <>
       {postStatus !== "posts_loading" ? (
-        <div className="flex flex-wrap justify-start">
+        <div className="flex flex-wrap justify-center">
           {userDetails.posts &&
             userDetails.posts.map((post) => (
               <div className="m-3 py-2 px-4 border-2 rounded-md" key={post._id}>
@@ -88,22 +88,32 @@ const Posts = ({ userDetails }) => {
                     className="mx-3 my-2 cursor-pointer"
                     onClick={() => {
                       setCommentModal(true);
+                      setCommentPost(post);
                     }}
                   >
                     <BsFillChatFill size="21" />
                   </span>
+
                   <span className="mx-3 my-2 cursor-pointer">
                     <RiSendPlaneFill size="25" />
                   </span>
                 </div>
-                <div>{post.likes.length} {post.likes.length > 1 ? "likes" : "like"}</div>
-                <>
-                  {commentModal && (
-                    <CommentPage post={post} userDetails={userDetails} />
-                  )}
-                </>
+                <div>
+                  {post.likes.length} {post.likes.length > 1 ? "likes" : "like"}
+                </div>
               </div>
             ))}
+          <>
+            {commentModal && (
+              <CommentPage
+                setCommentModal={setCommentModal}
+                post={commentPost}
+                userDetails={userDetails}
+                isLiked={isLiked}
+                likeUnlikePost={likeUnlikePost}
+              />
+            )}
+          </>
         </div>
       ) : (
         <Loader />

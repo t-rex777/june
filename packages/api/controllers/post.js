@@ -143,7 +143,7 @@ exports.commentPosts = async (req, res) => {
     user.commentedPosts.unshift(post._id);
     post.save();
     user.save();
-    res.json(user);
+    res.json(post);
   } catch (error) {
     return res.status(400).json({
       error: error.message,
@@ -170,7 +170,7 @@ exports.unCommentPosts = async (req, res) => {
     post.save();
     user.save();
 
-    res.json(user);
+    res.json(post);
   } catch (error) {
     res.status(400).json({
       message: error.message,
