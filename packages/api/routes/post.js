@@ -10,6 +10,8 @@ const {
   getPosts,
   likePost,
   unlikePost,
+  commentPosts,
+  unCommentPosts,
 } = require("../controllers/post");
 
 // middleware
@@ -18,6 +20,8 @@ router.param("postId", findPostById);
 router
   .get("/posts", getPosts)
   .post("/post/upload", uploadPost)
+  .post("/post/comment/:postId", commentPosts)
+  .post("/post/uncomment/:postId/:commentId", unCommentPosts)
   .patch("/post/update/caption/:postId", updateCaption) //todo:
   .patch("/post/like/:postId", likePost)
   .patch("/post/unlike/:postId", unlikePost)

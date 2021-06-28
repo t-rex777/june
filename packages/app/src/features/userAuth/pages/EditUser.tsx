@@ -12,7 +12,7 @@ interface UserProps {
 }
 
 export const modalStyle: React.CSSProperties = {
-  position: "absolute",
+  position: "fixed",
   top: "0",
   left: "0",
   backgroundColor: "rgb(0,0,0,0.6)",
@@ -71,6 +71,7 @@ const EditUser: React.FC<EditUserType> = ({ setEditModal }) => {
     console.log(filteredData);
     if (filteredData !== null) {
       const res = await dispatch(updateUser(filteredData)); //todo: fix the response
+      cancelModal();
       console.log(res);
     }
   };
@@ -92,6 +93,7 @@ const EditUser: React.FC<EditUserType> = ({ setEditModal }) => {
         >
           <img src={Cross} alt="cross" />
         </span>
+        <h1 className="text-center mb-4 text-2xl font-bold ">Edit Profile</h1>
         <input
           type="text"
           placeholder="username"

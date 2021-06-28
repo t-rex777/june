@@ -110,7 +110,6 @@ exports.unlikePost = async (req, res) => {
     let post = req.post;
     let user = await User.findById(req.userId);
 
-
     let userIndex = post.likes.findIndex(
       (like) => like.toString() == req.userId.toString()
     );
@@ -123,7 +122,7 @@ exports.unlikePost = async (req, res) => {
 
     post.save();
     user.save();
-    
+
     res.json(post);
   } catch (error) {
     res.status(400).json({
@@ -132,6 +131,52 @@ exports.unlikePost = async (req, res) => {
   }
 };
 
+exports.commentPosts = async (req, res) => {
+  try {
+    let post = req.post;
+    let user = await User.findById(req.userId);
+    let userComment = req.body.comment;
+    post.comments.unshift({
+      comment: userComment,
+      commentedBy: req.userId,
+    });
+    user.commentedPosts.unshift(post._id);
+    post.save();
+    user.save();
+    res.json(user);
+  } catch (error) {
+    return res.status(400).json({
+      error: error.message,
+      message: "Can't update comment",
+    });
+  }
+};
+
+exports.unCommentPosts = async (req, res) => {
+  try {
+    let post = req.post;
+    let user = await User.findById(req.userId);
+
+    let userIndex = post.comments.findIndex(
+      (item) => item._id.toString() == req.params.commentId.toString()
+    );
+    let postIndex = user.commentedPosts.findIndex(
+      (item) => item.toString() == post._id.toString()
+    );
+
+    post.comments.splice(userIndex, 1);
+    user.commentedPosts.splice(postIndex, 1);
+
+    post.save();
+    user.save();
+
+    res.json(user);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
 // delete post
 exports.deletePost = async (req, res) => {
   try {

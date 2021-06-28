@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { Image } from "cloudinary-react";
 import { AiFillHeart } from "react-icons/ai";
 import { BsFillChatFill, BsThreeDotsVertical } from "react-icons/bs";
@@ -10,13 +10,15 @@ import { useSelector } from "react-redux";
 import { getUserData, selectUser } from "./../userSlice";
 import Loader from "./../../../base/Loader";
 import { getPerson, selectPerson } from "../../person/personSlice";
+import CommentPage from "./../../post/CommentPage";
 
 const Posts = ({ userDetails }) => {
   const dispatch = useAppDispatch();
   const { user } = useSelector(selectUser);
   const { person } = useSelector(selectPerson);
   const { postStatus } = useSelector(selectPost);
-  useEffect(() => {}, []);
+
+  const [commentModal, setCommentModal] = useState(false);
 
   const isLiked = (post) => {
     return post.likes.includes(user._id);
@@ -82,14 +84,24 @@ const Posts = ({ userDetails }) => {
                       color={isLiked(post) ? "red" : "black"}
                     />
                   </span>
-                  <span className="mx-3 my-2 cursor-pointer">
+                  <span
+                    className="mx-3 my-2 cursor-pointer"
+                    onClick={() => {
+                      setCommentModal(true);
+                    }}
+                  >
                     <BsFillChatFill size="21" />
                   </span>
                   <span className="mx-3 my-2 cursor-pointer">
                     <RiSendPlaneFill size="25" />
                   </span>
                 </div>
-                <div>{post.likes.length} likes</div>
+                <div>{post.likes.length} {post.likes.length > 1 ? "likes" : "like"}</div>
+                <>
+                  {commentModal && (
+                    <CommentPage post={post} userDetails={userDetails} />
+                  )}
+                </>
               </div>
             ))}
         </div>
