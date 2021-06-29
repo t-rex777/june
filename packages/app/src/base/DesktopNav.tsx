@@ -43,18 +43,18 @@ const DesktopNav: React.FC<Props> = () => {
         </li>
 
         <span className="flex justify-end">
-          <Link to="/">
+          {/* <Link to="/">
             <li className="text-white text-xs mx-5 font-semibold sm:text-lg">
               <TiMessages size={28} />
-              {/* todo: add counts */}
             </li>
-          </Link>
+          </Link> */}
+
           <Link to="/user/newpost">
             <li className="text-white text-xs mx-5 font-semibold sm:text-lg">
               <BsPlusSquareFill size={28} />
             </li>
           </Link>
-          <Link to="/">
+          <Link to="/notifications">
             <li className="text-white text-xs mx-5 font-semibold sm:text-lg">
               <AiFillNotification size={28} />
             </li>

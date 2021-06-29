@@ -41,6 +41,22 @@ exports.getPosts = async (req, res) => {
   }
 };
 
+// get notifications
+exports.getNotificationsById = async (req, res) => {
+  try {
+    const userNotifications = await Notification.find({
+      user: req.userId,
+    })
+    .sort({ updatedAt: -1 });
+
+    res.json(userNotifications);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
 // create post
 exports.uploadPost = async (req, res) => {
   try {

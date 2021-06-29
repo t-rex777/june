@@ -16,6 +16,7 @@ import { JuneAPI, setJuneHeader, axiosRequestError } from "./utils";
 import { getUserData, signout } from "./features/userAuth/userSlice";
 import Post from "./features/post/NewPost";
 import CommentPage from "./features/post/CommentPage";
+import NotificationPage from "./features/notification/NotificationPage";
 
 const rToken = localStorage.getItem("__rtoken");
 
@@ -92,6 +93,11 @@ const JuneRoutes: React.FC = () => {
         />
         <PrivateRoute path="/user/newpost" exact component={Post} />
         <PrivateRoute path="/comment" exact component={CommentPage} />
+        <PrivateRoute
+          path="/notifications"
+          exact
+          component={NotificationPage}
+        />
         <Route path="*" exact component={invalidRoute} />
       </Switch>
     </BrowserRouter>

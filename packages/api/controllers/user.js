@@ -88,6 +88,11 @@ exports.signup = async (req, res) => {
   try {
     const user = new User(req.body);
     const savedUser = await user.save();
+    const notification = new Notification({
+      notificationMessage: `Welcome aboard ${user.name}`,
+      user: user._id,
+    });
+    notification.save();
     const {
       _id,
       name,
@@ -149,12 +154,6 @@ exports.signin = async (req, res) => {
             expiresIn: "7d",
           }
         );
-
-        const notification = new Notification({
-          notificationMessage: `Welcome aboard ${user.name}`,
-          user: user._id,
-        });
-        notification.save();
 
         const {
           _id,

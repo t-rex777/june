@@ -19,12 +19,12 @@ const MobileTopNav: React.FC<Props> = () => {
             <input type="text" placeholder="search" 
             className="text-sm p-1 w-9/12 rounded-sm" /></li>
       
-        <Link to="/">
+        {/* <Link to="/">
           <li className="text-white text-xs font-semibold sm:text-lg">
           <TiMessages size={28}/>
 
           </li>
-        </Link>
+        </Link> */}
       </ul>
     </nav>
   );

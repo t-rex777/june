@@ -12,6 +12,7 @@ const {
   unlikePost,
   commentPosts,
   unCommentPosts,
+  getNotificationsById,
 } = require("../controllers/post");
 
 // middleware
@@ -25,6 +26,7 @@ router
   .patch("/post/update/caption/:postId", updateCaption) //todo:
   .patch("/post/like/:postId", likePost)
   .patch("/post/unlike/:postId", unlikePost)
-  .delete("/post/delete/:postId", deletePost);
+  .delete("/post/delete/:postId", deletePost)
 
+  .get("/usernotifications", getNotificationsById);
 module.exports = router;

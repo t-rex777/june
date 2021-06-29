@@ -3,13 +3,15 @@ import counterReducer from "../features/counter/counterSlice";
 import userReducer from "../features/userAuth/userSlice";
 import personReducer from "../features/person/personSlice";
 import postReducer from "../features/post/postSlice";
+import notificationReducer from "../features/notification/notificationSlice";
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     user: userReducer,
-    person : personReducer,
+    person: personReducer,
     post: postReducer,
+    notification: notificationReducer,
   },
 });
 
