@@ -79,7 +79,7 @@ export const userSlice = createSlice({
   reducers: {
     signout: (state) => {
       state.user = null;
-      state.userStatus = "signed out";
+      state.userStatus = "signed_out";
       localStorage.removeItem("__rtoken");
     },
   },
@@ -90,34 +90,34 @@ export const userSlice = createSlice({
       })
       .addCase(userSignin.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.userStatus = "signed in";
+        state.userStatus = "signed_in";
       })
       .addCase(userSignup.pending, (state) => {
         state.userStatus = "loading";
       })
       .addCase(userSignup.fulfilled, (state) => {
-        state.userStatus = "success";
+        state.userStatus = "signed_up";
       })
       .addCase(getUserData.pending, (state) => {
         state.userStatus = "loading";
       })
       .addCase(getUserData.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.userStatus = "signed in";
+        state.userStatus = "fetched_userdata";
       })
       .addCase(updateUser.pending, (state) => {
         state.userStatus = "loading";
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.userStatus = "success";
+        state.userStatus = "updated_user";
       })
       .addCase(fetchJunePosts.pending, (state) => {
         state.userStatus = "loading";
       })
       .addCase(fetchJunePosts.fulfilled, (state, action) => {
         state.junePosts = action.payload;
-        state.userStatus = "success";
+        state.userStatus = "fetched_juneposts";
       });
   },
 });

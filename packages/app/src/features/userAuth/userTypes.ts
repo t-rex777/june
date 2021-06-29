@@ -41,9 +41,13 @@ export interface UserState {
   junePosts: PostType[] | null;
   userStatus:
     | "idle"
-    | "signed out"
-    | "signed in"
+    | "signed_out"
+    | "signed_up"
+    | "signed_in"
     | "loading"
     | "success"
+    | "fetched_userdata"
+    | "updated_user"
+    | "fetched_juneposts"
     | "failed";
 }

@@ -25,12 +25,10 @@ const Dashboard: React.FC = () => {
   const [isFollowing, setIsFollowings] = useState(false);
 
   useEffect(() => {
-    if (personStatus === "idle") {
-      setTimeout(() => {
-        dispatch(getPerson(personUsername));
-      }, 300);
+    if (personStatus === "idle" && userStatus === "fetched_userdata") {
+      dispatch(getPerson(personUsername));
     }
-  }, [dispatch, personUsername, personStatus]);
+  }, [dispatch, personUsername, personStatus, userStatus]);
 
   useEffect(() => {
     user &&
@@ -39,14 +37,11 @@ const Dashboard: React.FC = () => {
       setIsFollowings(true);
   }, [user, person]);
 
-
   const unfollow = async () => {
     try {
       dispatch(unfollowPerson(personUsername));
-      setTimeout(async () => {
-        dispatch(getUserData());
-        setIsFollowings(false);
-      }, 500);
+      if (personStatus === "unfollowed_person") dispatch(getUserData());
+      setIsFollowings(false);
     } catch (error) {
       console.log(error);
     }
@@ -55,10 +50,8 @@ const Dashboard: React.FC = () => {
   const follow = async () => {
     try {
       dispatch(followPerson(personUsername));
-      setTimeout(async () => {
-        dispatch(getUserData());
-        setIsFollowings(true);
-      }, 500);
+      if (personStatus === "followed_person") dispatch(getUserData());
+      setIsFollowings(true);
     } catch (error) {
       console.log(error);
     }

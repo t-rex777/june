@@ -44,7 +44,6 @@ exports.getPosts = async (req, res) => {
 exports.getJunePosts = async (req, res) => {
   try {
     const junePosts = await Post.find()
-      .populate("likes")
       .populate("comments")
       .populate({ path: "user", select: ["username", "profile_photo"] })
       .sort({ updatedAt: -1 })

@@ -32,7 +32,10 @@ export const NotificationSlice = createSlice({
       })
       .addCase(fetchNotifications.fulfilled, (state, action) => {
         state.notification = action.payload;
-        state.notificationStatus = "success";
+        state.notificationStatus = "fetched_notifications";
+      })
+      .addCase(fetchNotifications.rejected, (state, action) => {
+        state.notificationStatus = "failed";
       });
   },
 });

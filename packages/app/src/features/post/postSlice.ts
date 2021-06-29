@@ -98,7 +98,7 @@ export const userSlice = createSlice({
         state.postStatus = "posts_loading";
       })
       .addCase(uploadPost.fulfilled, (state) => {
-        state.postStatus = "uploaded";
+        state.postStatus = "post_uploaded";
       })
       .addCase(fetchPosts.pending, (state) => {
         state.postStatus = "posts_loading";

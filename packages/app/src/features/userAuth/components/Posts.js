@@ -20,24 +20,25 @@ const Posts = ({ userDetails }) => {
   const [commentModal, setCommentModal] = useState(false);
   const [commentPost, setCommentPost] = useState("");
 
-  const isLiked = (post,userId) => {
+  const isLiked = (post) => {
     return post.likes.includes(user._id);
   };
 
-  const likeUnlikePost = (post) => {
+  const likeUnlikePost = async (post) => {
     try {
       if (isLiked(post)) {
-        dispatch(unlikePost(post._id));
-        setTimeout(() => {
-          dispatch(getUserData());
-          person && dispatch(getPerson(person.username));
-        }, 500);
+        const res = await dispatch(unlikePost(post._id));
+        if (res) {
+          const userData = await dispatch(getUserData());
+          if (userData && person)
+            person && dispatch(getPerson(person.username));
+        }
       } else {
-        dispatch(likePost(post._id));
-        setTimeout(() => {
-          dispatch(getUserData());
-          person && dispatch(getPerson(person.username));
-        }, 500);
+        const res = await dispatch(likePost(post._id));
+        if (res) {
+          const userDetails = await dispatch(getUserData());
+          if (userDetails && person) dispatch(getPerson(person.username));
+        }
       }
     } catch (error) {
       console.log(error);

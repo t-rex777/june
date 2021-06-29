@@ -5,12 +5,12 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { BsFillChatFill } from "react-icons/bs";
 import { AiFillHeart, AiFillDelete } from "react-icons/ai";
 import { useAppDispatch } from "./../../app/hooks";
-import { commentPost, uncommentPost } from "./postSlice";
+import { commentPost, selectPost, uncommentPost } from "./postSlice";
 import { getUserData } from "../userAuth/userSlice";
 import { getPerson, selectPerson } from "../person/personSlice";
 import { useSelector } from "react-redux";
 import { selectUser } from "./../userAuth/userSlice";
-import "./scrollbar.css"
+import "./scrollbar.css";
 
 function CommentPage({
   post,
@@ -32,21 +32,26 @@ function CommentPage({
   };
   const submitComment = async (e) => {
     e.preventDefault();
-    dispatch(commentPost(userComment));
-    setTimeout(() => {
-      dispatch(getUserData());
-      person && dispatch(getPerson(person.username));
-    }, 500);
-    setUserComment("");
-  };
-
-  const deleteComment = (postId, commentId) => {
     try {
-      dispatch(uncommentPost(postId, commentId));
-      setTimeout(() => {
-        dispatch(getUserData());
-        person && dispatch(getPerson(person.username));
-      }, 500);
+      const res = await dispatch(commentPost(userComment));
+      if (res) {
+        const userData = dispatch(getUserData());
+        if (userData && person) {
+          dispatch(getPerson(person.username));
+          setUserComment("");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteComment = async (postId, commentId) => {
+    try {
+      const res = await dispatch(uncommentPost(postId, commentId));
+      if (res) {
+        const userData = dispatch(getUserData());
+        if (userData && person) await dispatch(getPerson(person.username));
+      }
     } catch (error) {
       console.log(error);
     }
@@ -87,8 +92,8 @@ function CommentPage({
           <Image
             cloudName="june-social"
             publicId={post.public_id}
-            width={window.innerWidth<400 ? "83" : "250"}
-            height={window.innerWidth<400 ? "100" : "300"}
+            width={window.innerWidth < 400 ? "83" : "250"}
+            height={window.innerWidth < 400 ? "100" : "300"}
             responsiveUseBreakpoints="true"
             crop="fill"
           />

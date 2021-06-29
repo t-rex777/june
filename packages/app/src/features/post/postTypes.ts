@@ -5,7 +5,7 @@ export interface postState {
   postStatus:
     | "idle"
     | "loading"
-    | "uploaded"
+    | "post_uploaded"
     | "posts_loading"
     | "posts_fetched"
     | "post_liked"

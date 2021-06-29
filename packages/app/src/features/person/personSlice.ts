@@ -61,21 +61,21 @@ export const PersonSlice = createSlice({
       })
       .addCase(getPerson.fulfilled, (state, action) => {
         state.person = action.payload;
-        state.personStatus = "success";
+        state.personStatus = "fetched_persondata";
       })
       .addCase(followPerson.pending, (state) => {
         state.personStatus = "loading";
       })
       .addCase(followPerson.fulfilled, (state, action) => {
         state.person = action.payload;
-        state.personStatus = "success";
+        state.personStatus = "followed_person";
       })
       .addCase(unfollowPerson.pending, (state) => {
         state.personStatus = "loading";
       })
       .addCase(unfollowPerson.fulfilled, (state, action) => {
         state.person = action.payload;
-        state.personStatus = "success";
+        state.personStatus = "unfollowed_person";
       });
   },
 });

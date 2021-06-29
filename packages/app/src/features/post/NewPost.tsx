@@ -6,11 +6,12 @@ import Base from "../../base/Base";
 import { useSelector } from "react-redux";
 import Loader from "./../../base/Loader";
 import { Redirect } from "react-router-dom";
-import { getUserData } from "./../userAuth/userSlice";
+import { getUserData, selectUser } from "./../userAuth/userSlice";
 
 const NewPost: React.FC = () => {
   const dispatch = useAppDispatch();
   const { postStatus } = useSelector(selectPost);
+  const { userStatus } = useSelector(selectUser);
   const [shouldRedirect, setRedirect] = useState<Boolean>(false);
   const [post, setPost] = useState<postInput>({
     caption: "",
@@ -30,9 +31,7 @@ const NewPost: React.FC = () => {
           photo: reader.result,
         };
         dispatch(uploadPost(postFile));
-        setTimeout(() => {
-          dispatch(getUserData());
-        }, 700);
+        if (postStatus === "post_uploaded") dispatch(getUserData());
         setRedirect(true);
       };
     } catch (error) {
@@ -49,7 +48,7 @@ const NewPost: React.FC = () => {
   return (
     <Base className="flex flex-col justify-center items-center pt-28">
       {shouldRedirect && <Redirect to="/user/dashboard" />}
-      {postStatus !== "posts_loading" ? (
+      {postStatus !== "posts_loading" || userStatus === "loading" ? (
         <>
           <h1 className="font-bold text-3xl">Upload a new Post</h1>
           <form

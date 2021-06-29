@@ -5,21 +5,20 @@ import { fetchNotifications, selectNotification } from "./notificationSlice";
 import { useAppDispatch } from "./../../app/hooks";
 import Loader from "./../../base/Loader";
 import { NotificationType } from "./notificationTypes";
+import { selectUser } from "../userAuth/userSlice";
 
 interface Props {}
 
 const NotificationPage: React.FC<Props> = () => {
+  const { userStatus } = useAppSelector(selectUser);
   const { notification, notificationStatus } =
     useAppSelector(selectNotification);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (notificationStatus === "idle") {
-      setTimeout(() => {
+    if (notificationStatus === "idle" && userStatus === "fetched_userdata") {
         dispatch(fetchNotifications());
-      }, 500);
     }
-  }, [dispatch, notificationStatus]);
-  console.log(notification);
+  }, [dispatch, notificationStatus, userStatus]);
   return (
     <Base className="flex flex-col justify-center items-center">
       {notificationStatus !== "loading" ? (
