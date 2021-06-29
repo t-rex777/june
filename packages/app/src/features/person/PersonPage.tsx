@@ -39,8 +39,8 @@ const Dashboard: React.FC = () => {
 
   const unfollow = async () => {
     try {
-      dispatch(unfollowPerson(personUsername));
-      if (personStatus === "unfollowed_person") dispatch(getUserData());
+      const res = await dispatch(unfollowPerson(personUsername));
+      if (res) dispatch(getUserData());
       setIsFollowings(false);
     } catch (error) {
       console.log(error);
@@ -49,8 +49,8 @@ const Dashboard: React.FC = () => {
 
   const follow = async () => {
     try {
-      dispatch(followPerson(personUsername));
-      if (personStatus === "followed_person") dispatch(getUserData());
+      const res = await dispatch(followPerson(personUsername));
+      if (res) dispatch(getUserData());
       setIsFollowings(true);
     } catch (error) {
       console.log(error);

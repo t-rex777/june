@@ -7,6 +7,7 @@ import { axiosRequestError } from "../../utils";
 const initialState: UserState = {
   user: null,
   junePosts: null,
+  allUsers: null,
   userStatus: "idle",
 };
 
@@ -63,6 +64,14 @@ export const updateUser = createAsyncThunk(
     }
   }
 );
+export const fetchAllUsers = createAsyncThunk("users/fetch", async () => {
+  try {
+    const response = await JuneAPI.get("/allusers");
+    return response.data;
+  } catch (error) {
+    axiosRequestError(error);
+  }
+});
 
 export const fetchJunePosts = createAsyncThunk("user/feed", async () => {
   try {
@@ -118,6 +127,13 @@ export const userSlice = createSlice({
       .addCase(fetchJunePosts.fulfilled, (state, action) => {
         state.junePosts = action.payload;
         state.userStatus = "fetched_juneposts";
+      })
+      .addCase(fetchAllUsers.pending, (state) => {
+        state.userStatus = "loading";
+      })
+      .addCase(fetchAllUsers.fulfilled, (state, action) => {
+        state.allUsers = action.payload;
+        state.userStatus = "fetched_allusers";
       });
   },
 });

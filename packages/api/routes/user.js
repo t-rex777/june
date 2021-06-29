@@ -12,7 +12,8 @@ const {
   getPerson,
   getPersonByUserName,
   updatePersonFollowers,
-  UnfollowPerson
+  UnfollowPerson,
+  getAllUsers
 } = require("../controllers/user");
 
 // middlewware
@@ -27,6 +28,7 @@ router
   .use(isAuthenticatedToken)
   .get("/person/:personUsername",getPerson)
   .get("/user", getUser)
+  .get("/allusers", getAllUsers)
   .post("/user/update", updateUser)
   .delete("/user/delete", deleteUser)
 
