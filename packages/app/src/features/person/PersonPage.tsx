@@ -89,7 +89,7 @@ const Dashboard: React.FC = () => {
               </span>
               <span className="flex flex-col mx-2 mt-3">
                 <p className="sm:text-xl">{person?.name}</p>
-                <p className="sm:text-xl">{person?.bio}</p>
+                <p className="text-md">{person?.bio}</p>
               </span>
               <div className="flex justify-center  w-1/2 ">
                 {isFollowing ? (

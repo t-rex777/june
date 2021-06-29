@@ -44,7 +44,7 @@ const Dashboard: React.FC<Props> = () => {
               </span>
               <span className="flex flex-col mx-2 mt-3">
                 <p className="sm:text-xl">{user?.name}</p>
-                <p className="sm:text-xl">{user?.bio}</p>
+                <p className="text-md">{user?.bio}</p>
               </span>
               <div className="flex justify-center  w-1/2 ">
                 <button

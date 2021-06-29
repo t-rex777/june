@@ -32,7 +32,7 @@ const NewPost: React.FC = () => {
         dispatch(uploadPost(postFile));
         setTimeout(() => {
           dispatch(getUserData());
-        }, 500);
+        }, 700);
         setRedirect(true);
       };
     } catch (error) {
@@ -73,7 +73,8 @@ const NewPost: React.FC = () => {
             />
             <button
               type="submit"
-              className="bg-purple-700 text-white font-bold border-2 border-purple-700 m-2 p-1 rounded-md hover:bg-purple-500 hover:border-purple-500"
+              disabled={post.photo === "" ? true : false}
+              className="bg-purple-700 text-white font-bold border-2 border-purple-700 m-2 p-1 rounded-md disabled:opacity-50"
             >
               Upload
             </button>

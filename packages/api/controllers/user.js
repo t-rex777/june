@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Notification = require("../models/notification");
 const jwt = require("jsonwebtoken");
 const { extend } = require("lodash");
 
@@ -148,6 +149,13 @@ exports.signin = async (req, res) => {
             expiresIn: "7d",
           }
         );
+
+        const notification = new Notification({
+          notificationMessage: `Welcome aboard ${user.name}`,
+          user: user._id,
+        });
+        notification.save();
+
         const {
           _id,
           name,
@@ -247,6 +255,14 @@ exports.updatePersonFollowers = async (req, res) => {
 
     const updatedPerson = await person.save();
     const updatedUser = await user.save();
+
+    const notification = new Notification({
+      notificationMessage: `${user.username} started following you.`,
+      user: person._id,
+      actionBy: user._id,
+    });
+
+    await notification.save();
 
     res.json(updatedPerson);
   } catch (error) {

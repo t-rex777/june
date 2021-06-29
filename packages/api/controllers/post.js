@@ -1,7 +1,6 @@
 const Post = require("../models/post");
 const User = require("../models/user");
-const formidable = require("formidable");
-const fs = require("fs");
+const Notification = require("../models/notification");
 const { extend } = require("lodash");
 const { cloudinary } = require("../utils/cloudinary");
 const user = require("../models/user");
@@ -47,12 +46,12 @@ exports.uploadPost = async (req, res) => {
   try {
     let user = await User.findById(req.userId);
     const fileStr = req.body.photo;
-    console.log(req.body.caption);
     const uploadResponse = await cloudinary.uploader.upload(fileStr, {
       upload_preset: "june_gallary",
     });
 
     const post = await new Post({
+      user: req.userId,
       caption: req.body.caption,
       photo: uploadResponse.url,
       public_id: uploadResponse.public_id,
@@ -97,6 +96,19 @@ exports.likePost = async (req, res) => {
     user.likedPosts.unshift(post._id);
     post.save();
     user.save();
+
+    // adding notification
+    if (post.user.toString() !== req.userId.toString()) {
+      const notification = new Notification({
+        notificationMessage: `${user.username} liked your post`,
+        user: user._id,
+        post: post._id,
+        actionBy: req.userId,
+      });
+
+      await notification.save();
+    }
+
     res.json(post);
   } catch (error) {
     res.status(400).json({
@@ -122,6 +134,8 @@ exports.unlikePost = async (req, res) => {
 
     post.save();
     user.save();
+    // delete notification
+    // Notification.deleteOne({ actionBy: req.userId, post: post._id });
 
     res.json(post);
   } catch (error) {
@@ -141,6 +155,19 @@ exports.commentPosts = async (req, res) => {
       commentedBy: req.userId,
     });
     user.commentedPosts.unshift(post._id);
+
+    // adding notification
+    if (post.user.toString() !== req.userId.toString()) {
+      const notification = new Notification({
+        notificationMessage: `${user.username} commented on your post : ${userComment}`,
+        user: user._id,
+        post: post._id,
+        actionBy: req.userId,
+      });
+
+      await notification.save();
+    }
+
     post.save();
     user.save();
     res.json(post);
