@@ -21,7 +21,7 @@ const DesktopNav: React.FC<Props> = () => {
   };
 
   const userClick = (e: any) => {
-    console.log(e.target);
+    // console.log(e.target);
   };
   return (
     <nav className="bg-gray-900 px-10 py-3 fixed w-screen z-10">

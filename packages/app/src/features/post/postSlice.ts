@@ -95,7 +95,7 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(uploadPost.pending, (state) => {
-        state.postStatus = "loading";
+        state.postStatus = "posts_loading";
       })
       .addCase(uploadPost.fulfilled, (state) => {
         state.postStatus = "uploaded";

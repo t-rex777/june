@@ -9,6 +9,8 @@ import { commentPost, uncommentPost } from "./postSlice";
 import { getUserData } from "../userAuth/userSlice";
 import { getPerson, selectPerson } from "../person/personSlice";
 import { useSelector } from "react-redux";
+import { selectUser } from "./../userAuth/userSlice";
+import "./scrollbar.css"
 
 function CommentPage({
   post,
@@ -18,6 +20,7 @@ function CommentPage({
   likeUnlikePost,
 }) {
   const { person } = useSelector(selectPerson);
+  const { user } = useSelector(selectUser);
   const dispatch = useAppDispatch();
   const [userComment, setUserComment] = useState({
     postId: "",
@@ -79,26 +82,28 @@ function CommentPage({
       className="comment-modal flex flex-col justify-center items-center"
       style={modalStyle}
     >
-      <div className="bg-white flex flex-col w-max p-10 rounded-lg z-20 sm:flex-row">
-        <div>
+      <div className="bg-white h-max flex flex-col items-center w-max p-10 rounded-lg z-20 sm:flex-row">
+        <div className="">
           <Image
             cloudName="june-social"
             publicId={post.public_id}
-            width="250"
-            height="300"
+            width={window.innerWidth<400 ? "83" : "250"}
+            height={window.innerWidth<400 ? "100" : "300"}
             responsiveUseBreakpoints="true"
             crop="fill"
           />
         </div>
         <div className="flex flex-col ml-5">
-          <p className="mb-3">{userDetails.username}</p>
+          <p className="mb-3 text-center">{userDetails.username}</p>
           <hr />
-          <ul className="max-h-24 bg-scroll">
+          <ul className="h-44 overflow-auto	scrollbar" id="style-2">
             {post.comments.map((item) => (
               <li className="flex justify-between my-2" key={item._id}>
                 {item.comment}
                 <span
-                  className="mt-1"
+                  className={`mt-1 cursor-pointer ${
+                    item.commentedBy !== user._id && "hidden"
+                  }`}
                   onClick={() => {
                     deleteComment(post._id, item._id);
                   }}

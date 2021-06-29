@@ -64,7 +64,12 @@ const userSchema = new mongoose.Schema(
         ref: "Post",
       },
     ],
-    // todo: add saved posts collection
+    notifications: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Notification",
+      },
+    ],
   },
   { timestamps: true }
 );
