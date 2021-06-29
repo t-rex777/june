@@ -12,6 +12,7 @@ export interface SignupUser {
 }
 
 export interface PostType {
+  _id : string;
   public_id?: string;
   caption?: string;
   photo?: string;
@@ -37,7 +38,7 @@ export interface UserType extends SignupUser {
 
 export interface UserState {
   user: UserType | null;
-  posts: PostType | null;
+  junePosts: PostType[] | null;
   userStatus:
     | "idle"
     | "signed out"

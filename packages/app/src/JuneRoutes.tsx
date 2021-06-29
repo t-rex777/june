@@ -6,7 +6,7 @@ import {
   Route,
   RouteComponentProps,
 } from "react-router-dom";
-import App from "./App";
+import App from "./features/userAuth/pages/App.js";
 import Signin from "./features/userAuth/pages/Signin";
 import Signup from "./features/userAuth/pages/Signup";
 import Dashboard from "./features/userAuth/pages/Dashboard";

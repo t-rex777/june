@@ -13,6 +13,7 @@ const {
   commentPosts,
   unCommentPosts,
   getNotificationsById,
+  getJunePosts,
 } = require("../controllers/post");
 
 // middleware
@@ -20,6 +21,7 @@ router.param("postId", findPostById);
 
 router
   .get("/posts", getPosts)
+  .get("/juneposts", getJunePosts)
   .post("/post/upload", uploadPost)
   .post("/post/comment/:postId", commentPosts)
   .post("/post/uncomment/:postId/:commentId", unCommentPosts)

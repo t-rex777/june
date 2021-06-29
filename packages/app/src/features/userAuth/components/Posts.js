@@ -20,7 +20,7 @@ const Posts = ({ userDetails }) => {
   const [commentModal, setCommentModal] = useState(false);
   const [commentPost, setCommentPost] = useState("");
 
-  const isLiked = (post) => {
+  const isLiked = (post,userId) => {
     return post.likes.includes(user._id);
   };
 

@@ -29,7 +29,7 @@ exports.getPosts = async (req, res) => {
     const { resources } = await cloudinary.search
       .expression("folder:june_gallary")
       .sort_by("public_id", "desc")
-      .max_results(30)
+      .max_results(10)
       .execute();
 
     const publicIds = resources.map((file) => file.public_id);
@@ -41,13 +41,27 @@ exports.getPosts = async (req, res) => {
   }
 };
 
+exports.getJunePosts = async (req, res) => {
+  try {
+    const junePosts = await Post.find()
+      .populate("likes")
+      .populate("comments")
+      .populate({ path: "user", select: ["username", "profile_photo"] })
+      .sort({ updatedAt: -1 })
+      .limit(6);
+    res.json(junePosts);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
 // get notifications
 exports.getNotificationsById = async (req, res) => {
   try {
     const userNotifications = await Notification.find({
       user: req.userId,
-    })
-    .sort({ updatedAt: -1 });
+    }).sort({ updatedAt: -1 });
 
     res.json(userNotifications);
   } catch (error) {
