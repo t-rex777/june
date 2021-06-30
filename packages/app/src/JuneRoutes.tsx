@@ -17,8 +17,7 @@ import { getUserData, signout } from "./features/userAuth/userSlice";
 import Post from "./features/post/NewPost";
 import CommentPage from "./features/post/CommentPage";
 import NotificationPage from "./features/notification/NotificationPage.js";
-
-const rToken = localStorage.getItem("__rtoken");
+import Loader from "./base/Loader";
 
 interface PrivateProps {
   path: string;
@@ -29,12 +28,12 @@ interface PrivateProps {
 }
 
 export const PrivateRoute = (props: PrivateProps) => {
-  return rToken  && typeof rToken === "string" ? (
-    <Route {...props} />
-  ) : (
-    <Redirect from={props.path} to="/signin" />
-  );
-  //
+  const rToken = localStorage.getItem("__rtoken");
+
+  if (rToken && typeof rToken === "string") {
+    return <Route {...props} />;
+  }
+  return <Redirect from={props.path} to="/signin" />;
 };
 
 export const invalidRoute = () => (
@@ -45,6 +44,7 @@ export const invalidRoute = () => (
 
 const JuneRoutes: React.FC = () => {
   const dispatch = useAppDispatch();
+  const rToken = localStorage.getItem("__rtoken");
 
   useEffect(() => {
     if (rToken !== undefined && typeof rToken === "string") {
@@ -82,9 +82,9 @@ const JuneRoutes: React.FC = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact component={App} />
         <Route path="/signin" exact component={Signin} />
         <Route path="/signup" exact component={Signup} />
+        <PrivateRoute path="/" exact component={App} />
         <PrivateRoute path="/user/dashboard" exact component={Dashboard} />
         <PrivateRoute
           path="/person/:personUsername"

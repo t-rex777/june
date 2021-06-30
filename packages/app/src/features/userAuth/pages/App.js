@@ -15,7 +15,7 @@ import {
 } from "../../person/personSlice";
 import { likePost } from "./../../post/postSlice";
 import CommentPage from "./../../post/CommentPage";
-import Loader from "./../../../base/Loader";
+import Loader from "../../../base/Loader";
 import { fetchAllUsers } from "./../userSlice";
 import { unfollowPerson } from "./../../person/personSlice";
 import { Link } from "react-router-dom";
@@ -31,7 +31,7 @@ function App() {
   const [userForModal, setUserForModal] = useState("");
 
   useEffect(() => {
-    if (userStatus === "fetched_userdata") {
+    if (userStatus === "fetched_userdata" || userStatus === "signed_in") {
       dispatch(fetchAllUsers());
     }
     if (userStatus === "fetched_allusers") {

@@ -7,7 +7,7 @@ import { useAppDispatch } from "./../../../app/hooks";
 import { likePost, selectPost, unlikePost } from "./../../post/postSlice";
 import { useSelector } from "react-redux";
 import { getUserData, selectUser } from "./../userSlice";
-import Loader from "./../../../base/Loader";
+import Loader from "../../../base/Loader";
 import { getPerson, selectPerson } from "../../person/personSlice";
 import CommentPage from "./../../post/CommentPage";
 

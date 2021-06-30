@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { AiFillNotification } from "react-icons/ai";
+import { RiDashboardFill } from "react-icons/ri";
 import { BsPlusSquareFill } from "react-icons/bs";
-import { TiMessages } from "react-icons/ti";
 import { FiLogOut } from "react-icons/fi";
 import { useAppDispatch } from "../app/hooks";
 import { signout } from "../features/userAuth/userSlice";
@@ -16,13 +16,20 @@ interface Props {}
 const DesktopNav: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
   const [shouldRedirect, setRedirect] = useState<Boolean>(false);
+  const [dropdownStyle, setDropdownStyle] = useState({
+    display: "none",
+  });
   const userSignout = () => {
     dispatch(signout());
     setRedirect(true);
   };
 
   const userClick = (e: any) => {
-    // console.log(e.target);
+    setDropdownStyle(() => {
+      return dropdownStyle.display === "none"
+        ? { display: "block" }
+        : { display: "none" };
+    });
   };
   return (
     <nav className="bg-gray-800 px-10 py-3 fixed w-screen z-10">
@@ -34,16 +41,9 @@ const DesktopNav: React.FC<Props> = () => {
           </li>
         </Link>
 
-        {/* Search bar */}
-       <SearchBox/>
+        <SearchBox />
 
         <span className="flex justify-end">
-          {/* <Link to="/">
-            <li className="text-white text-xs mx-5 font-semibold sm:text-lg">
-              <TiMessages size={28} />
-            </li>
-          </Link> */}
-
           <Link to="/user/newpost">
             <li className="text-white text-xs mx-5 font-semibold sm:text-lg">
               <BsPlusSquareFill size={28} />
@@ -54,25 +54,38 @@ const DesktopNav: React.FC<Props> = () => {
               <AiFillNotification size={28} />
             </li>
           </Link>
-          <Link to="/user/dashboard" className={`${styles.user}`}>
-            <li
-              onClick={userClick}
-              className={`relative text-white text-xs mx-5 font-semibold
-             sm:text-lg `}
-            >
-              <FaUserCircle size={28} />
-            </li>
+          <div>
             <span
-              className={`shadow-md border rounded-md flex flex-col items-center absolute z-20 px-2 py-3 bg-white right-10 ${styles.dropdown}`}
+              style={dropdownStyle}
+              className={`bg-gray-800 mt-12 rounded-md flex flex-col items-center absolute z-20 px-2 py-3 right-10`}
             >
-              <p onClick={userSignout} className="flex text-red-500 font-bold">
+              <Link
+                to="/user/dashboard"
+                className="flex mb-3 text-white font-bold"
+              >
+                <span className="mt-1 mr-2">
+                  <RiDashboardFill size={20} />
+                </span>
+                Dashboard
+              </Link>
+              <p
+                onClick={userSignout}
+                className="flex cursor-pointer text-white font-bold"
+              >
                 <span className="mt-1 mr-2">
                   <FiLogOut size={20} />
                 </span>
                 Sign Out
               </p>
             </span>
-          </Link>
+            <li
+              onClick={userClick}
+              className={`relative text-white text-xs mx-5 cursor-pointer font-semibold
+             sm:text-lg `}
+            >
+              <FaUserCircle size={28} />
+            </li>
+          </div>
         </span>
       </ul>
     </nav>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProfilePic from "./../userAuth/components/ProfilePic";
-import Base from "./../../base/Base";
+import Base from "../../base/Base";
 import Posts from "./../userAuth/components/Posts";
 import NoPosts from "./../userAuth/components/NoPosts";
 import { useSelector } from "react-redux";

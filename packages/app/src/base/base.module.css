@@ -2,14 +2,6 @@
   display: none;
 }
 
-.dropdown {
-  display: none;
-}
-
-.user:hover .dropdown {
-  display: inline-block;
-}
-
 /* loader */
 .loadingPage {
   position: absolute;

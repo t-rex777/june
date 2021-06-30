@@ -12,6 +12,7 @@ const Signin: React.FC = () => {
     password: "admin@123456789",
   });
   const [shouldRedirect, setRedirect] = useState<Boolean>(false);
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setUserData((prevValue) => {
@@ -24,8 +25,7 @@ const Signin: React.FC = () => {
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const resData = await dispatch(userSignin(userData));
-      console.log(resData);
+      await dispatch(userSignin(userData));
       setRedirect(true);
     } catch (error) {
       console.log(error);

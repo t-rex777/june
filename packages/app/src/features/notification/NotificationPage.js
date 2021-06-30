@@ -13,10 +13,10 @@ const NotificationPage = () => {
     useAppSelector(selectNotification);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (notificationStatus === "idle" || userStatus === "fetched_userdata") {
+   
       dispatch(fetchNotifications());
-    }
-  }, [dispatch, notificationStatus, userStatus]);
+ 
+  }, [dispatch]);
   return (
     <Base className="flex flex-col justify-center items-center">
       {notificationStatus !== "loading" ? (
@@ -32,7 +32,7 @@ const NotificationPage = () => {
                   <span className="flex">
                     <Image
                       cloudName="june-social"
-                      publicId={item.user.profile_photo}
+                      publicId={item.actionBy.profile_photo}
                       width="30"
                       height="30"
                       responsiveUseBreakpoints="true"

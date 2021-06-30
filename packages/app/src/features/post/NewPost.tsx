@@ -4,7 +4,7 @@ import { selectPost, uploadPost } from "./postSlice";
 import { postInput } from "./postTypes";
 import Base from "../../base/Base";
 import { useSelector } from "react-redux";
-import Loader from "./../../base/Loader";
+import Loader from "../../base/Loader";
 import { Redirect } from "react-router-dom";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
 

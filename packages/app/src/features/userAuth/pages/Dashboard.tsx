@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import Base from "./../../../base/Base";
+import Base from "../../../base/Base";
 import { useSelector } from "react-redux";
 import { selectUser } from "../userSlice";
 import Posts from "./../components/Posts.js";
 import NoPosts from "./../components/NoPosts";
 import EditUser from "./EditUser";
 import ProfilePic from "./../components/ProfilePic";
-import Loader from "./../../../base/Loader";
+import Loader from "../../../base/Loader";
 
 interface Props {}
 
