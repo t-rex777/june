@@ -87,7 +87,7 @@ function CommentPage({
       className="comment-modal flex flex-col justify-center items-center"
       style={modalStyle}
     >
-      <div className="bg-white h-max flex flex-col items-center w-max p-10 rounded-lg z-20 sm:flex-row">
+      <div className="bg-white h-max flex flex-col items-center w-max p-5 rounded-lg z-20 sm:flex-row  sm:p-10">
         <div className="">
           <Image
             cloudName="june-social"

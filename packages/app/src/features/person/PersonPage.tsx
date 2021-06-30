@@ -25,7 +25,7 @@ const Dashboard: React.FC = () => {
   const [isFollowing, setIsFollowings] = useState(false);
 
   useEffect(() => {
-    if (personStatus === "idle" && userStatus === "fetched_userdata") {
+    if (personStatus === "idle" || userStatus === "fetched_userdata") {
       dispatch(getPerson(personUsername));
     }
   }, [dispatch, personUsername, personStatus, userStatus]);

@@ -18,6 +18,7 @@ import CommentPage from "./../../post/CommentPage";
 import Loader from "./../../../base/Loader";
 import { fetchAllUsers } from "./../userSlice";
 import { unfollowPerson } from "./../../person/personSlice";
+import { Link } from "react-router-dom";
 
 function App() {
   const { user, allUsers, junePosts, userStatus } = useAppSelector(selectUser);
@@ -32,6 +33,8 @@ function App() {
   useEffect(() => {
     if (userStatus === "fetched_userdata") {
       dispatch(fetchAllUsers());
+    }
+    if (userStatus === "fetched_allusers") {
       dispatch(fetchJunePosts());
     }
   }, [dispatch, userStatus]);
@@ -71,7 +74,7 @@ function App() {
 
   const follow = async (personUsername) => {
     try {
-     const res = await dispatch(followPerson(personUsername));
+      const res = await dispatch(followPerson(personUsername));
       if (res) dispatch(getUserData());
     } catch (error) {
       console.log(error);
@@ -81,9 +84,9 @@ function App() {
     <Base className="flex flex-col justify-center ">
       {postStatus === "posts_loading" ||
       userStatus === "loading" ||
-      personStatus === "loading" ?(
+      personStatus === "loading" ? (
         <Loader />
-      ) :  (
+      ) : (
         <div className="flex flex-col-reverse sm:flex-row">
           <ul className="flex flex-col flex-grow items-center">
             {junePosts &&
@@ -93,7 +96,10 @@ function App() {
                     className="m-3 py-2 px-4 border-2 rounded-md"
                     key={post._id}
                   >
-                    <div className="flex  justify-between">
+                    <Link
+                      to={`/person/${post.user.username}`}
+                      className="flex  justify-between"
+                    >
                       <span className="cursor-pointer my-2 flex items-center">
                         <Image
                           cloudName="june-social"
@@ -106,7 +112,7 @@ function App() {
                         />
                         <p className="ml-2">{post.user.username}</p>
                       </span>
-                    </div>
+                    </Link>
                     <span className="">
                       <Image
                         cloudName="june-social"
@@ -179,7 +185,10 @@ function App() {
                       key={person._id}
                       className="flex justify-between p-3 border mt-2 w-60 "
                     >
-                      <div className="flex mr-5">
+                      <Link
+                        to={`/person/${person.username}`}
+                        className="flex mr-5"
+                      >
                         <Image
                           cloudName="june-social"
                           publicId={person.profile_photo}
@@ -190,7 +199,7 @@ function App() {
                           radius="max"
                         />
                         <p className="mt-1 ml-2">{person.username}</p>
-                      </div>
+                      </Link>
 
                       <button
                         className="bg-gray-600 text-white px-2 py-1 rounded-sm "

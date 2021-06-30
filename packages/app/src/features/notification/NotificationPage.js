@@ -13,7 +13,7 @@ const NotificationPage = () => {
     useAppSelector(selectNotification);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (notificationStatus === "idle" && userStatus === "fetched_userdata") {
+    if (notificationStatus === "idle" || userStatus === "fetched_userdata") {
       dispatch(fetchNotifications());
     }
   }, [dispatch, notificationStatus, userStatus]);

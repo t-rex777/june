@@ -29,10 +29,10 @@ interface PrivateProps {
 }
 
 export const PrivateRoute = (props: PrivateProps) => {
-  return rToken !== undefined && typeof rToken === "string" ? (
+  return rToken  && typeof rToken === "string" ? (
     <Route {...props} />
   ) : (
-    <Redirect to="/signin" />
+    <Redirect from={props.path} to="/signin" />
   );
   //
 };

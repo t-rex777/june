@@ -62,6 +62,7 @@ exports.getNotificationsById = async (req, res) => {
       user: req.userId,
     })
     .populate({ path: "user", select: ["username", "profile_photo"] })
+    .populate({ path: "actionBy", select: ["username", "profile_photo"] })
     .sort({ updatedAt: -1 });
 
     res.json(userNotifications);
@@ -132,7 +133,7 @@ exports.likePost = async (req, res) => {
     if (post.user.toString() !== req.userId.toString()) {
       const notification = new Notification({
         notificationMessage: `${user.username} liked your post`,
-        user: user._id,
+        user: post.user,
         post: post._id,
         actionBy: req.userId,
       });
@@ -191,7 +192,7 @@ exports.commentPosts = async (req, res) => {
     if (post.user.toString() !== req.userId.toString()) {
       const notification = new Notification({
         notificationMessage: `${user.username} commented on your post : ${userComment}`,
-        user: user._id,
+        user: post.user,
         post: post._id,
         actionBy: req.userId,
       });
