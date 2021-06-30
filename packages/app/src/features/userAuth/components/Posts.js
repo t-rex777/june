@@ -52,8 +52,19 @@ const Posts = ({ userDetails }) => {
           {userDetails.posts &&
             userDetails.posts.map((post) => (
               <div className="m-3 py-2 px-4 border-2 rounded-md" key={post._id}>
-                <div className="flex justify-between">
-                  <p>{userDetails.username}</p>
+                <div className="flex justify-between mb-2">
+                  <span className="flex">
+                  <Image
+                      cloudName="june-social"
+                      publicId={userDetails.profile_photo}
+                      width="30"
+                      height="30"
+                      responsiveUseBreakpoints="true"
+                      crop="fill"
+                      radius="max"
+                    />
+                  <p className="mt-1 ml-2">{userDetails.username}</p>
+                  </span>
                   <span className="cursor-pointer my-2 ">
                     <BsThreeDotsVertical />
                   </span>

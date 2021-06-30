@@ -1,7 +1,13 @@
+export interface NotiUserType {
+  _id: string;
+  username: string;
+  profile_photo: string;
+}
+
 export interface NotificationType {
   _id: string;
   notificationMessage: string;
-  user: string;
+  user: NotiUserType;
   post?: string;
   actionBy?: string;
   createdAt: Date;

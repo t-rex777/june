@@ -48,7 +48,7 @@ const Dashboard: React.FC<Props> = () => {
               </span>
               <div className="flex justify-center  w-1/2 ">
                 <button
-                  className=" text-purple-500 font-bold w-full text-sm p-1 mt-3 rounded-lg hover:bg-purple-100 border-2 border-purple-400"
+                  className=" text-gray-500 font-bold w-full text-sm p-1 mt-3 rounded-lg hover:bg-gray-300 border-2 border-gray-400"
                   onClick={() => {
                     setEditModal(true);
                   }}
@@ -58,7 +58,7 @@ const Dashboard: React.FC<Props> = () => {
               </div>
             </div>
           </div>
-          <hr style={{ border: "solid 1px #C4B5FD", marginTop: "1rem" }} />
+          <hr style={{ border: "solid 1px gray", marginTop: "1rem" }} />
           <div className="flex justify-center my-5 p-4">
             {user?.posts ? <Posts userDetails={user} /> : <NoPosts />}
           </div>

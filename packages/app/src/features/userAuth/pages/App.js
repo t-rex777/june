@@ -104,7 +104,7 @@ function App() {
                           crop="fill"
                           radius="max"
                         />
-                        <p>{post.user.username}</p>
+                        <p className="ml-2">{post.user.username}</p>
                       </span>
                     </div>
                     <span className="">
@@ -189,11 +189,11 @@ function App() {
                           crop="fill"
                           radius="max"
                         />
-                        <p className="mt-1">{person.username}</p>
+                        <p className="mt-1 ml-2">{person.username}</p>
                       </div>
 
                       <button
-                        className="bg-purple-400 text-white px-2 py-1 rounded-sm "
+                        className="bg-gray-600 text-white px-2 py-1 rounded-sm "
                         onClick={() => {
                           follow(person.username);
                         }}

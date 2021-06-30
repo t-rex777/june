@@ -9,7 +9,7 @@ interface Props {}
 
 const MobileBottomNav: React.FC<Props> = () => {
   return (
-    <nav className="bg-purple-400 px-10 py-3 fixed bottom-0 w-screen z-10">
+    <nav className="bg-gray-800 px-10 py-3 fixed bottom-0 w-screen z-10">
       <ul className="flex flex-row justify-between ">
         <Link to="/">
           <li className="text-white text-xs font-semibold sm:text-lg">
@@ -21,7 +21,7 @@ const MobileBottomNav: React.FC<Props> = () => {
             <BsPlusSquareFill size={28}/>
           </li>
         </Link>
-        <Link to="/">
+        <Link to="/notifications">
           <li className="text-white text-xs font-semibold sm:text-lg">
           <AiFillNotification size={28}/>
 

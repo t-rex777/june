@@ -25,13 +25,13 @@ const NewPost: React.FC = () => {
       if (!selectedFile) return;
       const reader = new FileReader();
       reader.readAsDataURL(selectedFile);
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         const postFile = {
           caption: post.caption,
           photo: reader.result,
         };
-        dispatch(uploadPost(postFile));
-        if (postStatus === "post_uploaded") dispatch(getUserData());
+        const res = await dispatch(uploadPost(postFile));
+        if (res) dispatch(getUserData());
         setRedirect(true);
       };
     } catch (error) {

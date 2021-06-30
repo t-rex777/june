@@ -9,6 +9,7 @@ import { useAppDispatch } from "../app/hooks";
 import { signout } from "../features/userAuth/userSlice";
 import JuneLogo from "../images/June.svg";
 import styles from "./base.module.css";
+import SearchBox from "./SearchBox";
 
 interface Props {}
 
@@ -24,7 +25,7 @@ const DesktopNav: React.FC<Props> = () => {
     // console.log(e.target);
   };
   return (
-    <nav className="bg-gray-900 px-10 py-3 fixed w-screen z-10">
+    <nav className="bg-gray-800 px-10 py-3 fixed w-screen z-10">
       {shouldRedirect && <Redirect to="/signin" />}
       <ul className="flex justify-between items-center">
         <Link to="">
@@ -34,13 +35,7 @@ const DesktopNav: React.FC<Props> = () => {
         </Link>
 
         {/* Search bar */}
-        <li className="flex-grow text-white text-xs  font-semibold sm:text-lg">
-          <input
-            type="text"
-            placeholder="search your lost homie"
-            className="text-sm p-1 w-9/12 rounded-sm"
-          />
-        </li>
+       <SearchBox/>
 
         <span className="flex justify-end">
           {/* <Link to="/">

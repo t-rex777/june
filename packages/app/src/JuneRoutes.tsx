@@ -16,7 +16,7 @@ import { JuneAPI, setJuneHeader, axiosRequestError } from "./utils";
 import { getUserData, signout } from "./features/userAuth/userSlice";
 import Post from "./features/post/NewPost";
 import CommentPage from "./features/post/CommentPage";
-import NotificationPage from "./features/notification/NotificationPage";
+import NotificationPage from "./features/notification/NotificationPage.js";
 
 const rToken = localStorage.getItem("__rtoken");
 

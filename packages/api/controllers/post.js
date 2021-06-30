@@ -60,7 +60,9 @@ exports.getNotificationsById = async (req, res) => {
   try {
     const userNotifications = await Notification.find({
       user: req.userId,
-    }).sort({ updatedAt: -1 });
+    })
+    .populate({ path: "user", select: ["username", "profile_photo"] })
+    .sort({ updatedAt: -1 });
 
     res.json(userNotifications);
   } catch (error) {
