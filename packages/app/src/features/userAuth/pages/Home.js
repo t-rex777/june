@@ -13,14 +13,14 @@ import {
   getPerson,
   selectPerson,
 } from "../../person/personSlice";
-import { likePost } from "./../../post/postSlice";
-import CommentPage from "./../../post/CommentPage";
+import { likePost } from "../../post/postSlice";
+import CommentPage from "../../post/CommentPage";
 import Loader from "../../../base/Loader";
-import { fetchAllUsers } from "./../userSlice";
-import { unfollowPerson } from "./../../person/personSlice";
+import { fetchAllUsers } from "../userSlice";
+import { unfollowPerson } from "../../person/personSlice";
 import { Link } from "react-router-dom";
 
-function App() {
+function Home() {
   const { user, allUsers, junePosts, userStatus } = useAppSelector(selectUser);
   const { person, personStatus } = useAppSelector(selectPerson);
   const { postStatus } = useAppSelector(selectPost);
@@ -178,8 +178,12 @@ function App() {
             </h1>
             {allUsers &&
               // eslint-disable-next-line array-callback-return
-              allUsers.map((person) => {
-                if (person._id !== user._id && !isFollowed(person)) {
+              allUsers.map((person, index) => {
+                if (
+                  person._id !== user._id &&
+                  !isFollowed(person) &&
+                  index < 5
+                ) {
                   return (
                     <div
                       key={person._id}
@@ -220,4 +224,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

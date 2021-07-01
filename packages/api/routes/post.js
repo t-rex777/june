@@ -25,7 +25,7 @@ router
   .post("/post/upload", uploadPost)
   .post("/post/comment/:postId", commentPosts)
   .post("/post/uncomment/:postId/:commentId", unCommentPosts)
-  .patch("/post/update/caption/:postId", updateCaption) //todo:
+  .patch("/post/update/caption/:postId", updateCaption)
   .patch("/post/like/:postId", likePost)
   .patch("/post/unlike/:postId", unlikePost)
   .delete("/post/delete/:postId", deletePost)

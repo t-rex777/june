@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { modalStyle } from "../userAuth/pages/EditUser";
+import { modalStyle } from "../userAuth/components/EditUser";
 import { Image } from "cloudinary-react";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { BsFillChatFill } from "react-icons/bs";
 import { AiFillHeart, AiFillDelete } from "react-icons/ai";
-import { useAppDispatch } from "./../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { commentPost, selectPost, uncommentPost } from "./postSlice";
 import { getUserData } from "../userAuth/userSlice";
 import { getPerson, selectPerson } from "../person/personSlice";
 import { useSelector } from "react-redux";
-import { selectUser } from "./../userAuth/userSlice";
+import { selectUser } from "../userAuth/userSlice";
 import "./scrollbar.css";
 
 function CommentPage({

@@ -11,7 +11,8 @@ export interface postState {
     | "post_liked"
     | "post_unliked"
     | "post_commented"
-    | "post_uncommented";
+    | "post_uncommented"
+    | "post_caption_edited";
 }
 
 export interface postInput {
@@ -22,4 +23,9 @@ export interface postInput {
 export interface CommentType {
   postId : String;
   comment: String;
+}
+
+export interface EditCaptionType {
+  postId : string;
+  caption : string;
 }

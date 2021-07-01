@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { JuneAPI } from "../../utils";
 import { axiosRequestError } from "../../utils";
-import { CommentType, postState } from "./postTypes";
+import { CommentType, EditCaptionType, postState } from "./postTypes";
 
 const initialState: postState = {
   posts: null,
@@ -88,6 +88,23 @@ export const uncommentPost = createAsyncThunk(
   }
 );
 
+export const editCaption = createAsyncThunk(
+  "post/editcaption",
+  async (editedCaption: EditCaptionType) => {
+    try {
+      const response = await JuneAPI.patch(
+        `/post/update/caption/${editedCaption.postId}`,
+        {
+          editedCaption,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      axiosRequestError(error);
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: "newPost",
   initialState,
@@ -130,6 +147,12 @@ export const userSlice = createSlice({
       })
       .addCase(uncommentPost.fulfilled, (state) => {
         state.postStatus = "post_uncommented";
+      })
+      .addCase(editCaption.pending, (state) => {
+        state.postStatus = "posts_loading";
+      })
+      .addCase(editCaption.fulfilled, (state) => {
+        state.postStatus = "post_caption_edited";
       });
   },
 });

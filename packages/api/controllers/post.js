@@ -61,9 +61,9 @@ exports.getNotificationsById = async (req, res) => {
     const userNotifications = await Notification.find({
       user: req.userId,
     })
-    .populate({ path: "user", select: ["username", "profile_photo"] })
-    .populate({ path: "actionBy", select: ["username", "profile_photo"] })
-    .sort({ updatedAt: -1 });
+      .populate({ path: "user", select: ["username", "profile_photo"] })
+      .populate({ path: "actionBy", select: ["username", "profile_photo"] })
+      .sort({ updatedAt: 1 });
 
     res.json(userNotifications);
   } catch (error) {
@@ -106,12 +106,13 @@ exports.uploadPost = async (req, res) => {
 
 // update posts
 exports.updateCaption = async (req, res) => {
-  //todo
   try {
     let post = req.post;
-    // let changedCaption = req.body.caption;
-    post = extend(post, req.body);
-    await post.save();
+    let changedCaption = req.body.editedCaption;
+
+    post = extend(post,changedCaption);
+    const savedPost = await post.save();
+    console.log(savedPost);
     res.json(post);
   } catch (error) {
     res.status(400).json({

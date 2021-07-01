@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../userSlice";
 import Posts from "./../components/Posts.js";
 import NoPosts from "./../components/NoPosts";
-import EditUser from "./EditUser";
+import EditUser from "../components/EditUser";
 import ProfilePic from "./../components/ProfilePic";
 import Loader from "../../../base/Loader";
 

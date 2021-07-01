@@ -9,7 +9,8 @@ import { useSelector } from "react-redux";
 import { getUserData, selectUser } from "./../userSlice";
 import Loader from "../../../base/Loader";
 import { getPerson, selectPerson } from "../../person/personSlice";
-import CommentPage from "./../../post/CommentPage";
+import CommentPage from "../../post/CommentPage";
+import PostEdit from "./PostEdit";
 
 const Posts = ({ userDetails }) => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,9 @@ const Posts = ({ userDetails }) => {
   const { postStatus } = useSelector(selectPost);
 
   const [commentModal, setCommentModal] = useState(false);
+  const [editCaptionModal, setCaptionModal] = useState(false);
   const [commentPost, setCommentPost] = useState("");
+  const [selectEditPost, setEditPost] = useState("");
 
   const isLiked = (post) => {
     return post.likes.includes(user._id);
@@ -54,7 +57,7 @@ const Posts = ({ userDetails }) => {
               <div className="m-3 py-2 px-4 border-2 rounded-md" key={post._id}>
                 <div className="flex justify-between mb-2">
                   <span className="flex">
-                  <Image
+                    <Image
                       cloudName="june-social"
                       publicId={userDetails.profile_photo}
                       width="30"
@@ -63,14 +66,19 @@ const Posts = ({ userDetails }) => {
                       crop="fill"
                       radius="max"
                     />
-                  <p className="mt-1 ml-2">{userDetails.username}</p>
+                    <p className="mt-1 ml-2">{userDetails.username}</p>
                   </span>
-                  <span className="cursor-pointer my-2 ">
+                  <span
+                    className="cursor-pointer my-2 "
+                    onClick={() => {
+                      setCaptionModal(true);
+                      setEditPost(post._id);
+                    }}
+                  >
                     <BsThreeDotsVertical />
                   </span>
                 </div>
                 <span className="hover:filter brightness-75">
-                  <span>{/* <PostEdit/> */}</span>
                   {/*todo: hover and change brightness*/}
                   <Image
                     cloudName="june-social"
@@ -116,6 +124,11 @@ const Posts = ({ userDetails }) => {
               </div>
             ))}
           <>
+            {editCaptionModal && (
+              <span>
+                <PostEdit postId={selectEditPost} setCaptionModal={setCaptionModal} />
+              </span>
+            )}
             {commentModal && (
               <CommentPage
                 setCommentModal={setCommentModal}

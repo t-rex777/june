@@ -6,7 +6,7 @@ import {
   Route,
   RouteComponentProps,
 } from "react-router-dom";
-import App from "./features/userAuth/pages/App.js";
+import Home from "./features/userAuth/pages/Home.js";
 import Signin from "./features/userAuth/pages/Signin";
 import Signup from "./features/userAuth/pages/Signup";
 import Dashboard from "./features/userAuth/pages/Dashboard";
@@ -17,7 +17,6 @@ import { getUserData, signout } from "./features/userAuth/userSlice";
 import Post from "./features/post/NewPost";
 import CommentPage from "./features/post/CommentPage";
 import NotificationPage from "./features/notification/NotificationPage.js";
-import Loader from "./base/Loader";
 
 interface PrivateProps {
   path: string;
@@ -77,14 +76,14 @@ const JuneRoutes: React.FC = () => {
         }, 840000);
       })();
     }
-  }, [dispatch]);
+  }, [dispatch, rToken]);
 
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/signin" exact component={Signin} />
         <Route path="/signup" exact component={Signup} />
-        <PrivateRoute path="/" exact component={App} />
+        <PrivateRoute path="/" exact component={Home} />
         <PrivateRoute path="/user/dashboard" exact component={Dashboard} />
         <PrivateRoute
           path="/person/:personUsername"

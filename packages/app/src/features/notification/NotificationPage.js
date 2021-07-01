@@ -4,11 +4,9 @@ import Base from "../../base/Base";
 import { fetchNotifications, selectNotification } from "./notificationSlice";
 import { useAppDispatch } from "../../app/hooks";
 import Loader from "../../base/Loader";
-import { selectUser } from "../userAuth/userSlice";
 import { Image } from "cloudinary-react";
 
 const NotificationPage = () => {
-  const { userStatus } = useAppSelector(selectUser);
   const { notification, notificationStatus } =
     useAppSelector(selectNotification);
   const dispatch = useAppDispatch();
