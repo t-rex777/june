@@ -72,7 +72,7 @@ const Signup: React.FC = () => {
           className="p-1 mb-3 rounded-md w-full"
         />
         <input
-          type="text"
+          type="password"
           name="password"
           placeholder="password"
           value={userData.password}

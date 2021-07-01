@@ -8,8 +8,8 @@ import Base from "../../../base/Base";
 const Signin: React.FC = () => {
   const dispatch = useAppDispatch();
   const [userData, setUserData] = useState<SigninUser>({
-    username: "i_am_meanish",
-    password: "admin@123456789",
+    username: "",
+    password: "",
   });
   const [shouldRedirect, setRedirect] = useState<Boolean>(false);
   
@@ -52,7 +52,7 @@ const Signin: React.FC = () => {
         />
         <br />
         <input
-          type="text"
+          type="password"
           name="password"
           placeholder="password"
           value={userData.password}
