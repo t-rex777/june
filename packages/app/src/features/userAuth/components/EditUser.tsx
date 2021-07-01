@@ -70,7 +70,7 @@ const EditUser: React.FC<EditUserType> = ({ setEditModal }) => {
     const filteredData = diffMatcher(userData, prevData);
     console.log(filteredData);
     if (filteredData !== null) {
-      const res = await dispatch(updateUser(filteredData)); //todo: fix the response
+      const res = await dispatch(updateUser(filteredData));
       cancelModal();
       console.log(res);
     }

@@ -31,13 +31,17 @@ function Home() {
   const [userForModal, setUserForModal] = useState("");
 
   useEffect(() => {
-    if (userStatus === "fetched_userdata" || userStatus === "signed_in") {
+    if (
+      userStatus === "fetched_userdata" ||
+      userStatus === "signed_in" ||
+      postStatus === "post_uploaded"
+    ) {
       dispatch(fetchAllUsers());
     }
     if (userStatus === "fetched_allusers") {
       dispatch(fetchJunePosts());
     }
-  }, [dispatch, userStatus]);
+  }, [dispatch, postStatus, userStatus]);
 
   const isLiked = (post) => post.likes.includes(user._id);
 
@@ -166,7 +170,7 @@ function Home() {
                 <CommentPage
                   setCommentModal={setCommentModal}
                   post={commentPost}
-                  userDetails={userForModal}
+                  personDetails={userForModal}
                   isLiked={isLiked}
                   likeUnlikePost={likeUnlikePost}
                 />

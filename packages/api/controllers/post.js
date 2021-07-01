@@ -46,8 +46,8 @@ exports.getJunePosts = async (req, res) => {
     const junePosts = await Post.find()
       .populate("comments")
       .populate({ path: "user", select: ["username", "profile_photo"] })
-      .sort({ updatedAt: -1 })
-      .limit(6);
+      .sort({ updatedAt: 1 }) //todo
+      .limit(8); 
     res.json(junePosts);
   } catch (error) {
     res.status(400).json({

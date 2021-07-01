@@ -15,9 +15,8 @@ export interface postState {
     | "post_caption_edited";
 }
 
-export interface postInput {
+export interface PostInput {
   caption: string | number | readonly string[] | undefined;
-  photo: string | number | readonly string[] | undefined;
 }
 
 export interface CommentType {

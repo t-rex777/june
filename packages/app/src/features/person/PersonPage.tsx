@@ -15,20 +15,26 @@ import { useParams } from "react-router-dom";
 import { paramsType } from "./personTypes";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
 import Loader from "../../base/Loader";
+import { selectPost } from "./../post/postSlice";
 
 const Dashboard: React.FC = () => {
   const { personUsername } = useParams<paramsType>();
   const { person, personStatus } = useSelector(selectPerson);
   const { user, userStatus } = useSelector(selectUser);
+  const { postStatus } = useSelector(selectPost);
   const dispatch = useAppDispatch();
 
   const [isFollowing, setIsFollowings] = useState(false);
 
   useEffect(() => {
-    if (personStatus === "idle" || userStatus === "fetched_userdata") {
+    if (
+      personStatus === "idle" ||
+      userStatus === "fetched_userdata" ||
+      postStatus === "post_uploaded"
+    ) {
       dispatch(getPerson(personUsername));
     }
-  }, [dispatch, personUsername, personStatus, userStatus]);
+  }, [dispatch, personUsername, personStatus, userStatus, postStatus]);
 
   useEffect(() => {
     user &&
@@ -105,9 +111,13 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
           </div>
-          <hr style={{ border: "solid 1px #C4B5FD", marginTop: "1rem" }} />
+          <hr style={{ border: "solid 1px gray", marginTop: "1rem" }} />
           <div className="flex justify-center my-5 p-4">
-            {person?.posts ? <Posts personDetails={person} /> : <NoPosts />}
+            {person?.posts.length > 0 ? (
+              <Posts personDetails={person} />
+            ) : (
+              <NoPosts />
+            )}
           </div>
         </>
       ) : (

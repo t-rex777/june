@@ -5,16 +5,24 @@ import { fetchNotifications, selectNotification } from "./notificationSlice";
 import { useAppDispatch } from "../../app/hooks";
 import Loader from "../../base/Loader";
 import { Image } from "cloudinary-react";
+import { selectUser } from "./../userAuth/userSlice";
+import { selectPost } from "../post/postSlice";
 
 const NotificationPage = () => {
+  const { userStatus } = useAppSelector(selectUser);
+  const { postStatus } = useAppSelector(selectPost);
   const { notification, notificationStatus } =
     useAppSelector(selectNotification);
   const dispatch = useAppDispatch();
   useEffect(() => {
-   
+    if (
+      userStatus === "fetched_userdata" ||
+      userStatus === "fetched_juneposts" ||
+      userStatus === "fetched_allusers" ||
+      postStatus === "post_uploaded"
+    )
       dispatch(fetchNotifications());
- 
-  }, [dispatch]);
+  }, [dispatch, postStatus, userStatus]);
   return (
     <Base className="flex flex-col justify-center items-center">
       {notificationStatus !== "loading" ? (
@@ -28,15 +36,18 @@ const NotificationPage = () => {
                   className="border-2 border-gray-400 px-3 py-2 my-2 rounded"
                 >
                   <span className="flex">
-                    <Image
-                      cloudName="june-social"
-                      publicId={item.actionBy.profile_photo}
-                      width="30"
-                      height="30"
-                      responsiveUseBreakpoints="true"
-                      crop="fill"
-                      radius="max"
-                    />
+                    {item.actionBy && (
+                      <Image
+                        cloudName="june-social"
+                        publicId={item.actionBy.profile_photo}
+                        width="30"
+                        height="30"
+                        responsiveUseBreakpoints="true"
+                        crop="fill"
+                        radius="max"
+                      />
+                    )}
+
                     <p className="mt-1 ml-2">{item.notificationMessage}</p>
                   </span>
                 </li>

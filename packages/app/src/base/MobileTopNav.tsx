@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { TiMessages } from "react-icons/ti";
 import JuneLogo from "../images/June.svg";
 import SearchBox from "./SearchBox";
 
@@ -17,13 +16,6 @@ const MobileTopNav: React.FC<Props> = () => {
         </Link>
         
         <SearchBox />
-
-        {/* <Link to="/">
-          <li className="text-white text-xs font-semibold sm:text-lg">
-          <TiMessages size={28}/>
-
-          </li>
-        </Link> */}
       </ul>
     </nav>
   );

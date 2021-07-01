@@ -5,7 +5,7 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { BsFillChatFill } from "react-icons/bs";
 import { AiFillHeart, AiFillDelete } from "react-icons/ai";
 import { useAppDispatch } from "../../app/hooks";
-import { commentPost, selectPost, uncommentPost } from "./postSlice";
+import { commentPost, uncommentPost } from "./postSlice";
 import { getUserData } from "../userAuth/userSlice";
 import { getPerson, selectPerson } from "../person/personSlice";
 import { useSelector } from "react-redux";
@@ -14,7 +14,7 @@ import "./scrollbar.css";
 
 function CommentPage({
   post,
-  userDetails,
+  personDetails,
   setCommentModal,
   isLiked,
   likeUnlikePost,
@@ -35,7 +35,7 @@ function CommentPage({
     try {
       const res = await dispatch(commentPost(userComment));
       if (res) {
-        const userData = dispatch(getUserData());
+        const userData = await dispatch(getUserData());
         if (userData && person) {
           dispatch(getPerson(person.username));
           setUserComment("");
@@ -49,7 +49,7 @@ function CommentPage({
     try {
       const res = await dispatch(uncommentPost(postId, commentId));
       if (res) {
-        const userData = dispatch(getUserData());
+        const userData = await dispatch(getUserData());
         if (userData && person) await dispatch(getPerson(person.username));
       }
     } catch (error) {
@@ -87,7 +87,7 @@ function CommentPage({
       className="comment-modal flex flex-col justify-center items-center"
       style={modalStyle}
     >
-      <div className="bg-white h-max flex flex-col items-center w-max p-5 rounded-lg z-20 sm:flex-row  sm:p-10">
+      <div className="bg-white h-3/4 flex flex-col items-center w-max p-5 rounded-lg z-20 sm:flex-row  sm:p-10">
         <div className="">
           <Image
             cloudName="june-social"
@@ -99,9 +99,23 @@ function CommentPage({
           />
         </div>
         <div className="flex flex-col ml-5">
-          <p className="mb-3 text-center">{userDetails.username}</p>
+          <div className="flex mt-3 ">
+            <span>
+            <Image
+              cloudName="june-social"
+              publicId={personDetails.profile_photo}
+              width="30"
+              height="30"
+              responsiveUseBreakpoints="true"
+              crop="fill"
+              radius="max"
+            />
+            </span>
+            
+            <p className="mb-3 ml-2 mt-1">{personDetails.username}</p>
+          </div>
           <hr />
-          <ul className="h-44 overflow-auto	scrollbar" id="style-2">
+          <ul className="h-28 overflow-auto	scrollbar sm:h-44" id="style-2">
             {post.comments.map((item) => (
               <li className="flex justify-between my-2" key={item._id}>
                 {item.comment}

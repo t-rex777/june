@@ -75,13 +75,6 @@ const Signin: React.FC = () => {
           Sign Up
         </Link>
       </p>
-      {/* <button
-        onClick={() => {
-          dispatch(signout());
-        }}
-      >
-        Sign Out
-      </button> */}
        {shouldRedirect && <Redirect to="/user/dashboard" />}
     </Base>
   );

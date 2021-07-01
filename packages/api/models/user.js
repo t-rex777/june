@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
     },
     profile_photo: {
       type: String,
-      default: "june_gallary/user_vaa6tw",
+      default: "june_gallary/user_qd3fb7",
     },
     likedPosts: [
       {
