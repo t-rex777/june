@@ -112,7 +112,6 @@ exports.updateCaption = async (req, res) => {
 
     post = extend(post,changedCaption);
     const savedPost = await post.save();
-    console.log(savedPost);
     res.json(post);
   } catch (error) {
     res.status(400).json({

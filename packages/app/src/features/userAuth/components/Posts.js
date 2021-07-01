@@ -12,7 +12,7 @@ import { getPerson, selectPerson } from "../../person/personSlice";
 import CommentPage from "../../post/CommentPage";
 import PostEdit from "./PostEdit";
 
-const Posts = ({ userDetails }) => {
+const Posts = ({ personDetails }) => {
   const dispatch = useAppDispatch();
   const { user } = useSelector(selectUser);
   const { person } = useSelector(selectPerson);
@@ -52,21 +52,21 @@ const Posts = ({ userDetails }) => {
     <>
       {postStatus !== "posts_loading" ? (
         <div className="flex flex-wrap justify-center">
-          {userDetails.posts &&
-            userDetails.posts.map((post) => (
+          {personDetails.posts &&
+            personDetails.posts.map((post) => (
               <div className="m-3 py-2 px-4 border-2 rounded-md" key={post._id}>
                 <div className="flex justify-between mb-2">
                   <span className="flex">
                     <Image
                       cloudName="june-social"
-                      publicId={userDetails.profile_photo}
+                      publicId={personDetails.profile_photo}
                       width="30"
                       height="30"
                       responsiveUseBreakpoints="true"
                       crop="fill"
                       radius="max"
                     />
-                    <p className="mt-1 ml-2">{userDetails.username}</p>
+                    <p className="mt-1 ml-2">{personDetails.username}</p>
                   </span>
                   <span
                     className="cursor-pointer my-2 "
@@ -124,7 +124,7 @@ const Posts = ({ userDetails }) => {
               </div>
             ))}
           <>
-            {editCaptionModal && (
+            {editCaptionModal && personDetails._id === user._id && (
               <span>
                 <PostEdit postId={selectEditPost} setCaptionModal={setCaptionModal} />
               </span>
@@ -133,7 +133,7 @@ const Posts = ({ userDetails }) => {
               <CommentPage
                 setCommentModal={setCommentModal}
                 post={commentPost}
-                userDetails={userDetails}
+                personDetails={personDetails}
                 isLiked={isLiked}
                 likeUnlikePost={likeUnlikePost}
               />

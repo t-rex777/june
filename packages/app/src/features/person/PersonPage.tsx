@@ -107,7 +107,7 @@ const Dashboard: React.FC = () => {
           </div>
           <hr style={{ border: "solid 1px #C4B5FD", marginTop: "1rem" }} />
           <div className="flex justify-center my-5 p-4">
-            {person?.posts ? <Posts userDetails={person} /> : <NoPosts />}
+            {person?.posts ? <Posts personDetails={person} /> : <NoPosts />}
           </div>
         </>
       ) : (
