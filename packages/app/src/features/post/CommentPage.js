@@ -87,7 +87,7 @@ function CommentPage({
       className="comment-modal flex flex-col justify-center items-center"
       style={modalStyle}
     >
-      <div className="bg-white h-3/4 flex flex-col items-center w-max p-5 rounded-lg z-20 sm:flex-row  sm:p-10">
+      <div className="overflow-y-auto bg-white h-3/4 flex flex-col items-center w-max p-5 rounded-lg z-20 sm:flex-row  sm:p-10">
         <div className="">
           <Image
             cloudName="june-social"
@@ -115,7 +115,7 @@ function CommentPage({
             <p className="mb-3 ml-2 mt-1">{personDetails.username}</p>
           </div>
           <hr />
-          <ul className="h-28 overflow-auto	scrollbar sm:h-44" id="style-2">
+          <ul className=" overflow-auto	scrollbar sm:h-44" id="style-2" style={{maxHeight:"200px"}}>
             {post.comments.map((item) => (
               <li className="flex justify-between my-2" key={item._id}>
                 {item.comment}

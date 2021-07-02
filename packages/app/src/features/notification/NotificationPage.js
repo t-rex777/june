@@ -9,7 +9,7 @@ import { selectUser } from "./../userAuth/userSlice";
 import { selectPost } from "../post/postSlice";
 
 const NotificationPage = () => {
-  const { userStatus } = useAppSelector(selectUser);
+  const { user, userStatus } = useAppSelector(selectUser);
   const { postStatus } = useAppSelector(selectPost);
   const { notification, notificationStatus } =
     useAppSelector(selectNotification);
@@ -25,7 +25,7 @@ const NotificationPage = () => {
   }, [dispatch, postStatus, userStatus]);
   return (
     <Base className="flex flex-col justify-center items-center">
-      {notificationStatus !== "loading" ? (
+      {notificationStatus !== "loading" && user ? (
         <div>
           <h1 className="text-2xl text-center font-bold">User Notifications</h1>
           <ul>

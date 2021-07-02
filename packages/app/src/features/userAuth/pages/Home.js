@@ -86,7 +86,9 @@ function Home() {
   };
   return (
     <Base className="flex flex-col justify-center ">
-      {postStatus === "posts_loading" ||
+      {
+      !user ||
+      postStatus === "posts_loading" ||
       userStatus === "loading" ||
       userStatus === "signed_out" ||
       personStatus === "loading" ? (

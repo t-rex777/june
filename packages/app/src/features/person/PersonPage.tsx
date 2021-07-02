@@ -29,12 +29,15 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     if (
       personStatus === "idle" ||
+      personStatus === "fetched_persondata" ||
       userStatus === "fetched_userdata" ||
+      userStatus === "fetched_juneposts" ||
       postStatus === "post_uploaded"
     ) {
       dispatch(getPerson(personUsername));
     }
-  }, [dispatch, personUsername, personStatus, userStatus, postStatus]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     user &&
@@ -65,7 +68,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Base className="">
-      {person && personStatus !== "loading" && userStatus !== "loading" ? (
+      {user && person && personStatus !== "loading" && userStatus !== "loading" ? (
         <>
           <div className="flex justify-center my-2  ">
             <span className="self-center w-20 mr-4 sm:w-32 md:w-40">
