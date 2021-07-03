@@ -100,7 +100,7 @@ exports.getUser = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find().sort({_id : -1});
     res.json(users);
   } catch (error) {
     res.status(400).json({
