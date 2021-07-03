@@ -17,7 +17,6 @@ import { getUserData, signout } from "./features/userAuth/userSlice";
 import Post from "./features/post/NewPost";
 import CommentPage from "./features/post/CommentPage";
 import NotificationPage from "./features/notification/NotificationPage.js";
-import Home from './Home';
 
 interface PrivateProps {
   path: string;
@@ -82,10 +81,9 @@ const JuneRoutes: React.FC = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact component={Home} />
         <Route path="/signin" exact component={Signin} />
         <Route path="/signup" exact component={Signup} />
-        <PrivateRoute path="/feed" exact component={Feed} />
+        <PrivateRoute path="/" exact component={Feed} />
         <PrivateRoute path="/user/dashboard" exact component={Dashboard} />
         <PrivateRoute
           path="/person/:personUsername"

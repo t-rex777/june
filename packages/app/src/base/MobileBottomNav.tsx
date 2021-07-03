@@ -36,7 +36,7 @@ const MobileBottomNav: React.FC<Props> = () => {
       {shouldRedirect && <Redirect to="/signin" />}
       <nav className="bg-gray-800 px-10 py-3 fixed bottom-0 w-screen z-10">
         <ul className="flex flex-row justify-between ">
-          <Link to="/feed">
+          <Link to="/">
             <li className="text-white text-xs font-semibold sm:text-lg">
               <AiFillHome size={28} />
             </li>

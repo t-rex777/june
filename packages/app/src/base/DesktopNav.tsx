@@ -36,7 +36,7 @@ const DesktopNav: React.FC<Props> = () => {
       {shouldRedirect && <Redirect to="/signin" />}
       <nav className="bg-gray-800 px-10 py-3 fixed w-screen z-10">
         <ul className="flex justify-between items-center">
-          <Link to="/feed">
+          <Link to="/">
             <li className="mr-10 ">
               <img src={JuneLogo} alt="june" className="h-10" />
             </li>
