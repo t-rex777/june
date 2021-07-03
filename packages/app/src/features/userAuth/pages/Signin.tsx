@@ -3,7 +3,6 @@ import { Link, Redirect } from "react-router-dom";
 import { SigninUser } from "../userTypes";
 import { useAppDispatch } from "../../../app/hooks";
 import { signout, userSignin } from "../userSlice";
-import Base from "../../../base/Base";
 
 const Signin: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +32,7 @@ const Signin: React.FC = () => {
     }
   };
   return (
-    <Base className="flex flex-col items-center	 pt-20">
+    <div className="flex flex-col items-center	 pt-20">
      {shouldRedirect && <Redirect to="/user/dashboard" />}
       <h1 className="text-center text-4xl mb-5 text-purple-800 font-bold">
         Sign In
@@ -76,7 +75,7 @@ const Signin: React.FC = () => {
         </Link>
       </p>
        {shouldRedirect && <Redirect to="/user/dashboard" />}
-    </Base>
+    </div>
   );
 };
 

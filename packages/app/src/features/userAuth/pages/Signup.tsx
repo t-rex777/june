@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Base from "../../../base/Base";
 import { Link, Redirect } from "react-router-dom";
 import { SignupUser } from "../userTypes";
 import { useAppDispatch } from "../../../app/hooks";
@@ -38,7 +37,7 @@ const Signup: React.FC = () => {
     }
   };
   return (
-    <Base className="flex flex-col items-center	 pt-16 pb-16">
+    <div className="flex flex-col items-center	 pt-16 pb-16">
       {shouldRedirect && <Redirect to="/signin" />}
       <h1 className="text-center text-4xl mb-5 text-purple-800 font-bold">
         Sign Up
@@ -101,7 +100,7 @@ const Signup: React.FC = () => {
           Sign In
         </Link>
       </p>
-    </Base>
+    </div>
   );
 };
 

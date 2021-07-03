@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import Cross from "../../../images/cross.svg";
 import { selectUser, setProfilePhoto, updateUser } from "../userSlice";
-import { getUserData } from "./../userSlice";
 
 interface UserProps {
   [index: string]: string; //todo:read more about indexing ts
