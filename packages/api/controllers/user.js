@@ -2,6 +2,8 @@ const User = require("../models/user");
 const Notification = require("../models/notification");
 const jwt = require("jsonwebtoken");
 const { extend } = require("lodash");
+const { cloudinary } = require("../utils/cloudinary");
+
 
 // middleware
 exports.isAuthenticatedToken = (req, res, next) => {
@@ -40,7 +42,13 @@ exports.getPersonByUserName = async (req, res, next, personUsername) => {
 
 exports.getPerson = async (req, res) => {
   try {
-    const person = await User.findById(req.personId).populate("posts");
+    const person = await User.findById(req.personId).populate({
+      path: "posts",
+      populate: {
+        path: "comments.commentedBy",
+        select: ["username", "profile_photo"],
+      },
+    });
     return res.json(person);
   } catch (error) {
     res.status(400).json({
@@ -52,7 +60,14 @@ exports.getPerson = async (req, res) => {
 // read
 exports.getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).populate("posts");
+    const user = await User.findById(req.userId).populate({
+      path: "posts",
+      populate: {
+        path: "comments.commentedBy",
+        select: ["username", "profile_photo"],
+      },
+    });
+
     const {
       _id,
       name,
@@ -249,6 +264,23 @@ exports.updateUser = async (req, res) => {
       }
       res.send(updatedUser);
     });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
+exports.setUserProfilePhoto = async (req, res) => {
+  try {
+    let user = await User.findById(req.userId).populate("posts");
+    const fileStr = req.body.photo;
+    const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+      upload_preset: "june_gallary",
+    });
+    user.profile_photo = uploadResponse.public_id;
+    const savedUser = await user.save();
+    res.json(savedUser);
   } catch (error) {
     res.status(400).json({
       message: error.message,

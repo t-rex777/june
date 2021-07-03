@@ -46,8 +46,12 @@ exports.getJunePosts = async (req, res) => {
     const junePosts = await Post.find()
       .populate("comments")
       .populate({ path: "user", select: ["username", "profile_photo"] })
-      .sort({ updatedAt: 1 }) //todo
-      .limit(8); 
+      .populate({
+        path: "comments.commentedBy",
+        select: ["username", "profile_photo"],
+      })
+      .sort({ _id: -1 })
+      .limit(8);
     res.json(junePosts);
   } catch (error) {
     res.status(400).json({
@@ -63,7 +67,7 @@ exports.getNotificationsById = async (req, res) => {
     })
       .populate({ path: "user", select: ["username", "profile_photo"] })
       .populate({ path: "actionBy", select: ["username", "profile_photo"] })
-      .sort({ updatedAt: 1 });
+      .sort({ _id: -1 });
 
     res.json(userNotifications);
   } catch (error) {
@@ -110,7 +114,7 @@ exports.updateCaption = async (req, res) => {
     let post = req.post;
     let changedCaption = req.body.editedCaption;
 
-    post = extend(post,changedCaption);
+    post = extend(post, changedCaption);
     const savedPost = await post.save();
     res.json(post);
   } catch (error) {

@@ -13,11 +13,12 @@ const {
   getPersonByUserName,
   updatePersonFollowers,
   UnfollowPerson,
-  getAllUsers
+  getAllUsers,
+  setUserProfilePhoto,
 } = require("../controllers/user");
 
 // middlewware
-router.param("personUsername",getPersonByUserName);
+router.param("personUsername", getPersonByUserName);
 
 router
   .post("/signin", signin)
@@ -26,13 +27,15 @@ router
 
 router
   .use(isAuthenticatedToken)
-  .get("/person/:personUsername",getPerson)
+  .get("/person/:personUsername", getPerson)
   .get("/user", getUser)
   .get("/allusers", getAllUsers)
   .post("/user/update", updateUser)
-  .delete("/user/delete", deleteUser)
+  .post("/user/update/profilephoto", setUserProfilePhoto)
 
-  .patch("/person/:personUsername/updateFollowers",updatePersonFollowers)
-  .patch("/person/:personUsername/unfollow",UnfollowPerson)
+  .patch("/person/:personUsername/updateFollowers", updatePersonFollowers)
+  .patch("/person/:personUsername/unfollow", UnfollowPerson)
 
+  .delete("/user/delete", deleteUser);
+  
 module.exports = router;

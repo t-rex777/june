@@ -51,6 +51,20 @@ export const getUserData = createAsyncThunk("user/data", async () => {
   }
 });
 
+export const setProfilePhoto = createAsyncThunk(
+  "user/profilephoto",
+  async (profilePhoto: any) => {
+    try {
+      const response = await JuneAPI.post("/user/update/profilephoto", {
+        ...profilePhoto,
+      });
+      return response.data;
+    } catch (error) {
+      axiosRequestError(error);
+    }
+  }
+);
+
 export const updateUser = createAsyncThunk(
   "user/update",
   async (userData: UpdateUserType) => {
@@ -121,6 +135,15 @@ export const userSlice = createSlice({
         state.user = action.payload;
         state.userStatus = "updated_user";
       })
+
+      .addCase(setProfilePhoto.pending, (state) => {
+        state.userStatus = "loading";
+      })
+      .addCase(setProfilePhoto.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.userStatus = "updated_user_profilephoto";
+      })
+
       .addCase(fetchJunePosts.pending, (state) => {
         state.userStatus = "loading";
       })

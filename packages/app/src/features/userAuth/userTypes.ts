@@ -51,5 +51,6 @@ export interface UserState {
     | "updated_user"
     | "fetched_juneposts"
     | "fetched_allusers"
+    | "updated_user_profilephoto"
     | "failed";
 }

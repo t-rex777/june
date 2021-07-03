@@ -11,6 +11,7 @@ import { getPerson, selectPerson } from "../person/personSlice";
 import { useSelector } from "react-redux";
 import { selectUser } from "../userAuth/userSlice";
 import "./scrollbar.css";
+import { Link } from "react-router-dom";
 
 function CommentPage({
   post,
@@ -101,24 +102,47 @@ function CommentPage({
         <div className="flex flex-col ml-5">
           <div className="flex mt-3 ">
             <span>
-            <Image
-              cloudName="june-social"
-              publicId={personDetails.profile_photo}
-              width="30"
-              height="30"
-              responsiveUseBreakpoints="true"
-              crop="fill"
-              radius="max"
-            />
+              <Image
+                cloudName="june-social"
+                publicId={personDetails.profile_photo}
+                width="30"
+                height="30"
+                responsiveUseBreakpoints="true"
+                crop="fill"
+                radius="max"
+              />
             </span>
-            
+
             <p className="mb-3 ml-2 mt-1">{personDetails.username}</p>
           </div>
           <hr />
-          <ul className=" overflow-auto	scrollbar sm:h-44" id="style-2" style={{maxHeight:"200px"}}>
+          <ul
+            className=" overflow-auto	scrollbar sm:h-44"
+            id="style-2"
+            style={{ maxHeight: "200px" }}
+          >
             {post.comments.map((item) => (
               <li className="flex justify-between my-2" key={item._id}>
-                {item.comment}
+                <span className="flex justify-between">
+                  <Link
+                    to={`/person/${item.commentedBy.username}`}
+                    className="flex"
+                  >
+                    <Image
+                      cloudName="june-social"
+                      publicId={item.commentedBy.profile_photo}
+                      width="30"
+                      height="30"
+                      responsiveUseBreakpoints="true"
+                      crop="fill"
+                      radius="max"
+                    />
+                    <p className="mt-1 ml-1 font-bold">
+                      {item.commentedBy.username}
+                    </p>
+                  </Link>
+                  <p className="mt-1 ml-2">{item.comment}</p>
+                </span>
                 <span
                   className={`mt-1 cursor-pointer ${
                     item.commentedBy !== user._id && "hidden"

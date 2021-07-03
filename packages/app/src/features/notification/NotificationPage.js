@@ -36,17 +36,19 @@ const NotificationPage = () => {
                   className="border-2 border-gray-400 px-3 py-2 my-2 rounded"
                 >
                   <span className="flex">
-                    {item.actionBy && (
-                      <Image
-                        cloudName="june-social"
-                        publicId={item.actionBy.profile_photo}
-                        width="30"
-                        height="30"
-                        responsiveUseBreakpoints="true"
-                        crop="fill"
-                        radius="max"
-                      />
-                    )}
+                    <span>
+                      {item.actionBy && (
+                        <Image
+                          cloudName="june-social"
+                          publicId={item.actionBy.profile_photo}
+                          width="30"
+                          height="30"
+                          responsiveUseBreakpoints="true"
+                          crop="fill"
+                          radius="max"
+                        />
+                      )}
+                    </span>
 
                     <p className="mt-1 ml-2">{item.notificationMessage}</p>
                   </span>

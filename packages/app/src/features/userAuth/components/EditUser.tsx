@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import Cross from "../../../images/cross.svg";
-import { selectUser, updateUser } from "../userSlice";
+import { selectUser, setProfilePhoto, updateUser } from "../userSlice";
+import { getUserData } from "./../userSlice";
 
 interface UserProps {
   [index: string]: string; //todo:read more about indexing ts
@@ -28,12 +30,24 @@ const EditUser: React.FC<EditUserType> = ({ setEditModal }) => {
   const dispatch = useAppDispatch();
   const userDetails = useAppSelector(selectUser);
   const { user } = userDetails;
+
   const [userData, setUserData] = useState<UserProps>({
     email: "",
     username: "",
     name: "",
     bio: "",
   });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    user &&
+      setUserData({
+        email: user?.email,
+        username: user?.username,
+        bio: user?.bio,
+        name: user?.name,
+      });
+  }, [user]);
 
   const diffMatcher = (
     newData: Record<string, string | number | any>,
@@ -48,10 +62,9 @@ const EditUser: React.FC<EditUserType> = ({ setEditModal }) => {
     return Object.entries(diffedData).length > 0 ? diffedData : null;
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { value, name } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name, files } = e.target;
+    if (files) setSelectedFile((files as FileList)[0]);
     setUserData((prevValue) => {
       return {
         ...prevValue,
@@ -59,25 +72,46 @@ const EditUser: React.FC<EditUserType> = ({ setEditModal }) => {
       };
     });
   };
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const prevData = {
-      email: user?.email,
-      username: user?.username,
-      name: user?.name,
-      bio: user?.bio,
-    };
-    const filteredData = diffMatcher(userData, prevData);
-    console.log(filteredData);
-    if (filteredData !== null) {
-      const res = await dispatch(updateUser(filteredData));
-      cancelModal();
-      console.log(res);
-    }
-  };
   const cancelModal = () => {
     setEditModal();
   };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      // setting user details
+      const prevData = {
+        email: user?.email,
+        username: user?.username,
+        name: user?.name,
+        bio: user?.bio,
+      };
+      const filteredData = diffMatcher(userData, prevData);
+
+      if (filteredData !== null) {
+        const res = await dispatch(updateUser(filteredData));
+        !selectedFile && cancelModal();
+        console.log(res);
+      }
+      //seting profile photo
+
+      if (!selectedFile) return;
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onloadend = async () => {
+        const postFile = {
+          photo: reader.result,
+        };
+        // console.log({postFile})
+        const res = await dispatch(setProfilePhoto(postFile));
+        if (res) {
+          cancelModal();
+        }
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div
       className="flex flex-col justify-center items-center"
@@ -118,11 +152,20 @@ const EditUser: React.FC<EditUserType> = ({ setEditModal }) => {
           value={userData.email}
           className="p-1 m-1 border-2 border-purple-300"
         />
-        <textarea
+        <input
           placeholder="bio"
           onChange={handleChange}
           value={userData.bio}
           name="bio"
+          className="p-1 m-1 border-2 border-purple-300"
+        />
+        <label htmlFor="profile_photo">Edit profile photo</label>
+        <input
+          type="file"
+          id="profile_photo"
+          placeholder="profile photo"
+          name="profile_photo"
+          onChange={handleChange}
           className="p-1 m-1 border-2 border-purple-300"
         />
         <button

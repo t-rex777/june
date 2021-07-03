@@ -21,7 +21,6 @@ export const fetchPosts = createAsyncThunk("post/fetch", async () => {
 export const uploadPost = createAsyncThunk(
   "post/upload",
   async (postfile: any) => {
-    // console.log("postfile")
     try {
       const response = await JuneAPI.post("/post/upload", {
         ...postfile,
@@ -104,6 +103,8 @@ export const editCaption = createAsyncThunk(
     }
   }
 );
+
+
 
 export const userSlice = createSlice({
   name: "newPost",

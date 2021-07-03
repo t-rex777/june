@@ -79,7 +79,6 @@ const Posts = ({ personDetails }) => {
                   </span>
                 </div>
                 <span className="hover:filter brightness-75">
-                  {/*todo: hover and change brightness*/}
                   <Image
                     cloudName="june-social"
                     publicId={post.public_id}
