@@ -27,6 +27,7 @@ Live Link : https://june-social.netlify.app/
  * user suggestions
  * notifications
 
+
 ## App Sceenshot
 ![June screenshot](https://res.cloudinary.com/june-social/image/upload/v1625634566/assests/June-ss_yjqyog.png)
  
