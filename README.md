@@ -19,7 +19,7 @@ Live Link : https://june-social.netlify.app/
  
  ## Key features
  
- * User signup/signin
+ * JWT authorization
  * create posts
  * like, comment, follow and unfollow
  * Edit profile picture and user details
