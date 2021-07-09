@@ -10,8 +10,9 @@ import { getUserData } from "../userAuth/userSlice";
 import { getPerson, selectPerson } from "../person/personSlice";
 import { useSelector } from "react-redux";
 import { selectUser } from "../userAuth/userSlice";
-import "./scrollbar.css";
 import { Link } from "react-router-dom";
+import { fetchJunePosts } from "./../userAuth/userSlice";
+import "./scrollbar.css";
 
 function CommentPage({
   post,
@@ -34,25 +35,31 @@ function CommentPage({
   const submitComment = async (e) => {
     e.preventDefault();
     try {
-      const res = await dispatch(commentPost(userComment));
-      if (res) {
-        const userData = await dispatch(getUserData());
-        if (userData && person) {
-          dispatch(getPerson(person.username));
-          setUserComment("");
+       await dispatch(fetchJunePosts());
+    
+        const res = await dispatch(commentPost(userComment));
+        if (res) {
+          const userData = await dispatch(getUserData());
+          if (userData && person) {
+            dispatch(getPerson(person.username));
+            setUserComment("");
+          }
         }
-      }
+      
     } catch (error) {
       console.log(error);
     }
   };
   const deleteComment = async (postId, commentId) => {
     try {
-      const res = await dispatch(uncommentPost(postId, commentId));
-      if (res) {
-        const userData = await dispatch(getUserData());
-        if (userData && person) await dispatch(getPerson(person.username));
-      }
+      const junePosts = await dispatch(fetchJunePosts());
+      
+        const res = await dispatch(uncommentPost(postId, commentId));
+        if (res) {
+          const userData = await dispatch(getUserData());
+          if (userData && person) await dispatch(getPerson(person.username));
+        }
+      
     } catch (error) {
       console.log(error);
     }
@@ -83,6 +90,7 @@ function CommentPage({
       document.removeEventListener("click", watchClick);
     };
   }, [watchClick, watchKey]);
+
   return (
     <div
       className="comment-modal flex flex-col justify-center items-center"
@@ -100,7 +108,7 @@ function CommentPage({
           />
         </div>
         <div className="flex flex-col ml-5">
-          <div className="flex mt-3 ">
+          <Link to={`/person/${personDetails.username}`} className="flex mt-3 ">
             <span>
               <Image
                 cloudName="june-social"
@@ -113,8 +121,8 @@ function CommentPage({
               />
             </span>
 
-            <p className="mb-3 ml-2 mt-1">{personDetails.username}</p>
-          </div>
+            <p className="mb-3 ml-2 mt-1 font-bold">{personDetails.username}</p>
+          </Link>
           <hr />
           <ul
             className=" overflow-auto	scrollbar sm:h-44"
@@ -123,7 +131,7 @@ function CommentPage({
           >
             {post.comments.map((item) => (
               <li className="flex justify-between my-2" key={item._id}>
-                <span className="flex justify-between">
+                <span className="flex justify-between align-center">
                   <Link
                     to={`/person/${item.commentedBy.username}`}
                     className="flex"
@@ -144,8 +152,8 @@ function CommentPage({
                   <p className="mt-1 ml-2">{item.comment}</p>
                 </span>
                 <span
-                  className={`mt-1 cursor-pointer ${
-                    item.commentedBy !== user._id && "hidden"
+                  className={`mt-2 cursor-pointer ${
+                    item.commentedBy._id !== user._id && "hidden"
                   }`}
                   onClick={() => {
                     deleteComment(post._id, item._id);

@@ -15,8 +15,7 @@ const debounceFunc = (func, delay) => {
 };
 
 const SearchBox = () => {
-  const { allUsers, userStatus } = useSelector(selectUser);
-  const dispatch = useAppDispatch();
+  const { allUsers } = useSelector(selectUser);
 
   const [searchInput, setSearchInput] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -32,12 +31,6 @@ const SearchBox = () => {
 
     debounceFunc(search, 1000);
   };
-
-  useEffect(() => {
-    if (userStatus === "fetched_userdata") {
-      dispatch(fetchAllUsers());
-    }
-  }, [dispatch, userStatus]);
 
   return (
     <li className="relative flex-grow  text-xs  font-semibold sm:text-lg">

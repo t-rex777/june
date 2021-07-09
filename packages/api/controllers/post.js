@@ -186,11 +186,11 @@ exports.commentPosts = async (req, res) => {
     let post = req.post;
     let user = await User.findById(req.userId);
     let userComment = req.body.comment;
-    post.comments.unshift({
+    post.comments.push({
       comment: userComment,
       commentedBy: req.userId,
     });
-    user.commentedPosts.unshift(post._id);
+    user.commentedPosts.push(post._id);
 
     // adding notification
     if (post.user.toString() !== req.userId.toString()) {
