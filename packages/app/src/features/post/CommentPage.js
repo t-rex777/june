@@ -6,7 +6,6 @@ import { BsFillChatFill } from "react-icons/bs";
 import { AiFillHeart, AiFillDelete } from "react-icons/ai";
 import { useAppDispatch } from "../../app/hooks";
 import {
-  addChangedPost,
   commentPost,
   fetchJunePosts,
   selectPost,
@@ -44,7 +43,6 @@ function CommentPage({
     try {
       const res = await dispatch(commentPost(userComment));
       if (res) {
-        dispatch(addChangedPost());
         const userData = await dispatch(getUserData());
         if (userData && person) {
           dispatch(getPerson(person.username));
@@ -59,7 +57,6 @@ function CommentPage({
     try {
       const res = await dispatch(uncommentPost(postId, commentId));
       if (res) {
-        dispatch(addChangedPost());
         const userData = await dispatch(getUserData());
         if (userData && person) await dispatch(getPerson(person.username));
       }

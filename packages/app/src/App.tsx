@@ -17,6 +17,7 @@ import { getUserData, signout } from "./features/userAuth/userSlice";
 import Post from "./features/post/NewPost";
 import CommentPage from "./features/post/CommentPage";
 import NotificationPage from "./features/notification/NotificationPage.js";
+import PostComment from './features/post/PostComment';
 
 interface PrivateProps {
   path: string;
@@ -92,6 +93,7 @@ const JuneRoutes: React.FC = () => {
         />
         <PrivateRoute path="/user/newpost" exact component={Post} />
         <PrivateRoute path="/comment" exact component={CommentPage} />
+        <PrivateRoute path="/post/:postId" exact component={PostComment} />
         <PrivateRoute
           path="/notifications"
           exact

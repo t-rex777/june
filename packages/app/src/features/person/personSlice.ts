@@ -53,7 +53,11 @@ const initialState: PersonStateType = {
 export const PersonSlice = createSlice({
   name: "person",
   initialState,
-  reducers: {},
+  reducers: {
+    setPerson: (state, action) => {
+      state.person = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getPerson.pending, (state) => {
@@ -79,6 +83,8 @@ export const PersonSlice = createSlice({
       });
   },
 });
+
+export const {setPerson} = PersonSlice.actions;
 
 export const selectPerson = (state: RootState) => state.person;
 

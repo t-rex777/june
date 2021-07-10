@@ -10,6 +10,7 @@ export interface postState {
     | "post_uploaded"
     | "posts_loading"
     | "junePosts_fetched"
+    | "post_fetched"
     | "post_liked"
     | "post_unliked"
     | "post_commented"

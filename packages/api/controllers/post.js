@@ -8,7 +8,8 @@ const user = require("../models/user");
 // middleware
 exports.findPostById = async (req, res, next, postId) => {
   try {
-    let post = await Post.findById(postId);
+    let post = await Post.findById(postId)
+    .populate({ path: "user", select: ["username", "profile_photo"] });
     if (post === undefined) {
       return res.status.json({
         message: "could not find the post",
@@ -34,6 +35,17 @@ exports.getPosts = async (req, res) => {
 
     const publicIds = resources.map((file) => file.public_id);
     res.send(publicIds);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
+exports.getPost = async (req, res) => {
+  try {
+    const post = req.post;
+    res.json(post);
   } catch (error) {
     res.status(400).json({
       message: error.message,
