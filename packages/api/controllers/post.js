@@ -67,7 +67,7 @@ exports.getJunePosts = async (req, res) => {
         select: ["username", "profile_photo"],
       })
       .sort({ _id: -1 })
-      .limit(8);
+      .limit(20);
     res.json(junePosts);
   } catch (error) {
     res.status(400).json({

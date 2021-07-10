@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import { Image } from "cloudinary-react";
+import { Image, Transformation } from "cloudinary-react";
 import { AiFillHeart } from "react-icons/ai";
 import { BsFillChatFill, BsThreeDotsVertical } from "react-icons/bs";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useAppDispatch } from "./../../../app/hooks";
-import {
-  likePost,
-  selectPost,
-  unlikePost,
-} from "./../../post/postSlice";
+import { likePost, selectPost, unlikePost } from "./../../post/postSlice";
 import { useSelector } from "react-redux";
 import { getUserData, selectUser } from "./../userSlice";
 import Loader from "../../../base/Loader";
@@ -84,11 +80,14 @@ const Posts = ({ personDetails }) => {
                   <Image
                     cloudName="june-social"
                     publicId={post.public_id}
+                    loading="lazy"
                     width="250"
                     height="300"
                     responsiveUseBreakpoints="true"
                     crop="fill"
-                  />
+                  >
+                    <Transformation quality="auto" fetchFormat="auto" />
+                  </Image>
                 </span>
                 <div>
                   <p className="my-1">{post.caption}</p>
@@ -108,7 +107,7 @@ const Posts = ({ personDetails }) => {
                   <span
                     className="mx-3 my-2 cursor-pointer"
                     onClick={() => {
-                      history.push(`/post/${post._id}`)
+                      history.push(`/post/${post._id}`);
                     }}
                   >
                     <BsFillChatFill size="21" />

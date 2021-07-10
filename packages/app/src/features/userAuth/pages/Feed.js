@@ -6,7 +6,7 @@ import { getUserData, selectUser } from "../userSlice";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { BsFillChatFill } from "react-icons/bs";
 import { AiFillHeart } from "react-icons/ai";
-import { Image } from "cloudinary-react";
+import { Image , Transformation} from "cloudinary-react";
 import { fetchJunePosts, selectPost, unlikePost } from "../../post/postSlice";
 import {
   followPerson,
@@ -121,12 +121,15 @@ function Home() {
                     <span className="">
                       <Image
                         cloudName="june-social"
+                        loading="lazy"
                         publicId={post.public_id}
                         width="320"
                         height="400"
                         responsiveUseBreakpoints="true"
                         crop="fill"
-                      />
+                      >
+                        <Transformation quality="auto" fetchFormat="auto" />
+                      </Image>
                     </span>
                     <div>
                       <p className="my-1">{post.caption}</p>

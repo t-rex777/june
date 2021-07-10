@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Image } from "cloudinary-react";
+import { Image, Transformation } from "cloudinary-react";
 import { useAppSelector } from "../../app/hooks";
 import {
   commentPost,
@@ -116,7 +116,9 @@ function PostComment() {
               height={window.innerWidth < 400 ? "300" : "600"}
               responsiveUseBreakpoints="true"
               crop="fill"
-            />
+            >
+              <Transformation quality="auto" fetchFormat="auto" />
+            </Image>
           </div>
           <div className="flex flex-col items-start py-4 pl-2 pr-2 sm:pr-8">
             <div className="flex mt-3 ">
