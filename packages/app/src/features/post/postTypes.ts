@@ -1,13 +1,14 @@
 import { PostType } from "../userAuth/userTypes";
 
 export interface postState {
-  posts: PostType | null;
+  posts: PostType[] | null;
   postStatus:
     | "idle"
     | "loading"
+    | "junePosts_loading"
     | "post_uploaded"
     | "posts_loading"
-    | "posts_fetched"
+    | "junePosts_fetched"
     | "post_liked"
     | "post_unliked"
     | "post_commented"

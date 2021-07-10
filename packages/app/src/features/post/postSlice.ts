@@ -9,9 +9,9 @@ const initialState: postState = {
   postStatus: "idle",
 };
 
-export const fetchPosts = createAsyncThunk("post/fetch", async () => {
+export const fetchJunePosts = createAsyncThunk("post/fetch", async () => {
   try {
-    const response = await JuneAPI.get("/user/posts");
+    const response = await JuneAPI.get("/juneposts");
     return response.data;
   } catch (error) {
     axiosRequestError(error);
@@ -118,12 +118,12 @@ export const userSlice = createSlice({
       .addCase(uploadPost.fulfilled, (state) => {
         state.postStatus = "post_uploaded";
       })
-      .addCase(fetchPosts.pending, (state) => {
-        state.postStatus = "posts_loading";
+      .addCase(fetchJunePosts.pending, (state) => {
+        state.postStatus = "junePosts_loading";
       })
-      .addCase(fetchPosts.fulfilled, (state, action) => {
+      .addCase(fetchJunePosts.fulfilled, (state, action) => {
         state.posts = action.payload;
-        state.postStatus = "posts_fetched";
+        state.postStatus = "junePosts_fetched";
       })
       .addCase(likePost.pending, (state) => {
         state.postStatus = "posts_loading";

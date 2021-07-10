@@ -6,7 +6,6 @@ import { axiosRequestError } from "../../utils";
 
 const initialState: UserState = {
   user: null,
-  junePosts: null,
   allUsers: null,
   userStatus: "idle",
 };
@@ -87,15 +86,6 @@ export const fetchAllUsers = createAsyncThunk("users/fetch", async () => {
   }
 });
 
-export const fetchJunePosts = createAsyncThunk("user/feed", async () => {
-  try {
-    const response = await JuneAPI.get("/juneposts");
-    return response.data;
-  } catch (error) {
-    axiosRequestError(error);
-  }
-});
-
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -142,14 +132,6 @@ export const userSlice = createSlice({
       .addCase(setProfilePhoto.fulfilled, (state, action) => {
         state.user = action.payload;
         state.userStatus = "updated_user_profilephoto";
-      })
-
-      .addCase(fetchJunePosts.pending, (state) => {
-        state.userStatus = "loading";
-      })
-      .addCase(fetchJunePosts.fulfilled, (state, action) => {
-        state.junePosts = action.payload;
-        state.userStatus = "fetched_juneposts";
       })
       .addCase(fetchAllUsers.pending, (state) => {
         state.userStatus = "loading";

@@ -5,13 +5,12 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { BsFillChatFill } from "react-icons/bs";
 import { AiFillHeart, AiFillDelete } from "react-icons/ai";
 import { useAppDispatch } from "../../app/hooks";
-import { commentPost, uncommentPost } from "./postSlice";
+import { commentPost, fetchJunePosts, uncommentPost } from "./postSlice";
 import { getUserData } from "../userAuth/userSlice";
 import { getPerson, selectPerson } from "../person/personSlice";
 import { useSelector } from "react-redux";
 import { selectUser } from "../userAuth/userSlice";
 import { Link } from "react-router-dom";
-import { fetchJunePosts } from "./../userAuth/userSlice";
 import "./scrollbar.css";
 
 function CommentPage({

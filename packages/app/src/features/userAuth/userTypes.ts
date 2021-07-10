@@ -39,7 +39,6 @@ export interface UserType extends SignupUser {
 export interface UserState {
   user: UserType | null;
   allUsers: UserType[] | null;
-  junePosts: PostType[] | null;
   userStatus:
     | "idle"
     | "signed_out"

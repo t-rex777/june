@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from "react";
 import Base from "../../../base/Base";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { fetchJunePosts, getUserData, selectUser } from "../userSlice";
+import { getUserData, selectUser } from "../userSlice";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { BsFillChatFill } from "react-icons/bs";
 import { AiFillHeart } from "react-icons/ai";
 import { Image } from "cloudinary-react";
-import { selectPost, unlikePost } from "../../post/postSlice";
+import { fetchJunePosts, selectPost, unlikePost } from "../../post/postSlice";
 import {
   followPerson,
   getPerson,
@@ -21,9 +21,9 @@ import { unfollowPerson } from "../../person/personSlice";
 import { Link } from "react-router-dom";
 
 function Home() {
-  const { user, allUsers, junePosts, userStatus } = useAppSelector(selectUser);
+  const { user, allUsers, userStatus } = useAppSelector(selectUser);
   const { person, personStatus } = useAppSelector(selectPerson);
-  const { postStatus } = useAppSelector(selectPost);
+  const { posts, postStatus } = useAppSelector(selectPost);
   const dispatch = useAppDispatch();
 
   const [commentModal, setCommentModal] = useState(false);
@@ -31,16 +31,16 @@ function Home() {
   const [userForModal, setUserForModal] = useState("");
 
   useEffect(() => {
-    if (
-      userStatus === "fetched_userdata" ||
-      userStatus === "signed_in" ||
-      postStatus === "post_uploaded"
-    ) {
-      dispatch(fetchAllUsers());
-    }
-    if (userStatus === "fetched_allusers") {
-      dispatch(fetchJunePosts());
-    }
+    (async () => {
+      if (
+        userStatus === "fetched_userdata" ||
+        userStatus === "signed_in" ||
+        postStatus === "post_uploaded"
+      ) {
+        const res = await dispatch(fetchAllUsers());
+        if (res) dispatch(fetchJunePosts());
+      }
+    })();
   }, [dispatch, postStatus, userStatus]);
 
   const isLiked = (post) => post.likes.includes(user._id);
@@ -86,8 +86,7 @@ function Home() {
   };
   return (
     <Base className="flex flex-col justify-center ">
-      {
-      !user ||
+      {!user ||
       postStatus === "posts_loading" ||
       userStatus === "loading" ||
       userStatus === "signed_out" ||
@@ -96,8 +95,8 @@ function Home() {
       ) : (
         <div className="flex flex-col-reverse sm:flex-row">
           <ul className="flex flex-col flex-grow items-center">
-            {junePosts &&
-              junePosts.map((post) => (
+            {posts &&
+              posts.map((post) => (
                 <li key={post._id}>
                   <div
                     className="m-3 py-2 px-4 border-2 rounded-md"
