@@ -22,14 +22,17 @@ export const fetchPostById = createAsyncThunk(
   }
 );
 
-export const fetchJunePosts = createAsyncThunk("post/fetchJunePosts", async () => {
-  try {
-    const response = await JuneAPI.get("/juneposts");
-    return response.data;
-  } catch (error) {
-    axiosRequestError(error);
+export const fetchJunePosts = createAsyncThunk(
+  "post/fetchJunePosts",
+  async () => {
+    try {
+      const response = await JuneAPI.get("/juneposts");
+      return response.data;
+    } catch (error) {
+      axiosRequestError(error);
+    }
   }
-});
+);
 
 export const uploadPost = createAsyncThunk(
   "post/upload",
@@ -86,10 +89,17 @@ export const commentPost = createAsyncThunk(
   }
 );
 
+export interface UncommentPropType {
+  postId: string;
+  commentId: string;
+}
+
 export const uncommentPost = createAsyncThunk(
   "post/uncomment",
-  async (postId, commentId) => {
+  async (reqIds: UncommentPropType) => {
     try {
+      console.log(reqIds);
+      const { postId, commentId } = reqIds;
       const response = await JuneAPI.post(
         `/post/uncomment/${postId}/${commentId}`
       );

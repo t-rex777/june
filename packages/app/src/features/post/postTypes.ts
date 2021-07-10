@@ -5,7 +5,6 @@ export interface postState {
   post: PostType | null;
   postStatus:
     | "idle"
-    | "loading"
     | "junePosts_loading"
     | "post_uploaded"
     | "posts_loading"

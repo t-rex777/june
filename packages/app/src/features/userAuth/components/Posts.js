@@ -7,14 +7,12 @@ import { useAppDispatch } from "./../../../app/hooks";
 import {
   likePost,
   selectPost,
-  setPost,
   unlikePost,
 } from "./../../post/postSlice";
 import { useSelector } from "react-redux";
 import { getUserData, selectUser } from "./../userSlice";
 import Loader from "../../../base/Loader";
-import { getPerson, selectPerson, setPerson } from "../../person/personSlice";
-import CommentPage from "../../post/CommentPage";
+import { getPerson, selectPerson } from "../../person/personSlice";
 import PostEdit from "./PostEdit";
 import { useHistory } from "react-router-dom";
 
@@ -24,9 +22,7 @@ const Posts = ({ personDetails }) => {
   const { person } = useSelector(selectPerson);
   const { postStatus } = useSelector(selectPost);
   const history = useHistory();
-  const [commentModal, setCommentModal] = useState(false);
   const [editCaptionModal, setCaptionModal] = useState(false);
-  const [commentPost, setCommentPost] = useState("");
   const [selectEditPost, setEditPost] = useState("");
 
   const isLiked = (post) => {
@@ -112,10 +108,7 @@ const Posts = ({ personDetails }) => {
                   <span
                     className="mx-3 my-2 cursor-pointer"
                     onClick={() => {
-                      history.push(`/post/${post._id}`);
-                      // dispatch(setPost(post));
-                      // setCommentModal(true);
-                      // setCommentPost(post);
+                      history.push(`/post/${post._id}`)
                     }}
                   >
                     <BsFillChatFill size="21" />
@@ -139,15 +132,6 @@ const Posts = ({ personDetails }) => {
                 />
               </span>
             )}
-            {/* {commentModal && (
-              <CommentPage
-                setCommentModal={setCommentModal}
-                post={commentPost}
-                personDetails={personDetails}
-                isLiked={isLiked}
-                likeUnlikePost={likeUnlikePost}
-              />
-            )} */}
           </>
         </div>
       ) : (

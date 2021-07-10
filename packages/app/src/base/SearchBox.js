@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userAuth/userSlice";
-import { useAppDispatch } from "../app/hooks";
-import { fetchAllUsers } from "../features/userAuth/userSlice";
 import { Image } from "cloudinary-react";
 import { Link } from "react-router-dom";
 

@@ -14,18 +14,17 @@ import {
   selectPerson,
 } from "../../person/personSlice";
 import { likePost } from "../../post/postSlice";
-import CommentPage from "../../post/CommentPage";
 import Loader from "../../../base/Loader";
 import { fetchAllUsers } from "../userSlice";
 import { unfollowPerson } from "../../person/personSlice";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function Home() {
   const { user, allUsers, userStatus } = useAppSelector(selectUser);
   const { person, personStatus } = useAppSelector(selectPerson);
   const { posts, postStatus } = useAppSelector(selectPost);
   const dispatch = useAppDispatch();
-
+  const history = useHistory();
   const [commentModal, setCommentModal] = useState(false);
   const [commentPost, setCommentPost] = useState("");
   const [userForModal, setUserForModal] = useState("");
@@ -147,9 +146,7 @@ function Home() {
                       <span
                         className="mx-3 my-2 cursor-pointer"
                         onClick={() => {
-                          setCommentModal(true);
-                          setCommentPost(post);
-                          setUserForModal(post.user);
+                          history.push(`/post/${post._id}`);
                         }}
                       >
                         <BsFillChatFill size="21" />
@@ -166,17 +163,7 @@ function Home() {
                   </div>
                 </li>
               ))}
-            <>
-              {commentModal && (
-                <CommentPage
-                  setCommentModal={setCommentModal}
-                  post={commentPost}
-                  personDetails={userForModal}
-                  isLiked={isLiked}
-                  likeUnlikePost={likeUnlikePost}
-                />
-              )}
-            </>
+           
           </ul>
           <aside className="w-auto p-3 flex flex-col items-center sm:border-l">
             <h1 className="text-center font-bold text-gray-500">
