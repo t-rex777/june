@@ -2,6 +2,7 @@ import { PostType } from "../userAuth/userTypes";
 
 export interface postState {
   posts: PostType[] | null;
+  post: PostType | null;
   postStatus:
     | "idle"
     | "loading"
@@ -21,11 +22,11 @@ export interface PostInput {
 }
 
 export interface CommentType {
-  postId : String;
+  postId: String;
   comment: String;
 }
 
 export interface EditCaptionType {
-  postId : string;
-  caption : string;
+  postId: string;
+  caption: string;
 }

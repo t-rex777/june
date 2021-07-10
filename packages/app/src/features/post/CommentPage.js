@@ -5,13 +5,20 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import { BsFillChatFill } from "react-icons/bs";
 import { AiFillHeart, AiFillDelete } from "react-icons/ai";
 import { useAppDispatch } from "../../app/hooks";
-import { commentPost, fetchJunePosts, uncommentPost } from "./postSlice";
+import {
+  addChangedPost,
+  commentPost,
+  fetchJunePosts,
+  selectPost,
+  uncommentPost,
+} from "./postSlice";
 import { getUserData } from "../userAuth/userSlice";
 import { getPerson, selectPerson } from "../person/personSlice";
 import { useSelector } from "react-redux";
 import { selectUser } from "../userAuth/userSlice";
 import { Link } from "react-router-dom";
 import "./scrollbar.css";
+import Loader from "../../base/Loader";
 
 function CommentPage({
   post,
@@ -21,6 +28,7 @@ function CommentPage({
   likeUnlikePost,
 }) {
   const { person } = useSelector(selectPerson);
+  const { postStatus } = useSelector(selectPost);
   const { user } = useSelector(selectUser);
   const dispatch = useAppDispatch();
   const [userComment, setUserComment] = useState({
@@ -34,31 +42,27 @@ function CommentPage({
   const submitComment = async (e) => {
     e.preventDefault();
     try {
-       await dispatch(fetchJunePosts());
-    
-        const res = await dispatch(commentPost(userComment));
-        if (res) {
-          const userData = await dispatch(getUserData());
-          if (userData && person) {
-            dispatch(getPerson(person.username));
-            setUserComment("");
-          }
+      const res = await dispatch(commentPost(userComment));
+      if (res) {
+        dispatch(addChangedPost());
+        const userData = await dispatch(getUserData());
+        if (userData && person) {
+          dispatch(getPerson(person.username));
+          setUserComment("");
         }
-      
+      }
     } catch (error) {
       console.log(error);
     }
   };
   const deleteComment = async (postId, commentId) => {
     try {
-      const junePosts = await dispatch(fetchJunePosts());
-      
-        const res = await dispatch(uncommentPost(postId, commentId));
-        if (res) {
-          const userData = await dispatch(getUserData());
-          if (userData && person) await dispatch(getPerson(person.username));
-        }
-      
+      const res = await dispatch(uncommentPost(postId, commentId));
+      if (res) {
+        dispatch(addChangedPost());
+        const userData = await dispatch(getUserData());
+        if (userData && person) await dispatch(getPerson(person.username));
+      }
     } catch (error) {
       console.log(error);
     }

@@ -6,6 +6,7 @@ import { CommentType, EditCaptionType, postState } from "./postTypes";
 
 const initialState: postState = {
   posts: null,
+  post: null,
   postStatus: "idle",
 };
 
@@ -104,12 +105,17 @@ export const editCaption = createAsyncThunk(
   }
 );
 
-
-
-export const userSlice = createSlice({
+export const postSlice = createSlice({
   name: "newPost",
   initialState,
-  reducers: {},
+  reducers: {
+    addChangedPost: (state) => {
+      const { posts, post } = state;
+      posts?.forEach((item) => {
+         item._id === post?._id && (item = post);
+      });
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(uploadPost.pending, (state) => {
@@ -119,7 +125,7 @@ export const userSlice = createSlice({
         state.postStatus = "post_uploaded";
       })
       .addCase(fetchJunePosts.pending, (state) => {
-        state.postStatus = "junePosts_loading";
+        state.postStatus = "posts_loading";
       })
       .addCase(fetchJunePosts.fulfilled, (state, action) => {
         state.posts = action.payload;
@@ -128,36 +134,43 @@ export const userSlice = createSlice({
       .addCase(likePost.pending, (state) => {
         state.postStatus = "posts_loading";
       })
-      .addCase(likePost.fulfilled, (state) => {
+      .addCase(likePost.fulfilled, (state, action) => {
+        state.post = action.payload;
         state.postStatus = "post_liked";
       })
       .addCase(unlikePost.pending, (state) => {
         state.postStatus = "posts_loading";
       })
-      .addCase(unlikePost.fulfilled, (state) => {
+      .addCase(unlikePost.fulfilled, (state, action) => {
+        state.post = action.payload;
         state.postStatus = "post_unliked";
       })
       .addCase(commentPost.pending, (state) => {
         state.postStatus = "posts_loading";
       })
-      .addCase(commentPost.fulfilled, (state) => {
+      .addCase(commentPost.fulfilled, (state, action) => {
+        state.post = action.payload;
         state.postStatus = "post_commented";
       })
       .addCase(uncommentPost.pending, (state) => {
         state.postStatus = "posts_loading";
       })
-      .addCase(uncommentPost.fulfilled, (state) => {
+      .addCase(uncommentPost.fulfilled, (state, action) => {
+        state.post = action.payload;
         state.postStatus = "post_uncommented";
       })
       .addCase(editCaption.pending, (state) => {
         state.postStatus = "posts_loading";
       })
-      .addCase(editCaption.fulfilled, (state) => {
+      .addCase(editCaption.fulfilled, (state, action) => {
+        state.post = action.payload;
         state.postStatus = "post_caption_edited";
       });
   },
 });
 
+export const {addChangedPost} = postSlice.actions;
+
 export const selectPost = (state: RootState) => state.post;
 
-export default userSlice.reducer;
+export default postSlice.reducer;
