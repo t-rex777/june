@@ -3,6 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import { SignupUser } from "../userTypes";
 import { useAppDispatch } from "../../../app/hooks";
 import { signout, userSignup } from "../userSlice";
+import gradient from "../../../images/gradient.png";
 
 const Signup: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -37,15 +38,23 @@ const Signup: React.FC = () => {
     }
   };
   return (
-    <div className="flex flex-col items-center	 pt-16 pb-16">
+    <div
+      style={{
+        background: `url(${gradient}) center center no-repeat`,
+        backgroundSize: "cover",
+        height: "100vh",
+      }}
+      className="flex flex-col items-center	 pt-16 pb-16"
+    >
       {shouldRedirect && <Redirect to="/signin" />}
-      <h1 className="text-center text-4xl mb-5 text-purple-800 font-bold">
-        Sign Up
-      </h1>
+
       <form
         onSubmit={submitForm}
         className="bg-purple-300 p-8 rounded-lg w-72 xsm:w-96"
       >
+        <h1 className="text-center text-4xl mb-5 text-purple-800 font-bold">
+          Sign Up
+        </h1>
         <input
           type="text"
           name="name"
@@ -93,13 +102,13 @@ const Signup: React.FC = () => {
             Sign In
           </button>
         </div>
+        <p className="text-white text-center mt-3">
+          New here?
+          <Link to="/signin" className="text-purple-700 ml-2 font-bold	">
+            Sign In
+          </Link>
+        </p>
       </form>
-      <p>
-        New here?
-        <Link to="/signin" className="text-purple-700 font-bold	">
-          Sign In
-        </Link>
-      </p>
     </div>
   );
 };

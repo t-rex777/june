@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import { SigninUser } from "../userTypes";
 import { useAppDispatch } from "../../../app/hooks";
 import { signout, userSignin } from "../userSlice";
-
+import gradient from "../../../images/gradient.png";
 const Signin: React.FC = () => {
   const dispatch = useAppDispatch();
   const [userData, setUserData] = useState<SigninUser>({
@@ -11,7 +11,7 @@ const Signin: React.FC = () => {
     password: "",
   });
   const [shouldRedirect, setRedirect] = useState<Boolean>(false);
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setUserData((prevValue) => {
@@ -32,22 +32,30 @@ const Signin: React.FC = () => {
     }
   };
   return (
-    <div className="flex flex-col items-center	 pt-20">
-     {shouldRedirect && <Redirect to="/user/dashboard" />}
-      <h1 className="text-center text-4xl mb-5 text-purple-800 font-bold">
-        Sign In
-      </h1>
+    <div
+      className="flex flex-col items-center pt-20 "
+      style={{
+        background: `url(${gradient}) center center no-repeat`,
+        backgroundSize: "cover",
+        height: "100vh",
+      }}
+    >
+      {shouldRedirect && <Redirect to="/user/dashboard" />}
+
       <form
         onSubmit={submitForm}
-        className="bg-purple-300 p-8 rounded-lg w-72 xsm:w-96"
+        className="bg-purple-300 p-8 rounded-lg w-72 xsm:w-96 "
       >
+        <h1 className=" text-center font-bold text-4xl mb-5 text-purple-600  ">
+          Sign In
+        </h1>
         <input
           type="text"
           name="username"
           placeholder="username"
           value={userData.username}
           onChange={handleChange}
-          className="p-1 mb-3 rounded-md w-full"
+          className="p-1 mb-3 rounded-md w-full "
         />
         <br />
         <input
@@ -67,14 +75,15 @@ const Signin: React.FC = () => {
             Sign In
           </button>
         </div>
+        <p className="text-center text-white mt-3">
+          New here?
+          <Link to="/signup" className="text-purple-700 font-bold ml-2	">
+            Sign Up
+          </Link>
+        </p>
       </form>
-      <p>
-        New here?{" "}
-        <Link to="/signup" className="text-purple-700 font-bold	">
-          Sign Up
-        </Link>
-      </p>
-       {shouldRedirect && <Redirect to="/user/dashboard" />}
+
+      {shouldRedirect && <Redirect to="/user/dashboard" />}
     </div>
   );
 };
