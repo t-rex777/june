@@ -113,9 +113,9 @@ const Posts = ({ personDetails }) => {
                     <BsFillChatFill size="21" />
                   </span>
 
-                  <span className="mx-3 my-2 cursor-pointer">
+                  {/* <span className="mx-3 my-2 cursor-pointer">
                     <RiSendPlaneFill size="25" />
-                  </span>
+                  </span> */}
                 </div>
                 <div>
                   {post.likes.length} {post.likes.length > 1 ? "likes" : "like"}

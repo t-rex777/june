@@ -99,7 +99,6 @@ function PostComment() {
       userStatus === "fetched_allusers" ||
       userStatus === "signed_in"
     )
-      //todo: add more conditions
       dispatch(fetchPostById(postId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId]);
@@ -203,9 +202,9 @@ function PostComment() {
                 >
                   <BsFillChatFill size="21" />
                 </span>
-                <span className="mx-3 my-2 cursor-pointer">
+                {/* <span className="mx-3 my-2 cursor-pointer">
                   <RiSendPlaneFill size="25" />
-                </span>
+                </span> */}
               </div>
               <div>
                 {post.likes.length} {post.likes.length > 1 ? "likes" : "like"}
@@ -222,7 +221,7 @@ function PostComment() {
                 />
                 <button
                   type="submit"
-                  className="font-bold text-purple-600 border border-purple-500 rounded-md px-2 py-1 hover:bg-purple-500 hover:text-white"
+                  className="font-bold text-purple-600 border border-purple-500 rounded px-3 py-1 hover:bg-purple-500 hover:text-white"
                 >
                   Post
                 </button>
