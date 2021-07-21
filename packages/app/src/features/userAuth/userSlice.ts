@@ -10,6 +10,21 @@ const initialState: UserState = {
   userStatus: "idle",
 };
 
+export const userGoogleSignin = createAsyncThunk(
+  "user/google/signin",
+  async () => {
+    try {
+      const response = await JuneAPI.get(`/login/google`,{ withCredentials: true });
+      const { userDetails, accessToken, refreshToken } = response.data;
+      localStorage.setItem("__rtoken", refreshToken);
+      setJuneHeader(accessToken);
+      return userDetails;
+    } catch (error) {
+      axiosRequestError(error);
+    }
+  }
+);
+
 export const userSignin = createAsyncThunk(
   "user/signin",
   async (userData: SigninUser) => {
@@ -98,6 +113,14 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(userGoogleSignin.pending, (state) => {
+        state.userStatus = "loading";
+      })
+      .addCase(userGoogleSignin.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.userStatus = "signed_in";
+      })
+
       .addCase(userSignin.pending, (state) => {
         state.userStatus = "loading";
       })

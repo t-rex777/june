@@ -4,7 +4,7 @@ const passport = require("passport");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 router.get(
-  "/google",
+  "/login/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
@@ -12,8 +12,8 @@ router.get(
   "/auth/google/redirect",
   passport.authenticate("google"),
   (req, res) => {
-      const user = req.user;
-    const uid = user?.id;
+    const userDetails = req.user;
+    const uid = userDetails?.id;
     const token = jwt.sign({ userId: uid }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "15min",
     });
@@ -32,9 +32,13 @@ router.get(
       }
     );
 
-    const redirectUrl = `http://localhost:3000`;
-    res.json({ user, accessToken, refreshToken });
-    // res.redirect(redirectUrl);
+    const redirectUrl =
+      // (!)process.env.PROD
+      // ?
+      `http://localhost:3000/signin?auth_success=${token}`;
+    // : `https://furikaeru.sambitsahoo.com/?auth_success=${token}`;
+
+    res.redirect(redirectUrl);
   }
 );
 

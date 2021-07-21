@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import { SignupUser } from "../userTypes";
 import { useAppDispatch } from "../../../app/hooks";
 import { signout, userSignup } from "../userSlice";
-import gradient from "../../../images/gradient.png";
+import gradient from "../../../images/gradient1.png";
 
 const Signup: React.FC = () => {
   const dispatch = useAppDispatch();

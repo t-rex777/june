@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useLocation, useParams } from "react-router-dom";
 import { SigninUser } from "../userTypes";
 import { useAppDispatch } from "../../../app/hooks";
 import { signout, userSignin } from "../userSlice";
-import gradient from "../../../images/gradient.png";
+import gradient from "../../../images/gradient1.png";
+import GoogleButton from "react-google-button";
+import { userGoogleSignin } from "./../userSlice";
+import { API } from "../../../API";
+import { useEffect } from "react";
+
 const Signin: React.FC = () => {
+const {search } = useLocation() ;
   const dispatch = useAppDispatch();
   const [userData, setUserData] = useState<SigninUser>({
     username: "",
@@ -31,6 +37,20 @@ const Signin: React.FC = () => {
       dispatch(signout());
     }
   };
+  const googleSignIn = async () => {
+    try {
+      //  const userData = await dispatch(userGoogleSignin());
+      window.location.href = `${API}/login/google/`;
+      
+    } catch (error){  
+         console.log(error);
+    }
+  };
+
+  useEffect(() => {
+  console.log(search);
+  }, []);
+
   return (
     <div
       className="flex flex-col items-center pt-20 "
@@ -47,7 +67,7 @@ const Signin: React.FC = () => {
         className="bg-purple-300 p-8 rounded-lg w-72 xsm:w-96 "
       >
         <h1 className=" text-center font-bold text-4xl mb-5 text-purple-600  ">
-          Sign In
+          SIGN IN
         </h1>
         <input
           type="text"
@@ -75,12 +95,16 @@ const Signin: React.FC = () => {
             Sign In
           </button>
         </div>
-        <p className="text-center text-white mt-3">
+        <p className="text-center font-bold mt-3">
           New here?
-          <Link to="/signup" className="text-purple-700 font-bold ml-2	">
+          <Link to="/signup" className="text-purple-700  ml-2	">
             Sign Up
           </Link>
         </p>
+        <p className="text-center font-bold my-4">OR</p>
+        <div className="flex justify-center mt-5">
+          <GoogleButton onClick={googleSignIn} />
+        </div>
       </form>
 
       {shouldRedirect && <Redirect to="/user/dashboard" />}
