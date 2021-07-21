@@ -16,6 +16,7 @@ const NotificationPage = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (
+      userStatus === "signed_in" ||
       userStatus === "fetched_userdata" ||
       userStatus === "fetched_juneposts" ||
       userStatus === "fetched_allusers" ||

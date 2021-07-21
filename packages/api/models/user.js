@@ -56,7 +56,9 @@ const userSchema = new mongoose.Schema(
     },
     encrypted_password: {
       type: String,
-      required: true,
+    },
+    ga_id: {
+      type: String,
     },
     posts: [
       {

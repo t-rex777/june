@@ -107,7 +107,7 @@ function PostComment() {
     <Base className="flex justify-center">
       {post && postStatus !== "posts_loading" ? (
         <div className="flex flex-col items-center mt-10 h-max w-max border-2 border-gray-500 sm:flex-row sm:justify-center sm:items-start sm:gap-10">
-          <div className="">
+          <div className="border-r-2 border-gray-500">
             <Image
               cloudName="june-social"
               publicId={post.public_id}
@@ -119,7 +119,7 @@ function PostComment() {
               <Transformation quality="auto" fetchFormat="auto" />
             </Image>
           </div>
-          <div className="flex flex-col items-start py-4 pl-2 pr-2 sm:pr-8">
+          <div className="flex flex-col items-start py-4 px-2 sm:pr-8">
             <div className="flex mt-3 ">
               <Link to={`/person/${post.user.username}`}>
                 <Image

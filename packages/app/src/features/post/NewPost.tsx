@@ -55,7 +55,7 @@ const NewPost: React.FC = () => {
       <Base className="flex flex-col justify-center items-center pt-28">
         {postStatus !== "posts_loading" || userStatus === "loading" ? (
           <>
-            <h1 className="font-bold text-3xl">Upload a new Post</h1>
+            <h1 className="font-bold text-3xl">Upload a new post</h1>
             <form
               onSubmit={submitPost}
               className="flex flex-col my-10 py-3 bg-purple-400 rounded-md xsm:p-3"
