@@ -7,8 +7,13 @@ import { useSelector } from "react-redux";
 import Loader from "../../base/Loader";
 import { Redirect } from "react-router-dom";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
+import useToast from './../../base/Toast';
 
 const NewPost: React.FC = () => {
+  const {ToastComponent,openToast} = useToast({
+    message : "hello world",
+    type:"warning"
+  });
   const dispatch = useAppDispatch();
   const { postStatus } = useSelector(selectPost);
   const { userStatus } = useSelector(selectUser);
@@ -55,6 +60,7 @@ const NewPost: React.FC = () => {
       <Base className="flex flex-col justify-center items-center pt-28">
         {postStatus !== "posts_loading" || userStatus === "loading" ? (
           <>
+          <ToastComponent/>
             <h1 className="font-bold text-3xl">Upload a new post</h1>
             <form
               onSubmit={submitPost}
@@ -77,7 +83,7 @@ const NewPost: React.FC = () => {
               <button
                 type="submit"
                 disabled={post.caption === "" ? true : false}
-                className="bg-purple-700 text-white font-bold border-2 border-purple-700 m-2 p-1 rounded-md disabled:opacity-50"
+                className="bg-purple-700 text-white font-bold border-2 border-purple-700 m-2 p-1 rounded-md disabled:opacity-30"
               >
                 Upload
               </button>
