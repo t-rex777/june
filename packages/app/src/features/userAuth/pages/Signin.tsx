@@ -3,7 +3,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { SigninUser } from "../userTypes";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { getUserData, signout, userSignin } from "../userSlice";
-import gradient from "../../../images/gradient1.png";
+import gradient from "../../../images/gradient1.webp";
 import GoogleButton from "react-google-button";
 import { API } from "../../../API";
 import { useEffect } from "react";

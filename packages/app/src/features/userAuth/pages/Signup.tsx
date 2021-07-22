@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import { SignupUser } from "../userTypes";
 import { useAppDispatch } from "../../../app/hooks";
 import { signout, userSignup } from "../userSlice";
-import gradient from "../../../images/gradient1.png";
+import gradient from "../../../images/gradient1.webp";
 
 const Signup: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -102,7 +102,7 @@ const Signup: React.FC = () => {
             Sign In
           </button>
         </div>
-        <p className="text-white text-center mt-3">
+        <p className="font-bold text-center mt-3">
           New here?
           <Link to="/signin" className="text-purple-700 ml-2 font-bold	">
             Sign In
