@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { extend } = require("lodash");
 const { cloudinary } = require("../utils/cloudinary");
 
+
 // middleware
 exports.isAuthenticatedToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -89,7 +90,6 @@ exports.getUser = async (req, res) => {
       bio,
       profile_photo,
     };
-
     const accessToken = jwt.sign(
       { userId: user._id },
       process.env.ACCESS_TOKEN_SECRET,
@@ -114,7 +114,7 @@ exports.getUser = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().sort({ _id: -1 });
+    const users = await User.find().sort({_id : -1});
     res.json(users);
   } catch (error) {
     res.status(400).json({

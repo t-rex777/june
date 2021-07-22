@@ -45,8 +45,6 @@ const JuneRoutes: React.FC = () => {
   const dispatch = useAppDispatch();
   const rToken = localStorage.getItem("__rtoken");
 
-
-
   useEffect(() => {
     if (rToken !== undefined && typeof rToken === "string") {
       (async () => {

@@ -1,20 +1,20 @@
 import React, { useState } from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { SigninUser } from "../userTypes";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { getUserData, signout, userSignin } from "../userSlice";
+import gradient from "../../../images/gradient1.webp";
+import GoogleButton from "react-google-button";
 import { API } from "../../../API";
 import { useEffect } from "react";
 import { setJuneHeader } from "../../../utils";
 import { selectUser } from "./../userSlice";
-import gradient from "../../../images/gradient1.webp";
-import GoogleButton from "react-google-button";
 import Loader from "../../../base/Loader";
 
 const Signin: React.FC = () => {
   const { userStatus } = useAppSelector(selectUser);
-  const { search } = useLocation();
   const history = useHistory();
+  const { search } = useLocation();
   const dispatch = useAppDispatch();
   const [userData, setUserData] = useState<SigninUser>({
     username: "",
@@ -55,9 +55,14 @@ const Signin: React.FC = () => {
         accessTokenFromRedirect !== undefined &&
         typeof accessTokenFromRedirect === "string"
       ) {
-        setJuneHeader(accessTokenFromRedirect);
-        await dispatch(getUserData());
-        history.push("/user/dashboard");
+        try {
+          setJuneHeader(accessTokenFromRedirect);
+          await dispatch(getUserData());
+          history.push("/user/dashboard");
+        } catch (error) {
+          console.log(error);
+          history.push("/signin");
+        }
       }
     })();
   }, [dispatch, history, search]);
@@ -79,7 +84,7 @@ const Signin: React.FC = () => {
             onSubmit={submitForm}
             className="bg-purple-300 p-8 rounded-lg w-72 xsm:w-96 "
           >
-            <h1 className=" text-center font-bold text-4xl mb-5 text-purple-900  ">
+            <h1 className=" text-center font-bold text-4xl mb-5 text-purple-600  ">
               SIGN IN
             </h1>
             <input
@@ -115,7 +120,7 @@ const Signin: React.FC = () => {
               </Link>
             </p>
             <p className="text-center font-bold my-4">OR</p>
-            <div className="flex justify-center mt-5 transform hover:scale-110 transition duration-500">
+            <div className="flex justify-center mt-5">
               <GoogleButton onClick={googleSignIn} />
             </div>
           </form>
