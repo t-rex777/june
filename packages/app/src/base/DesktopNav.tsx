@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { AiFillNotification } from "react-icons/ai";
 import { RiDashboardFill } from "react-icons/ri";

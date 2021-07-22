@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node index.js",
+    "local-serve": " nodemon index.js",
     "serve": "PROD=true nodemon index.js"
   },
   "dependencies": {

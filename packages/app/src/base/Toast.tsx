@@ -52,7 +52,7 @@ const useToast = () => {
     return (
       <div
         style={{ display, ...toastStyle }}
-        className="fixed bottom-16 left-10 px-5 py-1 text-xl font-bold z-10 rounded text-center"
+        className="fixed flex justify-center bottom-16  px-5 py-1 text-xl font-bold z-10 rounded text-center"
       >
         {message}
       </div>

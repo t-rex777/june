@@ -6,7 +6,7 @@ import { getUserData, selectUser } from "../userSlice";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { BsFillChatFill } from "react-icons/bs";
 import { AiFillHeart } from "react-icons/ai";
-import { Image , Transformation} from "cloudinary-react";
+import { Image, Transformation } from "cloudinary-react";
 import { fetchJunePosts, selectPost, unlikePost } from "../../post/postSlice";
 import {
   followPerson,
@@ -166,7 +166,6 @@ function Home() {
                   </div>
                 </li>
               ))}
-           
           </ul>
           <aside className="w-auto p-3 flex flex-col items-center sm:border-l">
             <h1 className="text-center font-bold text-gray-500">

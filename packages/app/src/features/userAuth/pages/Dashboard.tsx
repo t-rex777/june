@@ -20,16 +20,14 @@ const Dashboard: React.FC = () => {
   };
   useEffect(() => {
     user && userStatus !== "loading" ? setLoading(false) : setLoading(true);
-    (userStatus !== "loading" && userStatus === "signed_in") ||
-      (userStatus !== "loading" &&
-        userStatus === "fetched_userdata" &&
-        setToast("Logged In", "success"));
+   userStatus === "signed_in" && setToast("Logged In", "success");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, userStatus]);
   return (
     <Base className="">
       {loading && <Loader />}
+      <ToastComponent />
       <>
-        <ToastComponent />
         <div className="flex justify-center my-2  ">
           <span className="self-center w-20 mr-4 sm:w-32 md:w-40">
             <ProfilePic user_profile_pic={user?.profile_photo} />

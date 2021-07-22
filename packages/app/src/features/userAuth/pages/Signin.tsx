@@ -34,10 +34,13 @@ const Signin: React.FC = () => {
   };
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (userData.username === "" || userData.password === "") {
+      return setToast("Please fill all the inputs!", "warning");
+    }
     try {
       const res = await dispatch(userSignin(userData));
       if (res.payload === undefined) {
-        return setToast("Wrong Credentials!", "error");
+        return setToast("Wrong Credentials! Please check.", "error");
       }
       history.push("/user/dashboard");
     } catch (error) {

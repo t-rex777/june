@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { SignupUser } from "../userTypes";
 import { useAppDispatch } from "../../../app/hooks";
 import { signout, userSignup } from "../userSlice";
@@ -7,6 +7,7 @@ import gradient from "../../../images/gradient1.webp";
 
 const Signup: React.FC = () => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const [userData, setUserData] = useState<SignupUser>({
     name: "",
     email: "",
@@ -25,13 +26,12 @@ const Signup: React.FC = () => {
       };
     });
   };
-  const [shouldRedirect, setRedirect] = useState<Boolean>(false);
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     const resData = await dispatch(userSignup(userData));
     try {
       console.log(resData);
-      setRedirect(true);
+      history.push("/signin");
     } catch (error) {
       console.log(error);
       dispatch(signout());
@@ -46,8 +46,6 @@ const Signup: React.FC = () => {
       }}
       className="flex flex-col items-center	 pt-16 pb-16"
     >
-      {shouldRedirect && <Redirect to="/signin" />}
-
       <form
         onSubmit={submitForm}
         className="bg-purple-300 p-8 rounded-lg w-72 xsm:w-96"
