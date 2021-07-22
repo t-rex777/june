@@ -10,9 +10,11 @@ import { useEffect } from "react";
 import { setJuneHeader } from "../../../utils";
 import { selectUser } from "./../userSlice";
 import Loader from "../../../base/Loader";
+import useToast from "./../../../base/Toast";
 
 const Signin: React.FC = () => {
   const { userStatus } = useAppSelector(selectUser);
+  const { ToastComponent, setToast } = useToast();
   const history = useHistory();
   const { search } = useLocation();
   const dispatch = useAppDispatch();
@@ -20,7 +22,7 @@ const Signin: React.FC = () => {
     username: "",
     password: "",
   });
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setUserData((prevValue) => {
@@ -33,7 +35,10 @@ const Signin: React.FC = () => {
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await dispatch(userSignin(userData));
+      const res = await dispatch(userSignin(userData));
+      if (res.payload === undefined) {
+        return setToast("Wrong Credentials!", "error");
+      }
       history.push("/user/dashboard");
     } catch (error) {
       console.log(error);
@@ -58,6 +63,7 @@ const Signin: React.FC = () => {
         try {
           setJuneHeader(accessTokenFromRedirect);
           await dispatch(getUserData());
+          setToast("Logged In", "success");
           history.push("/user/dashboard");
         } catch (error) {
           console.log(error);
@@ -65,7 +71,7 @@ const Signin: React.FC = () => {
         }
       }
     })();
-  }, [dispatch, history, search]);
+  }, [dispatch, history, search, setToast]);
 
   return (
     <>
@@ -80,6 +86,7 @@ const Signin: React.FC = () => {
             height: "100vh",
           }}
         >
+          <ToastComponent />
           <form
             onSubmit={submitForm}
             className="bg-purple-300 p-8 rounded-lg w-72 xsm:w-96 "

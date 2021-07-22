@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "cd build && PROD=true node index.js",
+    "start": "PROD=true node index.js",
     "serve": "nodemon index.js"
   },
   "dependencies": {

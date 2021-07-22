@@ -5,19 +5,14 @@ import { PostInput } from "./postTypes";
 import Base from "../../base/Base";
 import { useSelector } from "react-redux";
 import Loader from "../../base/Loader";
-import { Redirect } from "react-router-dom";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
-import useToast from './../../base/Toast';
+import useToast from "./../../base/Toast";
 
 const NewPost: React.FC = () => {
-  const {ToastComponent,openToast} = useToast({
-    message : "hello world",
-    type:"warning"
-  });
+  const { ToastComponent, setToast } = useToast();
   const dispatch = useAppDispatch();
   const { postStatus } = useSelector(selectPost);
   const { userStatus } = useSelector(selectUser);
-  const [shouldRedirect, setRedirect] = useState<Boolean>(false);
   const [post, setPost] = useState<PostInput>({
     caption: "",
   });
@@ -41,10 +36,11 @@ const NewPost: React.FC = () => {
             caption: "",
           });
         }
-        setRedirect(true);
+        setToast("Post uploaded successfully!", "success");
       };
     } catch (error) {
       console.log(error);
+      setToast("Something went wrong, try again!", "error");
     }
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,11 +52,10 @@ const NewPost: React.FC = () => {
   };
   return (
     <>
-      {shouldRedirect && <Redirect to="/user/dashboard" />}
       <Base className="flex flex-col justify-center items-center pt-28">
         {postStatus !== "posts_loading" || userStatus === "loading" ? (
           <>
-          <ToastComponent/>
+            <ToastComponent />
             <h1 className="font-bold text-3xl">Upload a new post</h1>
             <form
               onSubmit={submitPost}

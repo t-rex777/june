@@ -7,8 +7,10 @@ import NoPosts from "./../components/NoPosts";
 import EditUser from "../components/EditUser";
 import ProfilePic from "./../components/ProfilePic";
 import Loader from "../../../base/Loader";
+import useToast from "./../../../base/Toast";
 
 const Dashboard: React.FC = () => {
+  const { ToastComponent, setToast } = useToast();
   const { user, userStatus } = useSelector(selectUser);
   const [loading, setLoading] = useState<boolean>(false);
   const [editModal, setEditModal] = useState<boolean>(false);
@@ -18,11 +20,16 @@ const Dashboard: React.FC = () => {
   };
   useEffect(() => {
     user && userStatus !== "loading" ? setLoading(false) : setLoading(true);
+    (userStatus !== "loading" && userStatus === "signed_in") ||
+      (userStatus !== "loading" &&
+        userStatus === "fetched_userdata" &&
+        setToast("Logged In", "success"));
   }, [user, userStatus]);
   return (
     <Base className="">
       {loading && <Loader />}
       <>
+        <ToastComponent />
         <div className="flex justify-center my-2  ">
           <span className="self-center w-20 mr-4 sm:w-32 md:w-40">
             <ProfilePic user_profile_pic={user?.profile_photo} />
