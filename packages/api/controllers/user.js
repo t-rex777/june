@@ -90,7 +90,21 @@ exports.getUser = async (req, res) => {
       bio,
       profile_photo,
     };
-    return res.json(userDetails);
+    const accessToken = jwt.sign(
+      { userId: user._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "15m",
+      }
+    );
+    const refreshToken = jwt.sign(
+      { userId: user._id },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+    return res.json({ userDetails, accessToken, refreshToken });
   } catch (error) {
     res.status(400).json({
       message: error.message,

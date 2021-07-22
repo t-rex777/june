@@ -15,7 +15,7 @@ const CORS_ORIGINS = [
   "http://localhost:3000",
   "http://localhost:4000",
   "http://localhost:5000",
-  "https://furikaeru.sambitsahoo.com",
+  "https://june-social.netlify.app",
 ];
 
 app.use(express.json({ limit: "50mb" }));
@@ -25,7 +25,6 @@ app.use(
   cors({
     origin: [...CORS_ORIGINS],
     credentials: true,
-    preflightContinue: true,
   })
 );
 app.use(passport.initialize());

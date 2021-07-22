@@ -1,22 +1,22 @@
 import React, { useState } from "react";
-import { Link, Redirect, useLocation, useParams } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { SigninUser } from "../userTypes";
 import { useAppDispatch } from "../../../app/hooks";
-import { signout, userSignin } from "../userSlice";
+import { getUserData, signout, userSignin } from "../userSlice";
 import gradient from "../../../images/gradient1.png";
 import GoogleButton from "react-google-button";
-import { userGoogleSignin } from "./../userSlice";
 import { API } from "../../../API";
 import { useEffect } from "react";
+import { setJuneHeader } from "../../../utils";
 
 const Signin: React.FC = () => {
-const {search } = useLocation() ;
+  const history = useHistory();
+  const { search } = useLocation();
   const dispatch = useAppDispatch();
   const [userData, setUserData] = useState<SigninUser>({
     username: "",
     password: "",
   });
-  const [shouldRedirect, setRedirect] = useState<Boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
@@ -31,7 +31,7 @@ const {search } = useLocation() ;
     e.preventDefault();
     try {
       await dispatch(userSignin(userData));
-      setRedirect(true);
+      history.push("/user/dashboard");
     } catch (error) {
       console.log(error);
       dispatch(signout());
@@ -39,17 +39,30 @@ const {search } = useLocation() ;
   };
   const googleSignIn = async () => {
     try {
-      //  const userData = await dispatch(userGoogleSignin());
       window.location.href = `${API}/login/google/`;
-      
-    } catch (error){  
-         console.log(error);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
-  console.log(search);
-  }, []);
+    const accessTokenFromRedirect = search.split("?auth_success=")[1];
+    (async () => {
+      if (
+        accessTokenFromRedirect !== undefined &&
+        typeof accessTokenFromRedirect === "string"
+      ) {
+        try {
+          setJuneHeader(accessTokenFromRedirect);
+          await dispatch(getUserData());
+          history.push("/user/dashboard");
+        } catch (error) {
+          console.log(error);
+          history.push("/signin");
+        }
+      }
+    })();
+  }, [dispatch, history, search]);
 
   return (
     <div
@@ -60,8 +73,6 @@ const {search } = useLocation() ;
         height: "100vh",
       }}
     >
-      {shouldRedirect && <Redirect to="/user/dashboard" />}
-
       <form
         onSubmit={submitForm}
         className="bg-purple-300 p-8 rounded-lg w-72 xsm:w-96 "
@@ -106,8 +117,6 @@ const {search } = useLocation() ;
           <GoogleButton onClick={googleSignIn} />
         </div>
       </form>
-
-      {shouldRedirect && <Redirect to="/user/dashboard" />}
     </div>
   );
 };
