@@ -32,11 +32,9 @@ router.get(
       }
     );
 
-    const redirectUrl =
-      // (!)process.env.PROD
-      // ?
-      `http://localhost:3000/signin?auth_success=${token}`;
-    // : `https://furikaeru.sambitsahoo.com/?auth_success=${token}`;
+    const redirectUrl = !process.env.PROD
+      ? `http://localhost:3000/signin?auth_success=${token}`
+      : `https://june-social.netlify.app/signin?auth_success=${token}`;
 
     res.redirect(redirectUrl);
   }

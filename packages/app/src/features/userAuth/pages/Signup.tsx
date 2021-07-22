@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import { SignupUser } from "../userTypes";
 import { useAppDispatch } from "../../../app/hooks";
 import { signout, userSignup } from "../userSlice";
-import gradient from "../../../images/gradient1.png";
+import gradient from "../../../images/gradient1.webp";
 
 const Signup: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -52,8 +52,8 @@ const Signup: React.FC = () => {
         onSubmit={submitForm}
         className="bg-purple-300 p-8 rounded-lg w-72 xsm:w-96"
       >
-        <h1 className="text-center text-4xl mb-5 text-purple-800 font-bold">
-          Sign Up
+        <h1 className="text-center text-4xl mb-5 text-purple-900 font-bold">
+          SIGN UP
         </h1>
         <input
           type="text"
@@ -99,10 +99,10 @@ const Signup: React.FC = () => {
             type="submit"
             className="w-full text-white p-1 rounded-md bg-purple-500 hover:bg-purple-400 "
           >
-            Sign In
+            Sign up
           </button>
         </div>
-        <p className="text-white text-center mt-3">
+        <p className="font-bold text-center mt-3">
           New here?
           <Link to="/signin" className="text-purple-700 ml-2 font-bold	">
             Sign In

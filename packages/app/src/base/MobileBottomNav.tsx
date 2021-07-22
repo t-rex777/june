@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { AiFillNotification } from "react-icons/ai";
 import { RiDashboardFill } from "react-icons/ri";
 import { BsPlusSquareFill } from "react-icons/bs";
-import { AiFillHome } from "react-icons/ai";
 import { useAppDispatch, useAppSelector } from "./../app/hooks";
 import { selectUser, signout } from "../features/userAuth/userSlice";
 import { FiLogOut } from "react-icons/fi";
@@ -12,15 +11,15 @@ import { FiLogOut } from "react-icons/fi";
 interface Props {}
 
 const MobileBottomNav: React.FC<Props> = () => {
+  const history = useHistory();
   const { user } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
-  const [shouldRedirect, setRedirect] = useState(false);
   const [dropdownStyle, setDropdownStyle] = useState({
     display: "none",
   });
 
   const userSignout = () => {
-    setRedirect(true);
+    history.push("/signin")
     dispatch(signout());
   };
 
@@ -33,22 +32,16 @@ const MobileBottomNav: React.FC<Props> = () => {
   };
   return (
     <>
-      {shouldRedirect && <Redirect to="/signin" />}
-      <nav className="bg-gray-800 px-10 py-3 fixed bottom-0 w-screen z-10">
+      <nav className="bg-gray-900 px-10 py-3 fixed bottom-0 w-screen z-10">
         <ul className="flex flex-row justify-between ">
-          <Link to="/">
+          <Link to="/notifications">
             <li className="text-white text-xs font-semibold sm:text-lg">
-              <AiFillHome size={28} />
+              <AiFillNotification size={28} />
             </li>
           </Link>
           <Link to="/user/newpost">
             <li className="text-white text-xs font-semibold sm:text-lg">
               <BsPlusSquareFill size={28} />
-            </li>
-          </Link>
-          <Link to="/notifications">
-            <li className="text-white text-xs font-semibold sm:text-lg">
-              <AiFillNotification size={28} />
             </li>
           </Link>
 

@@ -20,7 +20,8 @@ const NotificationPage = () => {
       userStatus === "fetched_userdata" ||
       userStatus === "fetched_juneposts" ||
       userStatus === "fetched_allusers" ||
-      postStatus === "post_uploaded"
+      postStatus === "post_uploaded" ||
+      postStatus === "post_caption_edited"
     )
       dispatch(fetchNotifications());
   }, [dispatch, postStatus, userStatus]);

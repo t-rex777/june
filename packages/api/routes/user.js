@@ -26,7 +26,7 @@ router
   .get("/token/refresh", createAccessToken);
 
 router
-  // .use(isAuthenticatedToken)
+  .use(isAuthenticatedToken)
   .get("/person/:personUsername", getPerson)
   .get("/user", getUser)
   .get("/allusers", getAllUsers)

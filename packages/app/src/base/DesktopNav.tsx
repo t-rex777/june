@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { AiFillNotification } from "react-icons/ai";
 import { RiDashboardFill } from "react-icons/ri";
@@ -7,20 +7,19 @@ import { BsPlusSquareFill } from "react-icons/bs";
 import { FiLogOut } from "react-icons/fi";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { selectUser, signout } from "../features/userAuth/userSlice";
-import JuneLogo from "../images/June.svg";
 import SearchBox from "./SearchBox";
 
 interface Props {}
 
 const DesktopNav: React.FC<Props> = () => {
+  const history = useHistory();
   const { user } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
-  const [shouldRedirect, setRedirect] = useState<Boolean>(false);
   const [dropdownStyle, setDropdownStyle] = useState({
     display: "none",
   });
   const userSignout = () => {
-    setRedirect(true);
+    history.push("/signin");
     dispatch(signout());
   };
 
@@ -33,13 +32,10 @@ const DesktopNav: React.FC<Props> = () => {
   };
   return (
     <>
-      {shouldRedirect && <Redirect to="/signin" />}
-      <nav className="bg-gray-800 px-10 py-3 fixed w-screen z-10">
+      <nav className="bg-gray-900 px-10 py-3 fixed w-screen z-10">
         <ul className="flex justify-between items-center">
           <Link to="/">
-            <li className="mr-10 ">
-              <img src={JuneLogo} alt="june" className="h-10" />
-            </li>
+            <li className="mr-10 font-bold text-white text-3xl ">JUNE</li>
           </Link>
 
           <SearchBox />

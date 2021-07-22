@@ -5,8 +5,6 @@ import {
   Switch,
   Route,
   RouteComponentProps,
-  useLocation,
-  useHistory,
 } from "react-router-dom";
 import Feed from "./features/userAuth/pages/Feed.js";
 import Signin from "./features/userAuth/pages/Signin";
@@ -46,23 +44,8 @@ export const invalidRoute = () => (
 const JuneRoutes: React.FC = () => {
   const dispatch = useAppDispatch();
   const rToken = localStorage.getItem("__rtoken");
-  const location = useLocation();
-  const history = useHistory();
 
-  useEffect(() => {
-    console.log(location.pathname)
-    // if (!search) return;
-    // const token = search.split("?auth_success=")[1];
-    // console.log({token})
-    // if (!token) return history.push("/signin");
-    // (() => {
-    //   try {
-    //     localStorage.setItem("param", token);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // })();
-  }, []);
+
 
   useEffect(() => {
     if (rToken !== undefined && typeof rToken === "string") {

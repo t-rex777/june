@@ -158,7 +158,7 @@ const EditUser: React.FC<EditUserType> = ({ setEditModal }) => {
           name="bio"
           className="p-1 m-1 border-2 border-purple-300"
         />
-        <label htmlFor="profile_photo">Edit profile photo</label>
+        <label htmlFor="profile_photo" className="font-bold ml-1">Edit profile photo</label>
         <input
           type="file"
           id="profile_photo"

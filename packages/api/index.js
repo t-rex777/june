@@ -25,7 +25,6 @@ app.use(
   cors({
     origin: [...CORS_ORIGINS],
     credentials: true,
-    preflightContinue: true,
   })
 );
 app.use(passport.initialize());
