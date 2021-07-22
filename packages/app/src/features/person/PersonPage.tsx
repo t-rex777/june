@@ -15,29 +15,18 @@ import { useParams } from "react-router-dom";
 import { paramsType } from "./personTypes";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
 import Loader from "../../base/Loader";
-import { selectPost } from "./../post/postSlice";
 
 const Dashboard: React.FC = () => {
   const { personUsername } = useParams<paramsType>();
   const { person, personStatus } = useSelector(selectPerson);
   const { user, userStatus } = useSelector(selectUser);
-  const { postStatus } = useSelector(selectPost);
   const dispatch = useAppDispatch();
 
   const [isFollowing, setIsFollowings] = useState(false);
 
   useEffect(() => {
-    if (
-      personStatus === "idle" ||
-      personStatus === "fetched_persondata" ||
-      userStatus === "fetched_userdata" ||
-      userStatus === "fetched_juneposts" ||
-      postStatus === "post_uploaded"
-    ) {
-      dispatch(getPerson(personUsername));
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch(getPerson(personUsername));
+  }, [dispatch, personUsername]);
 
   useEffect(() => {
     user &&
@@ -68,7 +57,10 @@ const Dashboard: React.FC = () => {
 
   return (
     <Base className="">
-      {user && person && personStatus !== "loading" && userStatus !== "loading" ? (
+      {user &&
+      person &&
+      personStatus !== "loading" &&
+      userStatus !== "loading" ? (
         <>
           <div className="flex justify-center my-2  ">
             <span className="self-center w-20 mr-4 sm:w-32 md:w-40">

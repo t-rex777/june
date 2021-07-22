@@ -178,7 +178,7 @@ function Home() {
                 if (
                   person._id !== user._id &&
                   !isFollowed(person) &&
-                  index < 5
+                  index < 8
                 ) {
                   return (
                     <div
