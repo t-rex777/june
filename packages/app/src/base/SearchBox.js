@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { selectUser } from "../features/userAuth/userSlice";
+import { fetchAllUsers, selectUser } from "../features/userAuth/userSlice";
 import { Image } from "cloudinary-react";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "./../app/hooks";
 
 let timerId;
 const debounceFunc = (func, delay) => {
@@ -14,20 +15,31 @@ const debounceFunc = (func, delay) => {
 
 const SearchBox = () => {
   const { allUsers } = useSelector(selectUser);
-
+  const dispatch = useAppDispatch();
   const [searchInput, setSearchInput] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
+
   const handleChange = (e) => {
     const query = e.target.value;
     setSearchInput(query);
-    const search = () => {
-      const queryData = allUsers.filter((item) => {
-        return item.username.toLowerCase().includes(query.toLowerCase());
-      });
-      setFilteredUsers(queryData);
-    };
 
-    debounceFunc(search, 1000);
+    const search = () => {
+      if (allUsers) {
+        const queryData = allUsers.filter((item) => {
+          return item.username.toLowerCase().includes(query.toLowerCase());
+        });
+        setFilteredUsers(queryData);
+      }
+    };
+    debounceFunc(search, 500);
+  };
+
+  const handleClick = async () => {
+    try {
+      !allUsers && (await dispatch(fetchAllUsers()));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -38,6 +50,7 @@ const SearchBox = () => {
         className="text-sm p-1 w-full rounded-sm sm:w-10/12"
         value={searchInput}
         onChange={handleChange}
+        onClick={handleClick}
       />
       <span className="absolute top-11 -left-0 w-full overflow-y-auto max-h-64 ">
         {searchInput &&

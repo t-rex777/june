@@ -1,27 +1,26 @@
 import React, { useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { SigninUser } from "../userTypes";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch } from "../../../app/hooks";
 import { getUserData, signout, userSignin } from "../userSlice";
 import gradient from "../../../images/gradient1.webp";
 import GoogleButton from "react-google-button";
 import { API } from "../../../API";
 import { useEffect } from "react";
 import { setJuneHeader } from "../../../utils";
-import { selectUser } from "./../userSlice";
 import useToast from "./../../../base/Toast";
 import useLoader from "../../../base/Loader";
+import { source } from "./../../../utils";
 
 const Signin: React.FC = () => {
   const { LoaderComponent, setLoaderDisplay } = useLoader();
-  const { userStatus } = useAppSelector(selectUser);
   const { ToastComponent, setToast } = useToast();
   const history = useHistory();
   const { search } = useLocation();
   const dispatch = useAppDispatch();
   const [userData, setUserData] = useState<SigninUser>({
-    username: "",
-    password: "",
+    username: "i_am_meanish",
+    password: "admin@123456789",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +34,7 @@ const Signin: React.FC = () => {
   };
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoaderDisplay("block");
     if (userData.username === "" || userData.password === "") {
       return setToast("Please fill all the inputs!", "warning");
     }
@@ -47,6 +47,8 @@ const Signin: React.FC = () => {
     } catch (error) {
       console.log(error);
       dispatch(signout());
+    } finally {
+      setLoaderDisplay("none");
     }
   };
   const googleSignIn = async () => {
@@ -75,15 +77,19 @@ const Signin: React.FC = () => {
         }
       }
     })();
+    return () => {
+      source.cancel();
+    };
   }, [dispatch, history, search, setToast]);
 
-  useEffect(() => {
-    userStatus === "loading"
-      ? setLoaderDisplay("block")
-      : setLoaderDisplay("none");
-  }, [setLoaderDisplay, userStatus]);
+  // useEffect(() => {
+  //   userStatus === "loading"
+  //     ? setLoaderDisplay("block")
+  //     : setLoaderDisplay("none");
+  // }, [setLoaderDisplay, userStatus]);
   return (
     <>
+      <LoaderComponent />
       <div
         className="flex flex-col items-center pt-20 "
         style={{
@@ -92,7 +98,6 @@ const Signin: React.FC = () => {
           height: "100vh",
         }}
       >
-        <LoaderComponent />
         <ToastComponent />
         <form
           onSubmit={submitForm}

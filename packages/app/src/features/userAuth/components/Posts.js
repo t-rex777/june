@@ -17,7 +17,6 @@ const Posts = ({ personDetails }) => {
   const dispatch = useAppDispatch();
   const { user } = useSelector(selectUser);
   const { person } = useSelector(selectPerson);
-  const { postStatus } = useSelector(selectPost);
   const history = useHistory();
   const [editCaptionModal, setCaptionModal] = useState(false);
   const [selectEditPost, setEditPost] = useState("");
@@ -27,6 +26,7 @@ const Posts = ({ personDetails }) => {
   };
 
   const likeUnlikePost = async (post) => {
+    setLoaderDisplay("block")
     try {
       if (isLiked(post)) {
         const res = await dispatch(unlikePost(post._id));
@@ -44,14 +44,13 @@ const Posts = ({ personDetails }) => {
       }
     } catch (error) {
       console.log(error);
+    }finally{
+      setLoaderDisplay("none")
     }
   };
 
   return (
     <>
-      {postStatus !== "posts_loading"
-        ? setLoaderDisplay("block")
-        : setLoaderDisplay("none")}
       <LoaderComponent />
       <div className="flex flex-wrap justify-center">
         {personDetails.posts &&

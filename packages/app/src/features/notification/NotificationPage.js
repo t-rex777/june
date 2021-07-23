@@ -10,27 +10,23 @@ import useLoader from "./../../base/Loader";
 
 const NotificationPage = () => {
   const { LoaderComponent, setLoaderDisplay } = useLoader();
-  const { user, userStatus } = useAppSelector(selectUser);
+  const { userStatus } = useAppSelector(selectUser);
   const { postStatus } = useAppSelector(selectPost);
-  const { notification, notificationStatus } =
-    useAppSelector(selectNotification);
+  const { notification } = useAppSelector(selectNotification);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (
-      userStatus === "signed_in" ||
-      userStatus === "fetched_userdata" ||
-      userStatus === "fetched_juneposts" ||
-      userStatus === "fetched_allusers" ||
-      postStatus === "post_uploaded" ||
-      postStatus === "post_caption_edited"
-    )
+    try {
+      setLoaderDisplay("block");
       dispatch(fetchNotifications());
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoaderDisplay("none");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, postStatus, userStatus]);
   return (
     <Base className="flex flex-col justify-center items-center">
-      {notificationStatus === "loading" && !user
-        ? setLoaderDisplay("block")
-        : setLoaderDisplay("none")}
       <div>
         <LoaderComponent />
         <h1 className="text-2xl text-center font-bold">User Notifications</h1>

@@ -3,9 +3,10 @@
 }
 
 /* loader */
-.loadingPage {
+/* .loadingPage {
   position: fixed;
-  top: 0;
+  top: 10;
+  left: 10;
   width: 100%;
   height: 100%;
   background-color: #fff;
@@ -35,7 +36,7 @@
   100% {
     transform: rotate(360deg);
   }
-}
+} */
 
 @media screen and (min-width: 768px) {
   .mobileNav {

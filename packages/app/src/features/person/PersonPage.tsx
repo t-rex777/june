@@ -17,16 +17,24 @@ import { getUserData, selectUser } from "./../userAuth/userSlice";
 import useLoader from "../../base/Loader";
 
 const Dashboard: React.FC = () => {
-  const {LoaderComponent,setLoaderDisplay} = useLoader()
+  const { LoaderComponent, setLoaderDisplay } = useLoader();
   const { personUsername } = useParams<paramsType>();
-  const { person, personStatus } = useSelector(selectPerson);
-  const { user, userStatus } = useSelector(selectUser);
+  const { person } = useSelector(selectPerson);
+  const { user } = useSelector(selectUser);
   const dispatch = useAppDispatch();
 
   const [isFollowing, setIsFollowings] = useState(false);
 
   useEffect(() => {
-    dispatch(getPerson(personUsername));
+    try {
+      setLoaderDisplay("block");
+      dispatch(getPerson(personUsername));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoaderDisplay("none");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, personUsername]);
 
   useEffect(() => {
@@ -38,32 +46,35 @@ const Dashboard: React.FC = () => {
 
   const unfollow = async () => {
     try {
+      setLoaderDisplay("block");
       const res = await dispatch(unfollowPerson(personUsername));
       if (res) dispatch(getUserData());
       setIsFollowings(false);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoaderDisplay("none");
     }
   };
 
   const follow = async () => {
     try {
+      setLoaderDisplay("block");
       const res = await dispatch(followPerson(personUsername));
       if (res) dispatch(getUserData());
       setIsFollowings(true);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoaderDisplay("none");
     }
   };
 
   return (
-    <Base className="">
-      {user &&
-      person &&
-      personStatus !== "loading" &&
-      userStatus !== "loading" ?  setLoaderDisplay("none") : setLoaderDisplay("block")}
+    <>
+      <LoaderComponent />
+      <Base className="">
         <>
-        <LoaderComponent/>
           <div className="flex justify-center my-2  ">
             <span className="self-center w-20 mr-4 sm:w-32 md:w-40">
               <ProfilePic user_profile_pic={person?.profile_photo} />
@@ -117,7 +128,8 @@ const Dashboard: React.FC = () => {
             )}
           </div>
         </>
-    </Base>
+      </Base>
+    </>
   );
 };
 

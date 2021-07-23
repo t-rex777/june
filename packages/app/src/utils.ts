@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { API } from "./API";
-
+export const source = axios.CancelToken.source();
 export const JuneAPI = axios.create({
   baseURL: API,
 });

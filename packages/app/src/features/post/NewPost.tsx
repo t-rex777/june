@@ -4,7 +4,6 @@ import { selectPost, uploadPost } from "./postSlice";
 import { PostInput } from "./postTypes";
 import Base from "../../base/Base";
 import { useSelector } from "react-redux";
-import Loader from "../../base/Loader";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
 import useToast from "./../../base/Toast";
 import useLoader from "../../base/Loader";
@@ -13,8 +12,6 @@ const NewPost: React.FC = () => {
   const { ToastComponent, setToast } = useToast();
   const { LoaderComponent, setLoaderDisplay } = useLoader();
   const dispatch = useAppDispatch();
-  const { postStatus } = useSelector(selectPost);
-  const { userStatus } = useSelector(selectUser);
   const [post, setPost] = useState<PostInput>({
     caption: "",
   });
@@ -23,6 +20,7 @@ const NewPost: React.FC = () => {
   const submitPost = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      setLoaderDisplay("block")
       if (!selectedFile) return;
       const reader = new FileReader();
       reader.readAsDataURL(selectedFile);
@@ -43,6 +41,8 @@ const NewPost: React.FC = () => {
     } catch (error) {
       console.log(error);
       setToast("Something went wrong, try again!", "error");
+    }finally{
+      setLoaderDisplay("none")
     }
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,13 +54,10 @@ const NewPost: React.FC = () => {
   };
   return (
     <>
+      <LoaderComponent />
+      <ToastComponent />
       <Base className="flex flex-col justify-center items-center pt-28">
-        {postStatus !== "posts_loading" || userStatus === "loading"
-          ? setLoaderDisplay("block")
-          : setLoaderDisplay("none")}
         <>
-          <ToastComponent />
-          <LoaderComponent />
           <h1 className="font-bold text-3xl">Upload a new post</h1>
           <form
             onSubmit={submitPost}
