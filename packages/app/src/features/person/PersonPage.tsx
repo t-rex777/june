@@ -15,6 +15,7 @@ import { useParams } from "react-router-dom";
 import { paramsType } from "./personTypes";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
 import useLoader from "../../base/Loader";
+import { source } from "./../../utils";
 
 const Dashboard: React.FC = () => {
   const { LoaderComponent, setLoaderDisplay } = useLoader();
@@ -26,14 +27,20 @@ const Dashboard: React.FC = () => {
   const [isFollowing, setIsFollowings] = useState(false);
 
   useEffect(() => {
-    try {
+    (async () => {
       setLoaderDisplay("block");
-      dispatch(getPerson(personUsername));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoaderDisplay("none");
-    }
+      try {
+        const res = await dispatch(getPerson(personUsername));
+        res && setLoaderDisplay("none");
+      } catch (error) {
+        console.log(error);
+        setLoaderDisplay("none");
+      }
+    })();
+
+    return () => {
+      source.cancel();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, personUsername]);
 

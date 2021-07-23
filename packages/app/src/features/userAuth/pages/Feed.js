@@ -10,6 +10,7 @@ import { likePost } from "../../post/postSlice";
 import { fetchAllUsers } from "../userSlice";
 import { Link, useHistory } from "react-router-dom";
 import useLoader from "./../../../base/Loader";
+import { source } from "./../../../utils";
 import {
   followPerson,
   getPerson,
@@ -34,15 +35,21 @@ function Home() {
         setLoaderDisplay("block");
         try {
           const res = await dispatch(fetchAllUsers());
-          if (res) dispatch(fetchJunePosts());
+          if (res) {
+            const res1 = dispatch(fetchJunePosts());
+            res1 && setLoaderDisplay("none");
+          }
         } catch (error) {
           console.log(error);
-        } finally {
           setLoaderDisplay("none");
         }
       }
     })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    return () => {
+      source.cancel();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, postStatus, userStatus]);
 
   const isLiked = (post) => post.likes.includes(user._id);
@@ -56,21 +63,23 @@ function Home() {
         const res = await dispatch(unlikePost(post._id));
         if (res) {
           const userData = await dispatch(getUserData());
-          if (userData && person) dispatch(getPerson(person.username));
+          if (userData && person) {
+            const res1 = await dispatch(getPerson(person.username));
+            res1 && setLoaderDisplay("none");
+          }
         }
       } else {
         const res = await dispatch(likePost(post._id));
         if (res) {
           const userData = await dispatch(getUserData());
-          if (userData && person) dispatch(getPerson(person.username));
+          if (userData && person) {
+            const res1 = await dispatch(getPerson(person.username));
+            res1 && setLoaderDisplay("none");
+          }
         }
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      setTimeout(() => {
-        setLoaderDisplay("none");
-      }, 600);
     }
   };
 

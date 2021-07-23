@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useAppDispatch } from "../../app/hooks";
-import { selectPost, uploadPost } from "./postSlice";
+import { uploadPost } from "./postSlice";
 import { PostInput } from "./postTypes";
 import Base from "../../base/Base";
-import { useSelector } from "react-redux";
-import { getUserData, selectUser } from "./../userAuth/userSlice";
+import { getUserData } from "./../userAuth/userSlice";
 import useToast from "./../../base/Toast";
 import useLoader from "../../base/Loader";
 
@@ -19,8 +18,8 @@ const NewPost: React.FC = () => {
 
   const submitPost = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoaderDisplay("block");
     try {
-      setLoaderDisplay("block")
       if (!selectedFile) return;
       const reader = new FileReader();
       reader.readAsDataURL(selectedFile);
@@ -37,12 +36,12 @@ const NewPost: React.FC = () => {
           });
         }
         setToast("Post uploaded successfully!", "success");
+        setLoaderDisplay("none");
       };
     } catch (error) {
       console.log(error);
       setToast("Something went wrong, try again!", "error");
-    }finally{
-      setLoaderDisplay("none")
+      setLoaderDisplay("none");
     }
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

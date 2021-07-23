@@ -43,12 +43,12 @@ const Signin: React.FC = () => {
       if (res.payload === undefined) {
         return setToast("Wrong Credentials! Please check.", "error");
       }
+      setLoaderDisplay("none");
       history.push("/user/dashboard");
     } catch (error) {
       console.log(error);
-      dispatch(signout());
-    } finally {
       setLoaderDisplay("none");
+      dispatch(signout());
     }
   };
   const googleSignIn = async () => {
@@ -62,6 +62,7 @@ const Signin: React.FC = () => {
   useEffect(() => {
     const accessTokenFromRedirect = search.split("?auth_success=")[1];
     (async () => {
+      setLoaderDisplay("block");
       if (
         accessTokenFromRedirect !== undefined &&
         typeof accessTokenFromRedirect === "string"
@@ -70,9 +71,11 @@ const Signin: React.FC = () => {
           setJuneHeader(accessTokenFromRedirect);
           await dispatch(getUserData());
           setToast("Logged In", "success");
+          setLoaderDisplay("none");
           history.push("/user/dashboard");
         } catch (error) {
           console.log(error);
+          setLoaderDisplay("none");
           history.push("/signin");
         }
       }
@@ -80,13 +83,9 @@ const Signin: React.FC = () => {
     return () => {
       source.cancel();
     };
-  }, [dispatch, history, search, setToast]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, history, search]);
 
-  // useEffect(() => {
-  //   userStatus === "loading"
-  //     ? setLoaderDisplay("block")
-  //     : setLoaderDisplay("none");
-  // }, [setLoaderDisplay, userStatus]);
   return (
     <>
       <LoaderComponent />

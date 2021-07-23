@@ -76,12 +76,8 @@ const SearchBox = () => {
               <p className="mt-1 ml-2">{person.username}</p>
             </Link>
           ))}
-        {/* {searchInput && !filteredUsers && (
-          <div className="flex  border border-t-0 border-green-400 bg-white px-5 py-2  hover:bg-purple-200">
-            No users found!
-          </div>
-        )} */}
-        {/* todo: check this */}
+
+        {/* todo: check for no users */}
       </span>
     </li>
   );

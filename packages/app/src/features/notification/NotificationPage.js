@@ -7,6 +7,7 @@ import { Image } from "cloudinary-react";
 import { selectUser } from "./../userAuth/userSlice";
 import { selectPost } from "../post/postSlice";
 import useLoader from "./../../base/Loader";
+import { source } from "./../../utils";
 
 const NotificationPage = () => {
   const { LoaderComponent, setLoaderDisplay } = useLoader();
@@ -15,14 +16,19 @@ const NotificationPage = () => {
   const { notification } = useAppSelector(selectNotification);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    try {
+    (async () => {
       setLoaderDisplay("block");
-      dispatch(fetchNotifications());
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoaderDisplay("none");
-    }
+      try {
+        const res = await dispatch(fetchNotifications());
+        res && setLoaderDisplay("none");
+      } catch (error) {
+        console.log(error);
+        setLoaderDisplay("none");
+      }
+    })();
+    return () => {
+      source.cancel();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, postStatus, userStatus]);
   return (
