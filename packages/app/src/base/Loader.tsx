@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./base.module.css";
 
-const Loader: React.FC = () => {
-  return (
-    <div className={styles.loadingPage}>
-      <div className={styles.loader}></div>
-      <p className="mt-6">Loading... please wait</p>
-    </div>
-  );
+const useLoader = () => {
+  const [loaderDisplay, setLoaderDisplay] = useState<"none" | "block">("none");
+
+  const LoaderComponent = () => {
+    return (
+      <div className={styles.loadingPage} style={{ display: loaderDisplay }}>
+        <div className={styles.loader}></div>
+        <p className="mt-6">Loading... please wait</p>
+      </div>
+    );
+  };
+  return { LoaderComponent, setLoaderDisplay };
 };
 
-export default Loader;
+export default useLoader;

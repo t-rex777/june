@@ -7,9 +7,11 @@ import { useSelector } from "react-redux";
 import Loader from "../../base/Loader";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
 import useToast from "./../../base/Toast";
+import useLoader from "../../base/Loader";
 
 const NewPost: React.FC = () => {
   const { ToastComponent, setToast } = useToast();
+  const { LoaderComponent, setLoaderDisplay } = useLoader();
   const dispatch = useAppDispatch();
   const { postStatus } = useSelector(selectPost);
   const { userStatus } = useSelector(selectUser);
@@ -53,40 +55,40 @@ const NewPost: React.FC = () => {
   return (
     <>
       <Base className="flex flex-col justify-center items-center pt-28">
-        {postStatus !== "posts_loading" || userStatus === "loading" ? (
-          <>
-            <ToastComponent />
-            <h1 className="font-bold text-3xl">Upload a new post</h1>
-            <form
-              onSubmit={submitPost}
-              className="flex flex-col my-10 py-3 bg-purple-400 rounded-md xsm:p-3"
+        {postStatus !== "posts_loading" || userStatus === "loading"
+          ? setLoaderDisplay("block")
+          : setLoaderDisplay("none")}
+        <>
+          <ToastComponent />
+          <LoaderComponent />
+          <h1 className="font-bold text-3xl">Upload a new post</h1>
+          <form
+            onSubmit={submitPost}
+            className="flex flex-col my-10 py-3 bg-purple-400 rounded-md xsm:p-3"
+          >
+            <input
+              type="text"
+              name="caption"
+              value={post.caption}
+              onChange={handleChange}
+              placeholder="caption"
+              className="m-2 p-1 rounded-sm"
+            />
+            <input
+              type="file"
+              name="photo"
+              onChange={handleChange}
+              className="m-2 p-1 rounded-sm"
+            />
+            <button
+              type="submit"
+              disabled={post.caption === "" ? true : false}
+              className="bg-purple-700 text-white font-bold border-2 border-purple-700 m-2 p-1 rounded-md disabled:opacity-30"
             >
-              <input
-                type="text"
-                name="caption"
-                value={post.caption}
-                onChange={handleChange}
-                placeholder="caption"
-                className="m-2 p-1 rounded-sm"
-              />
-              <input
-                type="file"
-                name="photo"
-                onChange={handleChange}
-                className="m-2 p-1 rounded-sm"
-              />
-              <button
-                type="submit"
-                disabled={post.caption === "" ? true : false}
-                className="bg-purple-700 text-white font-bold border-2 border-purple-700 m-2 p-1 rounded-md disabled:opacity-30"
-              >
-                Upload
-              </button>
-            </form>
-          </>
-        ) : (
-          <Loader />
-        )}
+              Upload
+            </button>
+          </form>
+        </>
       </Base>
     </>
   );

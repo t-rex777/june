@@ -14,9 +14,10 @@ import { useAppDispatch } from "../../app/hooks";
 import { useParams } from "react-router-dom";
 import { paramsType } from "./personTypes";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
-import Loader from "../../base/Loader";
+import useLoader from "../../base/Loader";
 
 const Dashboard: React.FC = () => {
+  const {LoaderComponent,setLoaderDisplay} = useLoader()
   const { personUsername } = useParams<paramsType>();
   const { person, personStatus } = useSelector(selectPerson);
   const { user, userStatus } = useSelector(selectUser);
@@ -60,8 +61,9 @@ const Dashboard: React.FC = () => {
       {user &&
       person &&
       personStatus !== "loading" &&
-      userStatus !== "loading" ? (
+      userStatus !== "loading" ?  setLoaderDisplay("none") : setLoaderDisplay("block")}
         <>
+        <LoaderComponent/>
           <div className="flex justify-center my-2  ">
             <span className="self-center w-20 mr-4 sm:w-32 md:w-40">
               <ProfilePic user_profile_pic={person?.profile_photo} />
@@ -108,16 +110,13 @@ const Dashboard: React.FC = () => {
           </div>
           <hr style={{ border: "solid 1px gray", marginTop: "1rem" }} />
           <div className="flex justify-center my-5 p-4">
-            {person?.posts.length > 0 ? (
+            {person && person?.posts.length > 0 ? (
               <Posts personDetails={person} />
             ) : (
               <NoPosts />
             )}
           </div>
         </>
-      ) : (
-        <Loader />
-      )}
     </Base>
   );
 };

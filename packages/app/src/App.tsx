@@ -9,7 +9,6 @@ import {
 import { useAppDispatch } from "./app/hooks";
 import { JuneAPI, setJuneHeader, axiosRequestError } from "./utils";
 import { getUserData, signout } from "./features/userAuth/userSlice";
-import Loader from "./base/Loader";
 const Signin = React.lazy(() => import("./features/userAuth/pages/Signin"));
 const Signup = React.lazy(() => import("./features/userAuth/pages/Signup"));
 const Dashboard = React.lazy(
@@ -49,7 +48,7 @@ export const invalidRoute = () => (
 const JuneRoutes: React.FC = () => {
   const dispatch = useAppDispatch();
   const rToken = localStorage.getItem("__rtoken");
-
+  
   useEffect(() => {
     if (rToken !== undefined && typeof rToken === "string") {
       (async () => {
@@ -85,7 +84,7 @@ const JuneRoutes: React.FC = () => {
 
   return (
     <BrowserRouter>
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<p>...Loading</p>}>
         <Switch>
           <Route path="/signin" exact component={Signin} />
           <Route path="/signup" exact component={Signup} />
