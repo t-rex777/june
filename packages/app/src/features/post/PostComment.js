@@ -111,7 +111,7 @@ function PostComment() {
         res &&
           setTimeout(() => {
             setLoaderDisplay("none");
-          }, 500);
+          }, 1800);
       } catch (error) {
         setLoaderDisplay("none");
         console.log(error);

@@ -19,8 +19,8 @@ const Signin: React.FC = () => {
   const { search } = useLocation();
   const dispatch = useAppDispatch();
   const [userData, setUserData] = useState<SigninUser>({
-    username: "i_am_meanish",
-    password: "admin@123456789",
+    username: "",
+    password: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,11 +36,13 @@ const Signin: React.FC = () => {
     e.preventDefault();
     setLoaderDisplay("block");
     if (userData.username === "" || userData.password === "") {
+      setLoaderDisplay("none");
       return setToast("Please fill all the inputs!", "warning");
     }
     try {
       const res = await dispatch(userSignin(userData));
       if (res.payload === undefined) {
+        setLoaderDisplay("none");
         return setToast("Wrong Credentials! Please check.", "error");
       }
       setLoaderDisplay("none");
