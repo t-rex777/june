@@ -41,10 +41,10 @@ const NotificationPage = () => {
             notification.map((item) => (
               <li
                 key={item._id}
-                className="border-2 border-gray-400 px-3 py-2 my-2 rounded"
+                className="border-2 border-gray-400 px-3 py-2 my-2 rounded max-w-5xl"
               >
                 <span className="flex">
-                  <span>
+                  <span className="self-start  min-w-max">
                     {item.actionBy && (
                       <Image
                         cloudName="june-social"
@@ -57,8 +57,10 @@ const NotificationPage = () => {
                       />
                     )}
                   </span>
-
-                  <p className="mt-1 ml-2">{item.notificationMessage}</p>
+                  <span className="flex flex-col">
+                    <p className=" ml-2">{item.notificationMessage}</p>
+                    <p className="text-gray-400 ml-2 text-xs font-bold">{new Date(item.updatedAt).toDateString()}</p>
+                  </span>
                 </span>
               </li>
             ))}

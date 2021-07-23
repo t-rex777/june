@@ -62,11 +62,11 @@ const Signin: React.FC = () => {
   useEffect(() => {
     const accessTokenFromRedirect = search.split("?auth_success=")[1];
     (async () => {
-      setLoaderDisplay("block");
       if (
         accessTokenFromRedirect !== undefined &&
         typeof accessTokenFromRedirect === "string"
-      ) {
+        ) {
+        setLoaderDisplay("block");
         try {
           setJuneHeader(accessTokenFromRedirect);
           await dispatch(getUserData());

@@ -6,7 +6,7 @@ const useLoader = () => {
   const LoaderComponent = () => {
     return (
       <div style={{display:loaderDisplay}}>
-      <div className="fixed z-30 w-full h-full bg-white"></div>
+      <div className="fixed top-0 left-0 z-30 w-full h-full bg-white"></div>
       <div className="fixed top-1/2 z-40  left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <div className="flex items-center text-white text-3xl lg:text-6xl">
           <svg

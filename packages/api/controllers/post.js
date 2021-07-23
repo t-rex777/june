@@ -9,8 +9,11 @@ const user = require("../models/user");
 exports.findPostById = async (req, res, next, postId) => {
   try {
     let post = await Post.findById(postId)
-    .populate({ path: "user", select: ["username", "profile_photo"] })
-    .populate({ path: "comments.commentedBy", select: ["username", "profile_photo"] })
+      .populate({ path: "user", select: ["username", "profile_photo"] })
+      .populate({
+        path: "comments.commentedBy",
+        select: ["username", "profile_photo"],
+      });
     if (post === undefined) {
       return res.status.json({
         message: "could not find the post",
@@ -45,10 +48,13 @@ exports.getPosts = async (req, res) => {
 
 exports.getPost = async (req, res) => {
   try {
-    const {postId} = req.params;
+    const { postId } = req.params;
     const post = await Post.findById(postId)
-    .populate({ path: "user", select: ["username", "profile_photo"] })
-    .populate({ path: "comments.commentedBy", select: ["username", "profile_photo"] })
+      .populate({ path: "user", select: ["username", "profile_photo"] })
+      .populate({
+        path: "comments.commentedBy",
+        select: ["username", "profile_photo"],
+      });
     res.json(post);
   } catch (error) {
     res.status(400).json({
@@ -150,7 +156,7 @@ exports.likePost = async (req, res) => {
     user.save();
 
     // adding notification
-    if (post.user.toString() !== req.userId.toString()) {
+    if (post.user._id.toString() !== req.userId.toString()) {
       const notification = new Notification({
         notificationMessage: `${user.username} liked your post`,
         user: post.user,
