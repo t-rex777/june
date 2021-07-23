@@ -85,13 +85,13 @@ function Home() {
   };
   return (
     <Base className="flex flex-col justify-center ">
-      {!user ||
+      {/* {!user ||
       postStatus === "posts_loading" ||
       userStatus === "loading" ||
       userStatus === "signed_out" ||
       personStatus === "loading" ? (
         <Loader />
-      ) : (
+      ) : ( */}
         <div className="flex flex-col-reverse sm:flex-row">
           <ul className="flex flex-col flex-grow items-center">
             {posts &&
@@ -181,7 +181,7 @@ function Home() {
                 ) {
                   return (
                     <div
-                      key={person._id}
+                      key={person._id} 
                       className="flex justify-between p-3 border mt-2 w-60 "
                     >
                       <Link
@@ -214,7 +214,7 @@ function Home() {
               })}
           </aside>
         </div>
-      )}
+      {/* )} */}
     </Base>
   );
 }

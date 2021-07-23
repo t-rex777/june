@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import {
   Redirect,
   BrowserRouter,
@@ -6,17 +6,22 @@ import {
   Route,
   RouteComponentProps,
 } from "react-router-dom";
-import Feed from "./features/userAuth/pages/Feed.js";
-import Signin from "./features/userAuth/pages/Signin";
-import Signup from "./features/userAuth/pages/Signup";
-import Dashboard from "./features/userAuth/pages/Dashboard";
-import PersonPage from "./features/person/PersonPage";
 import { useAppDispatch } from "./app/hooks";
 import { JuneAPI, setJuneHeader, axiosRequestError } from "./utils";
 import { getUserData, signout } from "./features/userAuth/userSlice";
-import Post from "./features/post/NewPost";
-import NotificationPage from "./features/notification/NotificationPage.js";
-import PostComment from "./features/post/PostComment";
+import Loader from "./base/Loader";
+const Signin = React.lazy(() => import("./features/userAuth/pages/Signin"));
+const Signup = React.lazy(() => import("./features/userAuth/pages/Signup"));
+const Dashboard = React.lazy(
+  () => import("./features/userAuth/pages/Dashboard")
+);
+const PersonPage = React.lazy(() => import("./features/person/PersonPage"));
+const Post = React.lazy(() => import("./features/post/NewPost"));
+const NotificationPage = React.lazy(
+  () => import("./features/notification/NotificationPage.js")
+);
+const PostComment = React.lazy(() => import("./features/post/PostComment"));
+const Feed = React.lazy(() => import("./features/userAuth/pages/Feed.js"));
 
 interface PrivateProps {
   path: string;
@@ -80,25 +85,27 @@ const JuneRoutes: React.FC = () => {
 
   return (
     <BrowserRouter>
-      <Switch>
-        <Route path="/signin" exact component={Signin} />
-        <Route path="/signup" exact component={Signup} />
-        <PrivateRoute path="/" exact component={Feed} />
-        <PrivateRoute path="/user/dashboard" exact component={Dashboard} />
-        <PrivateRoute
-          path="/person/:personUsername"
-          exact
-          component={PersonPage}
-        />
-        <PrivateRoute path="/user/newpost" exact component={Post} />
-        <PrivateRoute path="/post/:postId" exact component={PostComment} />
-        <PrivateRoute
-          path="/notifications"
-          exact
-          component={NotificationPage}
-        />
-        <Route path="*" exact component={invalidRoute} />
-      </Switch>
+      <Suspense fallback={<Loader />}>
+        <Switch>
+          <Route path="/signin" exact component={Signin} />
+          <Route path="/signup" exact component={Signup} />
+          <PrivateRoute path="/" exact component={Feed} />
+          <PrivateRoute path="/user/dashboard" exact component={Dashboard} />
+          <PrivateRoute
+            path="/person/:personUsername"
+            exact
+            component={PersonPage}
+          />
+          <PrivateRoute path="/user/newpost" exact component={Post} />
+          <PrivateRoute path="/post/:postId" exact component={PostComment} />
+          <PrivateRoute
+            path="/notifications"
+            exact
+            component={NotificationPage}
+          />
+          <Route path="*" exact component={invalidRoute} />
+        </Switch>
+      </Suspense>
     </BrowserRouter>
   );
 };
