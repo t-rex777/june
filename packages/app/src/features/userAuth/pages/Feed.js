@@ -35,9 +35,10 @@ function Home() {
         setLoaderDisplay("block");
         try {
           const res = await dispatch(fetchAllUsers());
-          if (res) {
-            const res1 = dispatch(fetchJunePosts());
-            res1 && setLoaderDisplay("none");
+        console.log(res.payload)
+          if (res.payload) {
+            const res1 = await dispatch(fetchJunePosts());
+            res1.payload && setLoaderDisplay("none");
           }
         } catch (error) {
           console.log(error);
@@ -61,20 +62,20 @@ function Home() {
     try {
       if (isLiked(post)) {
         const res = await dispatch(unlikePost(post._id));
-        if (res) {
+        if (res.payload) {
           const userData = await dispatch(getUserData());
           if (userData && person) {
             const res1 = await dispatch(getPerson(person.username));
-            res1 && setLoaderDisplay("none");
+            res1.payload && setLoaderDisplay("none");
           }
         }
       } else {
         const res = await dispatch(likePost(post._id));
-        if (res) {
+        if (res.payload) {
           const userData = await dispatch(getUserData());
           if (userData && person) {
             const res1 = await dispatch(getPerson(person.username));
-            res1 && setLoaderDisplay("none");
+            res1.payload && setLoaderDisplay("none");
           }
         }
       }
@@ -87,7 +88,7 @@ function Home() {
     setLoaderDisplay("block");
     try {
       const res = await dispatch(followPerson(personUsername));
-      if (res) dispatch(getUserData());
+      if (res.payload) dispatch(getUserData());
     } catch (error) {
       console.log(error);
     } finally {

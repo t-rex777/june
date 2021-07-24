@@ -46,7 +46,7 @@ function PostComment() {
         commentId,
       };
       const res = await dispatch(uncommentPost(reqIds));
-      if (res) {
+      if (res.payload) {
         const userData = await dispatch(getUserData());
         if (userData && person) await dispatch(getPerson(person.username));
       }
@@ -61,7 +61,7 @@ function PostComment() {
       setLoaderDisplay("block");
       if (isLiked(post)) {
         const res = await dispatch(unlikePost(post._id));
-        if (res) {
+        if (res.payload) {
           const userData = await dispatch(getUserData());
           if (userData && person)
             if (person) await dispatch(getPerson(person.username));
@@ -69,7 +69,7 @@ function PostComment() {
         setLoaderDisplay("none");
       } else {
         const res = await dispatch(likePost(post._id));
-        if (res) {
+        if (res.payload) {
           const userDetails = await dispatch(getUserData());
           if (userDetails && person) {
             await dispatch(getPerson(person.username));
@@ -91,7 +91,7 @@ function PostComment() {
     try {
       setLoaderDisplay("block");
       const res = await dispatch(commentPost(userComment));
-      if (res) {
+      if (res.payload) {
         await dispatch(fetchPostById(postId));
         const userData = await dispatch(getUserData());
 
@@ -108,7 +108,7 @@ function PostComment() {
       try {
         setLoaderDisplay("block");
         const res = dispatch(fetchPostById(postId));
-        res &&
+        (await res).payload &&
           setTimeout(() => {
             setLoaderDisplay("none");
           }, 1800);

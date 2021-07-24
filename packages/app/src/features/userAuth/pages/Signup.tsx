@@ -28,9 +28,8 @@ const Signup: React.FC = () => {
   };
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
-    const resData = await dispatch(userSignup(userData));
+     await dispatch(userSignup(userData));
     try {
-      console.log(resData);
       history.push("/signin");
     } catch (error) {
       console.log(error);

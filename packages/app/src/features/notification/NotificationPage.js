@@ -20,7 +20,7 @@ const NotificationPage = () => {
       setLoaderDisplay("block");
       try {
         const res = await dispatch(fetchNotifications());
-        res && setLoaderDisplay("none");
+        res.payload && setLoaderDisplay("none");
       } catch (error) {
         console.log(error);
         setLoaderDisplay("none");

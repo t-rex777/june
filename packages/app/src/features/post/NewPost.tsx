@@ -29,7 +29,7 @@ const NewPost: React.FC = () => {
           photo: reader.result,
         };
         const res = await dispatch(uploadPost(postFile));
-        if (res) {
+        if (res.payload) {
           dispatch(getUserData());
           setPost({
             caption: "",

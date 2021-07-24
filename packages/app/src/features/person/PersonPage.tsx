@@ -31,7 +31,7 @@ const Dashboard: React.FC = () => {
       setLoaderDisplay("block");
       try {
         const res = await dispatch(getPerson(personUsername));
-        res && setLoaderDisplay("none");
+        res.payload && setLoaderDisplay("none");
       } catch (error) {
         console.log(error);
         setLoaderDisplay("none");
@@ -55,7 +55,7 @@ const Dashboard: React.FC = () => {
     try {
       setLoaderDisplay("block");
       const res = await dispatch(unfollowPerson(personUsername));
-      if (res) dispatch(getUserData());
+      if (res.payload) dispatch(getUserData());
       setIsFollowings(false);
     } catch (error) {
       console.log(error);
@@ -68,7 +68,7 @@ const Dashboard: React.FC = () => {
     try {
       setLoaderDisplay("block");
       const res = await dispatch(followPerson(personUsername));
-      if (res) dispatch(getUserData());
+      if (res.payload) dispatch(getUserData());
       setIsFollowings(true);
     } catch (error) {
       console.log(error);
