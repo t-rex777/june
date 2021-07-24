@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Image, Transformation } from "cloudinary-react";
 import { AiFillHeart } from "react-icons/ai";
 import { BsFillChatFill, BsThreeDotsVertical } from "react-icons/bs";
-import { RiSendPlaneFill } from "react-icons/ri";
 import { useAppDispatch } from "./../../../app/hooks";
-import { likePost, selectPost, unlikePost } from "./../../post/postSlice";
+import { likePost, unlikePost } from "./../../post/postSlice";
 import { useSelector } from "react-redux";
 import { getUserData, selectUser } from "./../userSlice";
 import { getPerson, selectPerson } from "../../person/personSlice";
@@ -30,14 +29,14 @@ const Posts = ({ personDetails }) => {
     try {
       if (isLiked(post)) {
         const res = await dispatch(unlikePost(post._id));
-        if (res) {
+        if (res.payload) {
           const userData = await dispatch(getUserData());
           if (userData && person)
             person && dispatch(getPerson(person.username));
         }
       } else {
         const res = await dispatch(likePost(post._id));
-        if (res) {
+        if (res.payload) {
           const userDetails = await dispatch(getUserData());
           if (userDetails && person) dispatch(getPerson(person.username));
         }

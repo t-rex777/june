@@ -35,7 +35,6 @@ function Home() {
         setLoaderDisplay("block");
         try {
           const res = await dispatch(fetchAllUsers());
-        console.log(res.payload)
           if (res.payload) {
             const res1 = await dispatch(fetchJunePosts());
             res1.payload && setLoaderDisplay("none");
