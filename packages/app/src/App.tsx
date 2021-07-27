@@ -80,7 +80,7 @@ const JuneRoutes: React.FC = () => {
         }, 840000);
       })();
     }
-  }, [dispatch, rToken]);
+  }, []);
 
   return (
     <BrowserRouter>

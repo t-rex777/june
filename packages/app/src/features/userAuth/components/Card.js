@@ -10,14 +10,22 @@ import { useSelector } from "react-redux";
 import { getUserData, selectUser } from "./../userSlice";
 import { getPerson, selectPerson } from "../../person/personSlice";
 import useLoader from "../../../base/loaders/Loader";
-import { likePost, unlikePost } from "./../../post/postSlice";
+import { fetchJunePosts, likePost, unlikePost } from "./../../post/postSlice";
 
-function Card({ personDetails, post, setEditPost, setCaptionModal }) {
+function Card({
+  personDetails,
+  post,
+  setEditPost,
+  setCaptionModal,
+  edit,
+  feed,
+}) {
   const history = useHistory();
   const { SmallLoader, setSmallLoaderDisplay } = useLoader();
   const dispatch = useAppDispatch();
   const { user } = useSelector(selectUser);
   const { person } = useSelector(selectPerson);
+
   const isLiked = (post) => {
     return post.likes.includes(user._id);
   };
@@ -31,18 +39,18 @@ function Card({ personDetails, post, setEditPost, setCaptionModal }) {
           const userData = await dispatch(getUserData());
           if (userData && person)
             person && (await dispatch(getPerson(person.username)));
-          setSmallLoaderDisplay("none");
         }
       } else {
         const res = await dispatch(likePost(post._id));
         if (res.payload) {
           const userDetails = await dispatch(getUserData());
           if (userDetails && person) await dispatch(getPerson(person.username));
-          setSmallLoaderDisplay("none");
         }
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      feed && (await dispatch(fetchJunePosts()));
       setSmallLoaderDisplay("none");
     }
   };
@@ -63,7 +71,7 @@ function Card({ personDetails, post, setEditPost, setCaptionModal }) {
           <p className="mt-1 ml-2">{personDetails.username}</p>
         </span>
 
-        {user._id === personDetails._id && (
+        {edit && user._id === personDetails._id && (
           <span
             className="cursor-pointer my-2 "
             onClick={() => {

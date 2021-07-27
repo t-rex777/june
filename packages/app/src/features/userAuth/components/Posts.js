@@ -10,16 +10,16 @@ const Posts = ({ personDetails }) => {
   const [selectEditPost, setEditPost] = useState("");
 
   return (
-    <>
-      {/* <LoaderComponent /> */}
       <div className="flex flex-wrap justify-center">
         {personDetails.posts &&
           personDetails.posts.map((post) => (
             <Card
+              key={post._id}
               personDetails={personDetails}
               post={post}
               setEditPost={setEditPost}
               setCaptionModal={setCaptionModal}
+              edit={true}
             />
           ))}
         <>
@@ -33,7 +33,6 @@ const Posts = ({ personDetails }) => {
           )}
         </>
       </div>
-    </>
   );
 };
 
