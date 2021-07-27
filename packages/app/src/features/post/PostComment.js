@@ -18,7 +18,7 @@ import { useEffect } from "react";
 import { useAppDispatch } from "./../../app/hooks";
 import Base from "./../../base/Base";
 import { getPerson, selectPerson } from "../person/personSlice";
-import useLoader from "./../../base/Loader";
+import useLoader from "../../base/loaders/Loader";
 
 function PostComment() {
   const { LoaderComponent, setLoaderDisplay } = useLoader();

@@ -9,7 +9,7 @@ import { API } from "../../../API";
 import { useEffect } from "react";
 import { setJuneHeader } from "../../../utils";
 import useToast from "./../../../base/Toast";
-import useLoader from "../../../base/Loader";
+import useLoader from "../../../base/loaders/Loader";
 import { source } from "./../../../utils";
 
 const Signin: React.FC = () => {

@@ -128,7 +128,6 @@ export const userSlice = createSlice({
         state.user = action.payload;
         state.userStatus = "updated_user";
       })
-
       .addCase(setProfilePhoto.pending, (state) => {
         state.userStatus = "loading";
       })
@@ -150,3 +149,4 @@ export const { signout } = userSlice.actions;
 export const selectUser = (state: RootState) => state.user;
 
 export default userSlice.reducer;
+

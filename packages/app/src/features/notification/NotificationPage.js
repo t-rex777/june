@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../app/hooks";
 import { Image } from "cloudinary-react";
 import { selectUser } from "./../userAuth/userSlice";
 import { selectPost } from "../post/postSlice";
-import useLoader from "./../../base/Loader";
+import useLoader from "../../base/loaders/Loader";
 import { source } from "./../../utils";
 
 const NotificationPage = () => {

@@ -9,17 +9,14 @@ import { fetchJunePosts, selectPost, unlikePost } from "../../post/postSlice";
 import { likePost } from "../../post/postSlice";
 import { fetchAllUsers } from "../userSlice";
 import { Link, useHistory } from "react-router-dom";
-import useLoader from "./../../../base/Loader";
+import useLoader from "../../../base/loaders/Loader";
 import { source } from "./../../../utils";
-import {
-  followPerson,
-  getPerson,
-  selectPerson,
-} from "../../person/personSlice";
+import { getPerson, selectPerson } from "../../person/personSlice";
+import Suggesteduser from "./Suggesteduser";
 
 function Home() {
   const { LoaderComponent, setLoaderDisplay } = useLoader();
-  const { user, allUsers, userStatus } = useAppSelector(selectUser);
+  const { user, userStatus } = useAppSelector(selectUser);
   const { person } = useAppSelector(selectPerson);
   const { posts, postStatus } = useAppSelector(selectPost);
   const dispatch = useAppDispatch();
@@ -28,6 +25,7 @@ function Home() {
   useEffect(() => {
     (async () => {
       if (
+        userStatus === "loading" ||
         userStatus === "fetched_userdata" ||
         userStatus === "signed_in" ||
         postStatus === "post_uploaded"
@@ -54,8 +52,6 @@ function Home() {
 
   const isLiked = (post) => post.likes.includes(user._id);
 
-  const isFollowed = (person) => person.followers.includes(user._id);
-
   const likeUnlikePost = async (post) => {
     setLoaderDisplay("block");
     try {
@@ -80,18 +76,6 @@ function Home() {
       }
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const follow = async (personUsername) => {
-    setLoaderDisplay("block");
-    try {
-      const res = await dispatch(followPerson(personUsername));
-      if (res.payload) dispatch(getUserData());
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoaderDisplay("none");
     }
   };
 
@@ -174,52 +158,7 @@ function Home() {
                 </li>
               ))}
           </ul>
-          <aside className="w-auto p-3 flex flex-col items-center sm:border-l">
-            <h1 className="text-center font-bold text-gray-500">
-              Suggestions for you
-            </h1>
-            {allUsers &&
-              // eslint-disable-next-line array-callback-return
-              allUsers.map((person, index) => {
-                if (
-                  person._id !== user._id &&
-                  !isFollowed(person) &&
-                  index < 8
-                ) {
-                  return (
-                    <div
-                      key={person._id}
-                      className="flex justify-between p-3 border mt-2 w-60 "
-                    >
-                      <Link
-                        to={`/person/${person.username}`}
-                        className="flex mr-5"
-                      >
-                        <Image
-                          cloudName="june-social"
-                          publicId={person.profile_photo}
-                          width="30"
-                          height="30"
-                          responsiveUseBreakpoints="true"
-                          crop="fill"
-                          radius="max"
-                        />
-                        <p className="mt-1 ml-2">{person.username}</p>
-                      </Link>
-
-                      <button
-                        className="bg-gray-600 text-white px-2 py-1 rounded-sm "
-                        onClick={() => {
-                          follow(person.username);
-                        }}
-                      >
-                        follow
-                      </button>
-                    </div>
-                  );
-                }
-              })}
-          </aside>
+          <Suggesteduser />
         </div>
       </Base>
     </>

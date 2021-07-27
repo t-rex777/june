@@ -5,7 +5,7 @@ import { PostInput } from "./postTypes";
 import Base from "../../base/Base";
 import { getUserData } from "./../userAuth/userSlice";
 import useToast from "./../../base/Toast";
-import useLoader from "../../base/Loader";
+import useLoader from "../../base/loaders/Loader";
 
 const NewPost: React.FC = () => {
   const { ToastComponent, setToast } = useToast();

@@ -10,6 +10,7 @@ const initialState: postState = {
   postStatus: "idle",
 };
 
+
 export const fetchPostById = createAsyncThunk(
   "post/fetchPostById",
   async (postId: string) => {

@@ -14,7 +14,7 @@ import { useAppDispatch } from "../../app/hooks";
 import { useParams } from "react-router-dom";
 import { paramsType } from "./personTypes";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
-import useLoader from "../../base/Loader";
+import useLoader from "../../base/loaders/Loader";
 import { source } from "./../../utils";
 
 const Dashboard: React.FC = () => {

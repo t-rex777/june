@@ -7,7 +7,7 @@ import NoPosts from "./../components/NoPosts";
 import EditUser from "../components/EditUser";
 import ProfilePic from "./../components/ProfilePic";
 import useToast from "./../../../base/Toast";
-import useLoader from "../../../base/Loader";
+import useLoader from "../../../base/loaders/Loader";
 
 const Dashboard: React.FC = () => {
   const { ToastComponent, setToast } = useToast();
@@ -61,7 +61,7 @@ const Dashboard: React.FC = () => {
             </span>
             <div className="flex justify-center  w-1/2 ">
               <button
-                className=" text-gray-500 font-bold w-full text-sm p-1 mt-3 rounded-lg hover:bg-gray-900 hover:text-white  border-2 border-gray-900"
+                className=" text-gray-900 font-bold w-full text-sm p-1 mt-3 rounded-lg hover:bg-gray-900 hover:text-white  border-2 border-gray-900"
                 onClick={() => {
                   setEditModal(true);
                 }}

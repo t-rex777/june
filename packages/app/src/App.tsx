@@ -9,7 +9,7 @@ import {
 import { useAppDispatch } from "./app/hooks";
 import { JuneAPI, setJuneHeader, axiosRequestError } from "./utils";
 import { getUserData, signout } from "./features/userAuth/userSlice";
-import SuspenseLoader from "./base/SuspenseLoader";
+import SuspenseLoader from "./base/loaders/SuspenseLoader";
 const Signin = React.lazy(() => import("./features/userAuth/pages/Signin"));
 const Signup = React.lazy(() => import("./features/userAuth/pages/Signup"));
 const Dashboard = React.lazy(

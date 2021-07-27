@@ -9,7 +9,7 @@ import { getUserData, selectUser } from "./../userSlice";
 import { getPerson, selectPerson } from "../../person/personSlice";
 import PostEdit from "./PostEdit";
 import { useHistory } from "react-router-dom";
-import useLoader from "./../../../base/Loader";
+import useLoader from "../../../base/loaders/Loader";
 
 const Posts = ({ personDetails }) => {
   const { LoaderComponent, setLoaderDisplay } = useLoader();

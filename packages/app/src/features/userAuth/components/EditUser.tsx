@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import Cross from "../../../images/cross.svg";
 import { selectUser, setProfilePhoto, updateUser } from "../userSlice";
+import { getUserData } from './../userSlice';
 
 interface UserProps {
   [index: string]: string; //todo:read more about indexing ts
@@ -103,6 +104,7 @@ const EditUser: React.FC<EditUserType> = ({ setEditModal }) => {
         // console.log({postFile})
         const res = await dispatch(setProfilePhoto(postFile));
         if (res) {
+          await dispatch(getUserData())
           cancelModal();
         }
       };
