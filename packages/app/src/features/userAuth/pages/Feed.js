@@ -17,24 +17,24 @@ function Home() {
 
   useEffect(() => {
     (async () => {
-      // if (
-      //   userStatus === "loading" ||
-      //   userStatus === "fetched_userdata" ||
-      //   userStatus === "signed_in" ||
-      //   postStatus === "post_uploaded"
-      // ) {
+      if (
+        userStatus === "loading" ||
+        userStatus === "fetched_userdata" ||
+        userStatus === "signed_in" ||
+        postStatus === "post_uploaded"
+      ) {
         try {
-        setLoaderDisplay("block");
-        const res = await dispatch(fetchAllUsers());
-        if (res.payload) {
-          const res1 = await dispatch(fetchJunePosts());
-          res1.payload && setLoaderDisplay("none");
+          setLoaderDisplay("block");
+          const res = await dispatch(fetchAllUsers());
+          if (res.payload) {
+            const res1 = await dispatch(fetchJunePosts());
+            res1.payload && setLoaderDisplay("none");
+          }
+        } catch (error) {
+          console.log(error);
+          setLoaderDisplay("none");
         }
-      } catch (error) {
-        console.log(error);
-        setLoaderDisplay("none");
       }
-      // }
     })();
 
     return () => {
