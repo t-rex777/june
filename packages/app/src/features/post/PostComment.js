@@ -21,7 +21,12 @@ import { getPerson, selectPerson } from "../person/personSlice";
 import useLoader from "../../base/loaders/Loader";
 
 function PostComment() {
-  const { LoaderComponent, setLoaderDisplay } = useLoader();
+  const {
+    LoaderComponent,
+    setLoaderDisplay,
+    SmallLoader,
+    setSmallLoaderDisplay,
+  } = useLoader();
   const { post } = useAppSelector(selectPost);
   const { person } = useAppSelector(selectPerson);
   const { user } = useAppSelector(selectUser);
@@ -40,7 +45,7 @@ function PostComment() {
 
   const deleteComment = async (postId, commentId) => {
     try {
-      setLoaderDisplay("block");
+      setSmallLoaderDisplay("block");
       const reqIds = {
         postId,
         commentId,
@@ -49,24 +54,24 @@ function PostComment() {
       if (res.payload) {
         const userData = await dispatch(getUserData());
         if (userData && person) await dispatch(getPerson(person.username));
+        setSmallLoaderDisplay("none");
       }
-      setLoaderDisplay("none");
     } catch (error) {
       console.log(error);
-      setLoaderDisplay("none");
+      setSmallLoaderDisplay("none");
     }
   };
   const likeUnlikePost = async (post) => {
     try {
-      setLoaderDisplay("block");
+      setSmallLoaderDisplay("block");
       if (isLiked(post)) {
         const res = await dispatch(unlikePost(post._id));
         if (res.payload) {
           const userData = await dispatch(getUserData());
           if (userData && person)
             if (person) await dispatch(getPerson(person.username));
+          setSmallLoaderDisplay("none");
         }
-        setLoaderDisplay("none");
       } else {
         const res = await dispatch(likePost(post._id));
         if (res.payload) {
@@ -74,12 +79,12 @@ function PostComment() {
           if (userDetails && person) {
             await dispatch(getPerson(person.username));
           }
+          setSmallLoaderDisplay("none");
         }
       }
-      setLoaderDisplay("none");
     } catch (error) {
       console.log(error);
-      setLoaderDisplay("none");
+      setSmallLoaderDisplay("none");
     }
   };
   const submitComment = async (e) => {
@@ -89,18 +94,17 @@ function PostComment() {
       comment: "",
     });
     try {
-      setLoaderDisplay("block");
+      setSmallLoaderDisplay("block");
       const res = await dispatch(commentPost(userComment));
       if (res.payload) {
         await dispatch(fetchPostById(postId));
         const userData = await dispatch(getUserData());
-
-        if (userData && person) dispatch(getPerson(person.username));
+        if (userData && person) await dispatch(getPerson(person.username));
+        setSmallLoaderDisplay("none");
       }
-      setLoaderDisplay("none");
     } catch (error) {
       console.log(error);
-      setLoaderDisplay("none");
+      setSmallLoaderDisplay("none");
     }
   };
   useEffect(() => {
@@ -109,9 +113,7 @@ function PostComment() {
         setLoaderDisplay("block");
         const res = dispatch(fetchPostById(postId));
         (await res).payload &&
-          setTimeout(() => {
             setLoaderDisplay("none");
-          }, 1800);
       } catch (error) {
         setLoaderDisplay("none");
         console.log(error);
@@ -125,7 +127,7 @@ function PostComment() {
       <LoaderComponent />
       {post && (
         <Base className="flex justify-center">
-          <div className="flex flex-col items-center mt-10 h-max  border-2 border-gray-300 sm:flex-row sm:justify-center sm:items-start ">
+          <div className="flex flex-col items-center mt-10 h-max  border border-gray-300 sm:flex-row sm:justify-center sm:items-start ">
             <div className="m-3 ">
               <Image
                 cloudName="june-social"
@@ -138,7 +140,7 @@ function PostComment() {
                 <Transformation quality="auto" fetchFormat="auto" />
               </Image>
             </div>
-            <div className="flex flex-col grow h-full items-stretch border-l max-w-sm	  border-gray-300 py-4">
+            <div className="flex flex-col grow h-full items-stretch border max-w-sm border-gray-300 py-4">
               <div className="flex px-4">
                 <Link to={`/person/${post.user.username}`}>
                   <Image
@@ -165,7 +167,7 @@ function PostComment() {
               </div>
 
               <ul
-                className="overflow-auto px-5	w-full h-full scrollbar border-t-2 border-gray-300"
+                className="overflow-auto px-5	w-full h-full scrollbar border-t border-gray-300"
                 id="style-2"
                 style={{ maxHeight: "360px" }}
               >
@@ -207,7 +209,7 @@ function PostComment() {
                   </li>
                 ))}
               </ul>
-              <div className="px-2	border-t-2 border-gray-300">
+              <div className="px-2	border-t border-gray-300">
                 <div className="flex flex-start">
                   <span
                     className="mr-3 my-2 cursor-pointer"
@@ -227,6 +229,9 @@ function PostComment() {
                     className="mx-3 my-2 cursor-pointer"
                   >
                     <BsFillChatFill size="21" />
+                  </span>
+                  <span className="mx-3 my-2 cursor-pointer">
+                    <SmallLoader />
                   </span>
                   {/* <span className="mx-3 my-2 cursor-pointer">
                   <RiSendPlaneFill size="25" />
