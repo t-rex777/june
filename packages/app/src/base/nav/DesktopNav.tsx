@@ -5,9 +5,9 @@ import { AiFillNotification } from "react-icons/ai";
 import { RiDashboardFill } from "react-icons/ri";
 import { BsPlusSquareFill } from "react-icons/bs";
 import { FiLogOut } from "react-icons/fi";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { selectUser, signout } from "../features/userAuth/userSlice";
-import SearchBox from "./SearchBox";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectUser, signout } from "../../features/userAuth/userSlice";
+import SearchBox from "../SearchBox";
 
 interface Props {}
 

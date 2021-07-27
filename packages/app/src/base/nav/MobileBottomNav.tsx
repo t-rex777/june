@@ -4,8 +4,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { AiFillNotification } from "react-icons/ai";
 import { RiDashboardFill } from "react-icons/ri";
 import { BsPlusSquareFill } from "react-icons/bs";
-import { useAppDispatch, useAppSelector } from "./../app/hooks";
-import { selectUser, signout } from "../features/userAuth/userSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectUser, signout } from "../../features/userAuth/userSlice";
 import { FiLogOut } from "react-icons/fi";
 
 interface Props {}

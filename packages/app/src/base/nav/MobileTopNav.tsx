@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SearchBox from "./SearchBox";
+import SearchBox from "../SearchBox";
 
 const MobileTopNav: React.FC = () => {
   return (

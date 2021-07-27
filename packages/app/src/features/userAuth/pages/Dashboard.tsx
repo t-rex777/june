@@ -25,7 +25,7 @@ const Dashboard: React.FC = () => {
   }, [user, userStatus]);
 
   useEffect(() => {
-    !user || userStatus === "loading"
+    !user 
       ? setLoaderDisplay("block")
       : setLoaderDisplay("none");
     // eslint-disable-next-line react-hooks/exhaustive-deps

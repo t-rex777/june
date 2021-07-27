@@ -1,7 +1,7 @@
 import React from "react";
-import TopNav from "./MobileTopNav";
-import BottomNav from "./MobileBottomNav";
-import DesktopNav from "./DesktopNav";
+import TopNav from "./nav/MobileTopNav";
+import BottomNav from "./nav/MobileBottomNav";
+import DesktopNav from "./nav/DesktopNav";
 import baseStyles from "./base.module.css";
 interface Props {
   className?: string;
