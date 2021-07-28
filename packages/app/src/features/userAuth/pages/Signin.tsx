@@ -37,7 +37,7 @@ const Signin: React.FC = () => {
     setLoaderDisplay("block");
     if (userData.username === "" || userData.password === "") {
       setLoaderDisplay("none");
-      return setToast("Please fill all the inputs!", "warning");
+      return setToast("Please fill all the inputs", "warning");
     }
     try {
       const res = await dispatch(userSignin(userData));
