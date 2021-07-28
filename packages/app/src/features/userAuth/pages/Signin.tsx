@@ -19,8 +19,8 @@ const Signin: React.FC = () => {
   const { search } = useLocation();
   const dispatch = useAppDispatch();
   const [userData, setUserData] = useState<SigninUser>({
-    username: "i_am_user",
-    password: "user@gmail.com",
+    username: "guest_user",
+    password: "guest@user.com",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
