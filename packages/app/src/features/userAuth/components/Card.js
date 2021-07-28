@@ -4,7 +4,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { Transformation } from "cloudinary-react";
 import { AiFillHeart } from "react-icons/ai";
 import { BsFillChatFill } from "react-icons/bs";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useAppDispatch } from "./../../../app/hooks";
 import { useSelector } from "react-redux";
 import { getUserData, selectUser } from "./../userSlice";
@@ -58,18 +58,20 @@ function Card({
   return (
     <div className="m-3 py-2 px-4 border-2 rounded-md">
       <div className="flex justify-between mb-2">
-        <span className="flex">
-          <Image
-            cloudName="june-social"
-            publicId={personDetails.profile_photo}
-            width="30"
-            height="30"
-            responsiveUseBreakpoints="true"
-            crop="fill"
-            radius="max"
-          />
-          <p className="mt-1 ml-2">{personDetails.username}</p>
-        </span>
+        <Link to={`/person/${personDetails.username}`}>
+          <span className="flex">
+            <Image
+              cloudName="june-social"
+              publicId={personDetails.profile_photo}
+              width="30"
+              height="30"
+              responsiveUseBreakpoints="true"
+              crop="fill"
+              radius="max"
+            />
+            <p className="mt-1 ml-2">{personDetails.username}</p>
+          </span>
+        </Link>
 
         {edit && user._id === personDetails._id && (
           <span
@@ -83,13 +85,13 @@ function Card({
           </span>
         )}
       </div>
-      <span className="hover:filter brightness-75">
+      <span className="">
         <Image
           cloudName="june-social"
           publicId={post.public_id}
           loading="lazy"
-          width="250"
-          height="300"
+          width={feed ? "450" : "250"}
+          height={feed ? "500" : "300"}
           responsiveUseBreakpoints="true"
           crop="fill"
         >

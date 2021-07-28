@@ -11,19 +11,18 @@ import Card from "../components/Card";
 
 function Home() {
   const { LoaderComponent, setLoaderDisplay } = useLoader();
-  const { user, userStatus } = useAppSelector(selectUser);
+  const { userStatus } = useAppSelector(selectUser);
   const { posts, postStatus } = useAppSelector(selectPost);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    userStatus === "loading" || postStatus === "junePosts_loading"
-      ? setLoaderDisplay("block")
-      : setLoaderDisplay("none");
-  }, [postStatus, setLoaderDisplay, userStatus]);
-
-  useEffect(() => {
     (async () => {
-      if (user) {
+      if (
+        userStatus === "loading" ||
+        userStatus === "fetched_userdata" ||
+        userStatus === "signed_in" ||
+        postStatus === "post_uploaded"
+      ) {
         try {
           setLoaderDisplay("block");
           const res = await dispatch(fetchAllUsers());
@@ -43,7 +42,7 @@ function Home() {
       source.cancel();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, []);
 
   return (
     <>

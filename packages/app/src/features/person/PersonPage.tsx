@@ -11,13 +11,14 @@ import {
   selectPerson,
 } from "./personSlice";
 import { useAppDispatch } from "../../app/hooks";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { paramsType } from "./personTypes";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
 import useLoader from "../../base/loaders/Loader";
 import { source } from "./../../utils";
 
 const Dashboard: React.FC = () => {
+  const history = useHistory();
   const { LoaderComponent, setLoaderDisplay } = useLoader();
   const { personUsername } = useParams<paramsType>();
   const { person } = useSelector(selectPerson);
@@ -27,6 +28,9 @@ const Dashboard: React.FC = () => {
   const [isFollowing, setIsFollowings] = useState(false);
 
   useEffect(() => {
+    if(personUsername === user?.username){
+      history.push("/user/dashboard")
+    }
     (async () => {
       setLoaderDisplay("block");
       try {

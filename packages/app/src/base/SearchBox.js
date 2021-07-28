@@ -18,7 +18,6 @@ const SearchBox = () => {
   const dispatch = useAppDispatch();
   const [searchInput, setSearchInput] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
-
   const handleChange = (e) => {
     const query = e.target.value;
     setSearchInput(query);
@@ -53,31 +52,33 @@ const SearchBox = () => {
         onClick={handleClick}
       />
       <span className="absolute top-11 -left-0 w-full overflow-y-auto max-h-64 ">
-        {searchInput &&
-          filteredUsers &&
-          filteredUsers.map((person) => (
-            <Link
-              onClick={() => {
-                setSearchInput("");
-              }}
-              to={`/person/${person.username}`}
-              key={person._id}
-              className=" flex bg-gray-100 px-5 py-2  hover:bg-gray-200"
-            >
-              <Image
-                cloudName="june-social"
-                publicId={person.profile_photo}
-                width="30"
-                height="30"
-                responsiveUseBreakpoints="true"
-                crop="fill"
-                radius="max"
-              />
-              <p className="mt-1 ml-2">{person.username}</p>
-            </Link>
-          ))}
-
-        {/* todo: check for no users */}
+        {!!searchInput && filteredUsers.length > 0
+          ? filteredUsers.map((person) => (
+              <Link
+                onClick={() => {
+                  setSearchInput("");
+                }}
+                to={`/person/${person.username}`}
+                key={person._id}
+                className=" flex bg-gray-100 px-5 py-2  hover:bg-gray-200"
+              >
+                <Image
+                  cloudName="june-social"
+                  publicId={person.profile_photo}
+                  width="30"
+                  height="30"
+                  responsiveUseBreakpoints="true"
+                  crop="fill"
+                  radius="max"
+                />
+                <p className="mt-1 ml-2">{person.username}</p>
+              </Link>
+            ))
+          : !!searchInput && (
+              <h3 className="bg-gray-100 px-5 py-2  hover:bg-gray-200">
+                No users found!
+              </h3>
+            )}
       </span>
     </li>
   );
