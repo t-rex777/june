@@ -15,7 +15,6 @@ function Home() {
   const { posts, postStatus } = useAppSelector(selectPost);
   const dispatch = useAppDispatch();
 
-
   useEffect(() => {
     (async () => {
       if (
