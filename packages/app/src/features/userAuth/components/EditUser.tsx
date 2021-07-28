@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import Cross from "../../../images/cross.svg";
 import { selectUser, setProfilePhoto, updateUser } from "../userSlice";
 import { getUserData } from './../userSlice';
 
@@ -126,7 +125,7 @@ const EditUser: React.FC<EditUserType> = ({ setEditModal }) => {
           className="flex mx-auto mb-3 cursor-pointer w-max"
           onClick={cancelModal}
         >
-          <img src={Cross} alt="cross" />
+          &#10060;
         </span>
         <h1 className="text-center mb-4 text-2xl font-bold ">Edit Profile</h1>
         <input

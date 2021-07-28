@@ -46,7 +46,7 @@ const Signin: React.FC = () => {
         return setToast("Wrong Credentials! Please check.", "error");
       }
       setLoaderDisplay("none");
-      history.push("/user/dashboard");
+      history.push("/");
     } catch (error) {
       console.log(error);
       setLoaderDisplay("none");
@@ -74,7 +74,7 @@ const Signin: React.FC = () => {
           await dispatch(getUserData());
           setToast("Logged In", "success");
           setLoaderDisplay("none");
-          history.push("/user/dashboard");
+          history.push("/");
         } catch (error) {
           console.log(error);
           setLoaderDisplay("none");
