@@ -85,13 +85,13 @@ function Card({
           </span>
         )}
       </div>
-      <span className="hover:filter brightness-75">
+      <span className="">
         <Image
           cloudName="june-social"
           publicId={post.public_id}
           loading="lazy"
-          width="250"
-          height="300"
+          width={feed ? "450" : "250"}
+          height={feed ? "500" : "300"}
           responsiveUseBreakpoints="true"
           crop="fill"
         >
