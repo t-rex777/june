@@ -127,7 +127,7 @@ function PostComment() {
       <LoaderComponent />
       {post && (
         <Base className="flex justify-center">
-          <div className="flex flex-col items-center mt-10 h-max  border border-gray-300 sm:flex-row sm:justify-center sm:items-start ">
+          <div className="flex flex-col items-center mt-10 h-max border border-gray-300 sm:flex-row sm:justify-center sm:items-start ">
             <div className="m-3 ">
               <Image
                 cloudName="june-social"
@@ -173,10 +173,10 @@ function PostComment() {
               >
                 {post.comments.map((item) => (
                   <li className="flex justify-between my-2" key={item._id}>
-                    <span className="flex justify-between ">
+                    <span className="flex justify-between  ">
                       <Link
                         to={`/person/${item.commentedBy.username}`}
-                        className="h-12 w-12"
+                        className="h-12 self-center w-12"
                       >
                         <Image
                           cloudName="june-social"
@@ -204,7 +204,7 @@ function PostComment() {
                         deleteComment(post._id, item._id);
                       }}
                     >
-                      <TiDeleteOutline color="#FF616D" />
+                      &#10060;
                     </span>
                   </li>
                 ))}

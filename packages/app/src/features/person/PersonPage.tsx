@@ -35,16 +35,16 @@ const Dashboard: React.FC = () => {
       setLoaderDisplay("block");
       try {
         const res = await dispatch(getPerson(personUsername));
-        res.payload && setLoaderDisplay("none");
+       setLoaderDisplay("none");
       } catch (error) {
         console.log(error);
         setLoaderDisplay("none");
       }
     })();
 
-    return () => {
-      source.cancel();
-    };
+    // return () => {
+    //   source.cancel();
+    // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, personUsername]);
 
