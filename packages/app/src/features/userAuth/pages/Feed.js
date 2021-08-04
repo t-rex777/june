@@ -41,8 +41,7 @@ function Home() {
     // return () => {
     //   source.cancel();
     // };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [postStatus, userStatus]);
 
   return (
     <>

@@ -129,6 +129,9 @@ function Card({
       <div>
         {post.likes.length} {post.likes.length > 1 ? "likes" : "like"}
       </div>
+      <div className="text-sm text-gray-400 mt-2">
+        {new Date(post.updatedAt).toLocaleDateString()}
+      </div>
     </div>
   );
 }

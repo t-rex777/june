@@ -45,8 +45,7 @@ const Dashboard: React.FC = () => {
     // return () => {
     //   source.cancel();
     // };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, personUsername]);
+  }, [dispatch,personUsername]);
 
   useEffect(() => {
     user &&
