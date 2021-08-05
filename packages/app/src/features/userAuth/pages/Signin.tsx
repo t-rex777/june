@@ -42,6 +42,8 @@ const Signin: React.FC = () => {
     }
     try {
       const res = await dispatch(userSignin(userData));
+      await dispatch(fetchAllUsers());
+      await dispatch(fetchJunePosts());
       if (res.payload === undefined) {
         setLoaderDisplay("none");
         return setToast("Wrong Credentials! Please check.", "error");
