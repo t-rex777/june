@@ -11,7 +11,6 @@ import {
 } from "./postSlice";
 import { Link, useParams } from "react-router-dom";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
-import { TiDeleteOutline } from "react-icons/ti";
 import { AiFillHeart } from "react-icons/ai";
 import { BsFillChatFill } from "react-icons/bs";
 import { useEffect } from "react";

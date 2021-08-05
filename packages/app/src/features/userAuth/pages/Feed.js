@@ -1,49 +1,24 @@
 import React, { useEffect } from "react";
 import Base from "../../../base/Base";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { selectUser } from "../userSlice";
+import { useAppSelector } from "../../../app/hooks";
 import { fetchJunePosts, selectPost } from "../../post/postSlice";
-import { fetchAllUsers } from "../userSlice";
 import useLoader from "../../../base/loaders/Loader";
 import Suggesteduser from "./Suggesteduser";
 import Card from "../components/Card";
+import { fetchAllUsers, selectUser } from "./../userSlice";
+import { useAppDispatch } from "./../../../app/hooks";
 
 function Home() {
-  const { LoaderComponent, setLoaderDisplay } = useLoader();
-  const { user, userStatus } = useAppSelector(selectUser);
-  const { posts, postStatus } = useAppSelector(selectPost);
+  const { LoaderComponent } = useLoader();
+  const { posts } = useAppSelector(selectPost);
+  const { allUsers } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     (async () => {
-      if (
-        // userStatus === "loading" ||
-        // userStatus === "fetched_userdata" ||
-        // userStatus === "signed_in" ||
-        // postStatus === "post_uploaded"
-        user
-      ) {
-        try {
-          setLoaderDisplay("block");
-          const res = await dispatch(fetchAllUsers());
-          if (res.payload) {
-            const res1 = await dispatch(fetchJunePosts());
-            res1.payload && setLoaderDisplay("none");
-          }
-        } catch (error) {
-          console.log(error);
-          setLoaderDisplay("none");
-        }
-      } else {
-        setLoaderDisplay("block");
-      }
+      await dispatch(fetchAllUsers());
+      await dispatch(fetchJunePosts());
     })();
-
-    // return () => {
-    //   source.cancel();
-    // };
-  }, [user]);
-
+  }, [allUsers, posts]);
   return (
     <>
       <LoaderComponent />

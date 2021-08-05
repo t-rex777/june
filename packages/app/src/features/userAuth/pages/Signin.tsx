@@ -131,20 +131,12 @@ const Signin: React.FC = () => {
               className="p-1 mb-3 rounded-md w-full"
             />
             <br />
-            <div className="flex flex-col justify-end">
+            <div className="flex justify-end">
               <button
                 type="submit"
-                name="userLogin"
                 className="w-full text-white p-1 rounded-md bg-purple-500 hover:bg-purple-400 "
               >
                 Sign In
-              </button>
-              <button
-                type="submit"
-                name="guestLogin"
-                className="w-full text-white p-1 mt-3 rounded-md bg-purple-500 hover:bg-purple-400 "
-              >
-                Sign In as Guest
               </button>
             </div>
             <p className="text-center font-bold mt-3">

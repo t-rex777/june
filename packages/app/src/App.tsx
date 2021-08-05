@@ -1,3 +1,4 @@
+import { getPerson } from "./features/person/personSlice";
 import React, { useEffect, Suspense } from "react";
 import {
   Redirect,
@@ -5,11 +6,18 @@ import {
   Switch,
   Route,
   RouteComponentProps,
+  useHistory,
 } from "react-router-dom";
 import { useAppDispatch } from "./app/hooks";
 import { JuneAPI, setJuneHeader, axiosRequestError } from "./utils";
-import { getUserData, signout } from "./features/userAuth/userSlice";
+import {
+  fetchAllUsers,
+  getUserData,
+  signout,
+} from "./features/userAuth/userSlice";
 import SuspenseLoader from "./base/loaders/SuspenseLoader";
+import { fetchJunePosts } from "./features/post/postSlice";
+import useLoader from "./base/loaders/Loader";
 const Signin = React.lazy(() => import("./features/userAuth/pages/Signin"));
 const Signup = React.lazy(() => import("./features/userAuth/pages/Signup"));
 const Dashboard = React.lazy(
@@ -47,12 +55,15 @@ export const invalidRoute = () => (
 );
 
 const JuneRoutes: React.FC = () => {
+  const { setLoaderDisplay, LoaderComponent } = useLoader();
   const dispatch = useAppDispatch();
   const rToken = localStorage.getItem("__rtoken");
+  const history = useHistory();
   useEffect(() => {
     if (rToken !== undefined && typeof rToken === "string") {
       (async () => {
         try {
+          setLoaderDisplay("block");
           const response = await JuneAPI.get("/token/refresh", {
             headers: {
               "refresh-token": `Bearer ${rToken}`,
@@ -61,10 +72,20 @@ const JuneRoutes: React.FC = () => {
           const { accessToken, refreshToken } = response.data;
           setJuneHeader(accessToken);
           localStorage.setItem("__rtoken", refreshToken);
-          await dispatch(getUserData());
+          const userData = await dispatch(getUserData());
+          await dispatch(fetchAllUsers());
+          await dispatch(fetchJunePosts());
+          const username = window.location.pathname.split("person/")[1];
+          if (username && username === userData.payload.username) {
+            history.push("/user/dashboard");
+          } else if (username) {
+            await dispatch(getPerson(username));
+          }
+          setLoaderDisplay("none");
         } catch (error) {
           dispatch(signout());
           axiosRequestError(error);
+          setLoaderDisplay("none");
         }
 
         // fetches accessToken token before every 15 mins
@@ -80,10 +101,12 @@ const JuneRoutes: React.FC = () => {
         }, 840000);
       })();
     }
-  }, [dispatch, rToken]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <BrowserRouter>
+      <LoaderComponent />
       <Suspense fallback={<SuspenseLoader />}>
         <Switch>
           <Route path="/signin" exact component={Signin} />

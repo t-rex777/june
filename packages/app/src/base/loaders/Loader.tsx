@@ -53,6 +53,7 @@ const useLoader = () => {
     LoaderComponent,
     setLoaderDisplay,
     SmallLoader,
+    smallLoaderDisplay,
     setSmallLoaderDisplay,
   };
 };
