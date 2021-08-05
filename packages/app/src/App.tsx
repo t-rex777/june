@@ -1,11 +1,10 @@
+import { PrivateRoute } from './PrivateRoute';
 import { getPerson } from "./features/person/personSlice";
 import React, { useEffect, Suspense } from "react";
 import {
-  Redirect,
   BrowserRouter,
   Switch,
   Route,
-  RouteComponentProps,
   useHistory,
 } from "react-router-dom";
 import { useAppDispatch } from "./app/hooks";
@@ -31,22 +30,6 @@ const NotificationPage = React.lazy(
 const PostComment = React.lazy(() => import("./features/post/PostComment"));
 const Feed = React.lazy(() => import("./features/userAuth/pages/Feed.js"));
 
-interface PrivateProps {
-  path: string;
-  exact?: boolean;
-  component:
-    | React.ComponentType<RouteComponentProps<any>>
-    | React.ComponentType<any>;
-}
-
-export const PrivateRoute = (props: PrivateProps) => {
-  const rToken = localStorage.getItem("__rtoken");
-
-  if (rToken && typeof rToken === "string") {
-    return <Route {...props} />;
-  }
-  return <Redirect from={props.path} to="/signin" />;
-};
 
 export const invalidRoute = () => (
   <div className="flex justify-center mt-20">
