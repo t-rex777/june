@@ -22,7 +22,7 @@ const Dashboard: React.FC = () => {
   const { LoaderComponent, setLoaderDisplay } = useLoader();
   const { personUsername } = useParams<paramsType>();
   const { person } = useSelector(selectPerson);
-  const { user } = useSelector(selectUser);
+  const { user, userStatus } = useSelector(selectUser);
   const dispatch = useAppDispatch();
 
   const [isFollowing, setIsFollowings] = useState(false);
@@ -31,21 +31,24 @@ const Dashboard: React.FC = () => {
     if(personUsername === user?.username){
       history.push("/user/dashboard")
     }
-    (async () => {
-      setLoaderDisplay("block");
-      try {
-        const res = await dispatch(getPerson(personUsername));
-       setLoaderDisplay("none");
-      } catch (error) {
-        console.log(error);
-        setLoaderDisplay("none");
-      }
-    })();
+    if(userStatus === "fetched_userdata"){
+      (async () => {
+        setLoaderDisplay("block");
+        try {
+          const res = await dispatch(getPerson(personUsername));
+          console.log(res)
+         setLoaderDisplay("none");
+        } catch (error) {
+          console.log(error);
+          setLoaderDisplay("none");
+        }
+      })();
+    }
 
     // return () => {
     //   source.cancel();
     // };
-  }, [dispatch,personUsername]);
+  }, [dispatch,personUsername,userStatus]);
 
   useEffect(() => {
     user &&
