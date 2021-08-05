@@ -1,32 +1,14 @@
 import React from "react";
 import { useAppSelector } from "../../../app/hooks";
-import { selectUser, getUserData, fetchAllUsers } from "./../userSlice";
-import { useAppDispatch } from "./../../../app/hooks";
-import { followPerson } from "../../person/personSlice";
-import useLoader from "./../../../base/loaders/Loader";
-import { Link } from "react-router-dom";
-import { Image } from "cloudinary-react";
+import { selectUser } from "../userSlice";
+import useLoader from "../../../base/loaders/Loader";
+import SuggestedUserCard from "./SuggestedUserCard";
 
 function Suggesteduser() {
-  const { LoaderComponent, setLoaderDisplay } = useLoader();
+  const { LoaderComponent } = useLoader();
   const { user, allUsers } = useAppSelector(selectUser);
-  const dispatch = useAppDispatch();
   const isFollowed = (person) => person.followers.includes(user._id);
 
-  const follow = async (personUsername) => {
-    try {
-      setLoaderDisplay("block");
-      const res = await dispatch(followPerson(personUsername));
-      if (res.payload) {
-        await dispatch(getUserData());
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      await dispatch(fetchAllUsers());
-      setLoaderDisplay("none");
-    }
-  };
   return (
     <>
       <LoaderComponent />
@@ -42,9 +24,13 @@ function Suggesteduser() {
               return (
                 <div
                   key={person._id}
-                  className="flex justify-between p-3 border mt-2 w-60 "
+                  className="flex justify-between w-full "
                 >
-                  <Link to={`/person/${person.username}`} className="flex mr-5">
+                  <SuggestedUserCard person={person} />
+                  {/* <Link
+                    to={`/person/${person.username}`}
+                    className="flex items-center mr-5"
+                  >
                     <Image
                       cloudName="june-social"
                       publicId={person.profile_photo}
@@ -56,15 +42,13 @@ function Suggesteduser() {
                     />
                     <p className="mt-1 ml-2">{person.username}</p>
                   </Link>
-
-                  <button
-                    className="bg-gray-600 text-white px-2 py-1 rounded-sm "
-                    onClick={() => {
-                      follow(person.username);
-                    }}
-                  >
-                    follow
-                  </button>
+                  <span className="-mt-5">
+                    <FollowBtn
+                      isFollowing={isFollowed(person)}
+                      personUsername={person.username}
+                      personPage={false}
+                    />
+                  </span> */}
                 </div>
               );
             }

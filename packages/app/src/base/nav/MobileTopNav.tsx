@@ -4,7 +4,7 @@ import SearchBox from "../SearchBox";
 
 const MobileTopNav: React.FC = () => {
   return (
-    <nav className="bg-gray-900 px-10 py-2 fixed w-screen z-10">
+    <nav className="bg-gray-900 pr-10 pl-3 py-2 fixed w-screen z-10">
       <ul className="flex justify-evenly items-center">
         <Link to="/">
         <li className="mr-10 font-bold text-white text-3xl ">

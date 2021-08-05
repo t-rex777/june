@@ -8,14 +8,16 @@ import { getUserData } from "../../features/userAuth/userSlice";
 import useLoader from "./Loader";
 interface PropType {
   isFollowing: boolean;
-  setIsFollowings: (value: boolean) => void;
+  setIsFollowings?: (value: boolean) => void;
   personUsername: string;
+  personPage: boolean;
 }
 
 const FollowBtn: React.FC<PropType> = ({
   isFollowing,
   setIsFollowings,
   personUsername,
+  personPage,
 }) => {
   const { SmallLoader, smallLoaderDisplay, setSmallLoaderDisplay } =
     useLoader();
@@ -25,7 +27,7 @@ const FollowBtn: React.FC<PropType> = ({
       setSmallLoaderDisplay("block");
       const res = await dispatch(unfollowPerson(personUsername));
       if (res.payload) dispatch(getUserData());
-      setIsFollowings(false);
+      setIsFollowings && setIsFollowings(false);
     } catch (error) {
       console.log(error);
     } finally {
@@ -38,7 +40,7 @@ const FollowBtn: React.FC<PropType> = ({
       setSmallLoaderDisplay("block");
       const res = await dispatch(followPerson(personUsername));
       if (res.payload) dispatch(getUserData());
-      setIsFollowings(true);
+      setIsFollowings && setIsFollowings(true);
     } catch (error) {
       console.log(error);
     } finally {
@@ -55,14 +57,20 @@ const FollowBtn: React.FC<PropType> = ({
         <span>
           {isFollowing ? (
             <button
-              className="flex bg-white text-gray font-bold w-full text-sm px-8 py-2 border-2 border-gray-800 rounded-lg hover:bg-gray-800 hover:text-white"
+              className={`flex bg-white text-gray font-bold w-full text-sm ${
+                personPage ? "px-8 py-2" : "px-3 py-1"
+              }  border-2 
+              border-gray-800 rounded-lg hover:bg-gray-800 hover:text-white`}
               onClick={unfollow}
             >
               Unfollow
             </button>
           ) : (
             <button
-              className="flex  bg-white text-gray font-bold w-full text-sm px-8 py-2 border-2 rounded-lg border-gray-800 hover:bg-gray-800 hover:text-white"
+              className={`flex bg-white text-gray font-bold w-full text-sm ${
+                personPage ? "px-8 py-2" : "px-3 py-1"
+              }  border-2 
+            border-gray-800 rounded-lg hover:bg-gray-800 hover:text-white`}
               onClick={follow}
             >
               Follow

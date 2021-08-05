@@ -1,24 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Base from "../../../base/Base";
 import { useAppSelector } from "../../../app/hooks";
-import { fetchJunePosts, selectPost } from "../../post/postSlice";
+import { selectPost } from "../../post/postSlice";
 import useLoader from "../../../base/loaders/Loader";
-import Suggesteduser from "./Suggesteduser";
+import Suggesteduser from "../components/Suggesteduser";
 import Card from "../components/Card";
-import { fetchAllUsers, selectUser } from "./../userSlice";
-import { useAppDispatch } from "./../../../app/hooks";
 
 function Home() {
   const { LoaderComponent } = useLoader();
   const { posts } = useAppSelector(selectPost);
-  const { allUsers } = useAppSelector(selectUser);
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    (async () => {
-      await dispatch(fetchAllUsers());
-      await dispatch(fetchJunePosts());
-    })();
-  }, [allUsers, posts]);
   return (
     <>
       <LoaderComponent />

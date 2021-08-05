@@ -4,10 +4,7 @@ import Base from "../../base/Base";
 import Posts from "./../userAuth/components/Posts";
 import NoPosts from "./../userAuth/components/NoPosts";
 import { useSelector } from "react-redux";
-import {
-  getPerson,
-  selectPerson,
-} from "./personSlice";
+import { getPerson, selectPerson } from "./personSlice";
 import { useAppDispatch } from "../../app/hooks";
 import { useHistory, useParams } from "react-router-dom";
 import { paramsType } from "./personTypes";
@@ -29,17 +26,17 @@ const Dashboard: React.FC = () => {
     if (personUsername === user?.username) {
       history.push("/user/dashboard");
     }
-      (async () => {
-        setLoaderDisplay("block");
-        try {
-          await dispatch(getPerson(personUsername));
-          setLoaderDisplay("none");
-        } catch (error) {
-          console.log(error);
-          setLoaderDisplay("none");
-        }
-      })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    (async () => {
+      setLoaderDisplay("block");
+      try {
+        await dispatch(getPerson(personUsername));
+        setLoaderDisplay("none");
+      } catch (error) {
+        console.log(error);
+        setLoaderDisplay("none");
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [personUsername]);
 
   useEffect(() => {
@@ -48,8 +45,6 @@ const Dashboard: React.FC = () => {
       user.followings.includes(person._id) &&
       setIsFollowings(true);
   }, [user, person]);
-
-
 
   return (
     <>
@@ -81,6 +76,7 @@ const Dashboard: React.FC = () => {
               </span>
               <div className="flex justify-center  w-1/2 ">
                 <FollowBtn
+                  personPage={true}
                   isFollowing={isFollowing}
                   personUsername={personUsername}
                   setIsFollowings={setIsFollowings}
