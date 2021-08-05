@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { SigninUser } from "../userTypes";
 import { useAppDispatch } from "../../../app/hooks";
-import { getUserData, signout, userSignin } from "../userSlice";
+import { fetchAllUsers, getUserData, signout, userSignin } from "../userSlice";
 import gradient from "../../../images/gradient1.webp";
 import GoogleButton from "react-google-button";
 import { API } from "../../../API";
@@ -11,6 +11,7 @@ import { setJuneHeader } from "../../../utils";
 import useToast from "./../../../base/Toast";
 import useLoader from "../../../base/loaders/Loader";
 import { source } from "./../../../utils";
+import { fetchJunePosts } from "../../post/postSlice";
 
 const Signin: React.FC = () => {
   const { LoaderComponent, setLoaderDisplay } = useLoader();
@@ -72,6 +73,8 @@ const Signin: React.FC = () => {
         try {
           setJuneHeader(accessTokenFromRedirect);
           await dispatch(getUserData());
+          await dispatch(fetchAllUsers());
+          await dispatch(fetchJunePosts());
           setToast("Logged In", "success");
           setLoaderDisplay("none");
           history.push("/");
