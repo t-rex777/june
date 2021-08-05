@@ -15,7 +15,6 @@ import { useHistory, useParams } from "react-router-dom";
 import { paramsType } from "./personTypes";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
 import useLoader from "../../base/loaders/Loader";
-import { source } from "./../../utils";
 
 const Dashboard: React.FC = () => {
   const history = useHistory();
@@ -28,27 +27,28 @@ const Dashboard: React.FC = () => {
   const [isFollowing, setIsFollowings] = useState(false);
 
   useEffect(() => {
-    if(personUsername === user?.username){
-      history.push("/user/dashboard")
+    if (personUsername === user?.username) {
+      history.push("/user/dashboard");
     }
-    if(userStatus === "fetched_userdata"){
+    if (user) {
       (async () => {
         setLoaderDisplay("block");
         try {
           const res = await dispatch(getPerson(personUsername));
-          console.log(res)
-         setLoaderDisplay("none");
+          setLoaderDisplay("none");
         } catch (error) {
           console.log(error);
           setLoaderDisplay("none");
         }
       })();
+    }else{
+      setLoaderDisplay("block");
     }
 
     // return () => {
     //   source.cancel();
     // };
-  }, [dispatch,personUsername,userStatus]);
+  }, [user,personUsername]);
 
   useEffect(() => {
     user &&

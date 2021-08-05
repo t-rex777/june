@@ -5,28 +5,27 @@ import { selectUser } from "../userSlice";
 import { fetchJunePosts, selectPost } from "../../post/postSlice";
 import { fetchAllUsers } from "../userSlice";
 import useLoader from "../../../base/loaders/Loader";
-import { source } from "./../../../utils";
 import Suggesteduser from "./Suggesteduser";
 import Card from "../components/Card";
 
 function Home() {
   const { LoaderComponent, setLoaderDisplay } = useLoader();
-  const { userStatus } = useAppSelector(selectUser);
+  const { user, userStatus } = useAppSelector(selectUser);
   const { posts, postStatus } = useAppSelector(selectPost);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     (async () => {
       if (
-        userStatus === "loading" ||
-        userStatus === "fetched_userdata" ||
-        userStatus === "signed_in" ||
-        postStatus === "post_uploaded"
+        // userStatus === "loading" ||
+        // userStatus === "fetched_userdata" ||
+        // userStatus === "signed_in" ||
+        // postStatus === "post_uploaded"
+        user
       ) {
         try {
           setLoaderDisplay("block");
           const res = await dispatch(fetchAllUsers());
-          console.log(res.payload);
           if (res.payload) {
             const res1 = await dispatch(fetchJunePosts());
             res1.payload && setLoaderDisplay("none");
@@ -35,13 +34,15 @@ function Home() {
           console.log(error);
           setLoaderDisplay("none");
         }
+      } else {
+        setLoaderDisplay("block");
       }
     })();
 
     // return () => {
     //   source.cancel();
     // };
-  }, [postStatus, userStatus]);
+  }, [user]);
 
   return (
     <>
