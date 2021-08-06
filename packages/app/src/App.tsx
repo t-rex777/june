@@ -1,22 +1,26 @@
-import { PrivateRoute } from './PrivateRoute';
-import { getPerson } from "./features/person/personSlice";
 import React, { useEffect, Suspense } from "react";
-import {
-  BrowserRouter,
-  Switch,
-  Route,
-  useHistory,
-} from "react-router-dom";
-import { useAppDispatch } from "./app/hooks";
+import { BrowserRouter, Switch, Route, useHistory } from "react-router-dom";
 import { JuneAPI, setJuneHeader, axiosRequestError } from "./utils";
+import { useAppDispatch } from "./app/hooks";
+import SuspenseLoader from "./base/loaders/SuspenseLoader";
+import useLoader from "./base/loaders/Loader";
+
+// private route
+import { PrivateRoute } from "./PrivateRoute";
+
+// slices
 import {
   fetchAllUsers,
   getUserData,
   signout,
 } from "./features/userAuth/userSlice";
-import SuspenseLoader from "./base/loaders/SuspenseLoader";
-import { fetchJunePosts } from "./features/post/postSlice";
-import useLoader from "./base/loaders/Loader";
+import { getPerson } from "./features/person/personSlice";
+import { fetchJunePosts, fetchPostById } from "./features/post/postSlice";
+
+// lazy load components
+const Network = React.lazy(
+  () => import("./features/userAuth/components/Network")
+);
 const Signin = React.lazy(() => import("./features/userAuth/pages/Signin"));
 const Signup = React.lazy(() => import("./features/userAuth/pages/Signup"));
 const Dashboard = React.lazy(
@@ -30,10 +34,11 @@ const NotificationPage = React.lazy(
 const PostComment = React.lazy(() => import("./features/post/PostComment"));
 const Feed = React.lazy(() => import("./features/userAuth/pages/Feed.js"));
 
-
+// invalid route
 export const invalidRoute = () => (
-  <div className="flex justify-center mt-20">
+  <div className="flex wrap flex-col justify-center items-center text-2xl mt-20">
     <h1>Invalid Route</h1>
+    <p>Please check the URL again</p>
   </div>
 );
 
@@ -42,6 +47,7 @@ const JuneRoutes: React.FC = () => {
   const dispatch = useAppDispatch();
   const rToken = localStorage.getItem("__rtoken");
   const history = useHistory();
+
   useEffect(() => {
     if (rToken !== undefined && typeof rToken === "string") {
       (async () => {
@@ -55,14 +61,18 @@ const JuneRoutes: React.FC = () => {
           const { accessToken, refreshToken } = response.data;
           setJuneHeader(accessToken);
           localStorage.setItem("__rtoken", refreshToken);
-          const userData = await dispatch(getUserData());
-          await dispatch(fetchAllUsers());
-          await dispatch(fetchJunePosts());
+          const postId = window.location.pathname.split("post/")[1];
           const username = window.location.pathname.split("person/")[1];
-          if (username && username === userData.payload.username) {
-            history.push("/user/dashboard");
-          } else if (username) {
-            await dispatch(getPerson(username));
+          const userData = await dispatch(getUserData());
+          if (userData.payload._id) {
+            await dispatch(fetchAllUsers());
+            await dispatch(fetchJunePosts());
+            postId && (await dispatch(fetchPostById(postId)));
+            if (username && username === userData.payload.username) {
+              history.push("/user/dashboard");
+            } else if (username) {
+              await dispatch(getPerson(username));
+            }
           }
           setLoaderDisplay("none");
         } catch (error) {
@@ -84,7 +94,7 @@ const JuneRoutes: React.FC = () => {
         }, 840000);
       })();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -96,6 +106,7 @@ const JuneRoutes: React.FC = () => {
           <Route path="/signup" exact component={Signup} />
           <PrivateRoute path="/" exact component={Feed} />
           <PrivateRoute path="/user/dashboard" exact component={Dashboard} />
+          <PrivateRoute path="/person/network" exact component={Network} />
           <PrivateRoute
             path="/person/:personUsername"
             exact
