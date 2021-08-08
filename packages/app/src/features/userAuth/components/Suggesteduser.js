@@ -3,6 +3,7 @@ import { useAppSelector } from "../../../app/hooks";
 import { selectUser } from "../userSlice";
 import useLoader from "../../../base/loaders/Loader";
 import SuggestedUserCard from "./SuggestedUserCard";
+import { Image } from "cloudinary-react";
 
 function Suggesteduser() {
   const { LoaderComponent } = useLoader();
@@ -12,7 +13,25 @@ function Suggesteduser() {
   return (
     <>
       <LoaderComponent />
+
       <aside className="w-auto p-3 flex flex-col items-center sm:border-l">
+        <header
+          className="hidden flex-col justify-center items-center mt-2 mb-10 gap-y-2 font-extrabold
+        sm:flex "
+        >
+          <Image
+            cloudName="june-social"
+            publicId={user?.profile_photo}
+            width="100"
+            height="100"
+            responsiveUseBreakpoints="true"
+            crop="fill"
+            radius="max"
+          />
+          <p className="text-gray-500 font-bold">{user?.username}</p>
+          <p className="text-sm text-gray-500 font-normal">{user?.email}</p>
+          <p className="text-lg font-bold">{user?.name}</p>
+        </header>
         <h1 className="text-center font-bold text-gray-500">
           Suggestions for you
         </h1>
@@ -22,10 +41,7 @@ function Suggesteduser() {
           allUsers.map((person, index) => {
             if (person._id !== user._id && !isFollowed(person) && index < 8) {
               return (
-                <div
-                  key={person._id}
-                  className="flex justify-between w-full "
-                >
+                <div key={person._id} className="flex justify-between w-full ">
                   <SuggestedUserCard person={person} />
                   {/* <Link
                     to={`/person/${person.username}`}

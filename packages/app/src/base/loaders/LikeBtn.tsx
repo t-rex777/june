@@ -48,8 +48,8 @@ function LikeBtn({ post, feed }: PropType) {
     } catch (error) {
       console.log(error);
     } finally {
-      feed && (await dispatch(fetchJunePosts()));
       setSmallLoaderDisplay("none");
+      await dispatch(fetchJunePosts());
     }
   };
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAppDispatch } from "../../app/hooks";
-import { uploadPost } from "./postSlice";
+import { fetchJunePosts, uploadPost } from "./postSlice";
 import { PostInput } from "./postTypes";
 import Base from "../../base/Base";
 import { getUserData } from "./../userAuth/userSlice";
@@ -30,7 +30,8 @@ const NewPost: React.FC = () => {
         };
         const res = await dispatch(uploadPost(postFile));
         if (res.payload) {
-          dispatch(getUserData());
+          await dispatch(getUserData());
+          await dispatch(fetchJunePosts());
           setPost({
             caption: "",
           });
