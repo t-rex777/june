@@ -103,7 +103,7 @@ function PostComment() {
               <Image
                 cloudName="june-social"
                 publicId={post.public_id}
-                width={window.innerWidth < 400 ? "250" : "500"}
+                width={window.innerWidth < 300 ? "250" : "500"}
                 height={window.innerHeight < 400 ? "300" : "600"}
                 responsiveUseBreakpoints="true"
                 crop="fill"
