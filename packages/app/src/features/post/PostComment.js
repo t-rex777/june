@@ -4,14 +4,11 @@ import { useAppSelector } from "../../app/hooks";
 import {
   commentPost,
   fetchPostById,
-  likePost,
   selectPost,
   uncommentPost,
-  unlikePost,
 } from "./postSlice";
 import { Link, useParams } from "react-router-dom";
 import { getUserData, selectUser } from "./../userAuth/userSlice";
-import { AiFillHeart } from "react-icons/ai";
 import { BsFillChatFill } from "react-icons/bs";
 import { useEffect } from "react";
 import { useAppDispatch } from "./../../app/hooks";
@@ -33,7 +30,7 @@ function PostComment() {
   const dispatch = useAppDispatch();
   const { postId } = useParams();
   const commentRef = useRef();
-  const isLiked = (post) => post.likes.includes(user._id);
+
   const [userComment, setUserComment] = useState({
     postId: "",
     comment: "",
@@ -61,32 +58,7 @@ function PostComment() {
       setSmallLoaderDisplay("none");
     }
   };
-  const likeUnlikePost = async (post) => {
-    try {
-      setSmallLoaderDisplay("block");
-      if (isLiked(post)) {
-        const res = await dispatch(unlikePost(post._id));
-        if (res.payload) {
-          const userData = await dispatch(getUserData());
-          if (userData && person)
-            if (person) await dispatch(getPerson(person.username));
-          setSmallLoaderDisplay("none");
-        }
-      } else {
-        const res = await dispatch(likePost(post._id));
-        if (res.payload) {
-          const userDetails = await dispatch(getUserData());
-          if (userDetails && person) {
-            await dispatch(getPerson(person.username));
-          }
-          setSmallLoaderDisplay("none");
-        }
-      }
-    } catch (error) {
-      console.log(error);
-      setSmallLoaderDisplay("none");
-    }
-  };
+
   const submitComment = async (e) => {
     e.preventDefault();
     setUserComment({
@@ -96,11 +68,11 @@ function PostComment() {
     try {
       setSmallLoaderDisplay("block");
       const res = await dispatch(commentPost(userComment));
+      setSmallLoaderDisplay("none");
       if (res.payload) {
         await dispatch(fetchPostById(postId));
         const userData = await dispatch(getUserData());
         if (userData && person) await dispatch(getPerson(person.username));
-        setSmallLoaderDisplay("none");
       }
     } catch (error) {
       console.log(error);
@@ -132,7 +104,7 @@ function PostComment() {
                 cloudName="june-social"
                 publicId={post.public_id}
                 width={window.innerWidth < 400 ? "250" : "500"}
-                height={window.innerWidth < 400 ? "300" : "600"}
+                height={window.innerHeight < 400 ? "300" : "600"}
                 responsiveUseBreakpoints="true"
                 crop="fill"
               >
@@ -207,20 +179,12 @@ function PostComment() {
                     </span>
                   </li>
                 ))}
+                <span className="flex justify-center mt-2">
+                  <SmallLoader />
+                </span>
               </ul>
               <div className="px-2	border-t border-gray-300">
                 <div className="flex flex-start">
-                  {/* <span
-                    className="mr-3 my-2 cursor-pointer"
-                    onClick={() => {
-                      likeUnlikePost(post);
-                    }}
-                  >
-                    <AiFillHeart
-                      size="25"
-                      color={isLiked(post) ? "red" : "black"}
-                    />
-                  </span> */}
                   <LikeBtn post={post} feed={false} />
                   <span
                     onClick={() => {
@@ -229,9 +193,6 @@ function PostComment() {
                     className="mx-3 my-2 cursor-pointer"
                   >
                     <BsFillChatFill size="21" />
-                  </span>
-                  <span className="mx-3 my-2 cursor-pointer">
-                    <SmallLoader />
                   </span>
                 </div>
                 <div>
