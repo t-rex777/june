@@ -18,6 +18,7 @@ import { useAppDispatch } from "./../../app/hooks";
 import Base from "./../../base/Base";
 import { getPerson, selectPerson } from "../person/personSlice";
 import useLoader from "../../base/loaders/Loader";
+import LikeBtn from "../../base/loaders/LikeBtn";
 
 function PostComment() {
   const {
@@ -111,8 +112,7 @@ function PostComment() {
       try {
         setLoaderDisplay("block");
         const res = dispatch(fetchPostById(postId));
-        (await res).payload &&
-            setLoaderDisplay("none");
+        (await res).payload && setLoaderDisplay("none");
       } catch (error) {
         setLoaderDisplay("none");
         console.log(error);
@@ -210,7 +210,7 @@ function PostComment() {
               </ul>
               <div className="px-2	border-t border-gray-300">
                 <div className="flex flex-start">
-                  <span
+                  {/* <span
                     className="mr-3 my-2 cursor-pointer"
                     onClick={() => {
                       likeUnlikePost(post);
@@ -220,7 +220,8 @@ function PostComment() {
                       size="25"
                       color={isLiked(post) ? "red" : "black"}
                     />
-                  </span>
+                  </span> */}
+                  <LikeBtn post={post} feed={false} />
                   <span
                     onClick={() => {
                       commentRef.current.focus();
@@ -232,9 +233,6 @@ function PostComment() {
                   <span className="mx-3 my-2 cursor-pointer">
                     <SmallLoader />
                   </span>
-                  {/* <span className="mx-3 my-2 cursor-pointer">
-                  <RiSendPlaneFill size="25" />
-                </span> */}
                 </div>
                 <div>
                   {post.likes.length} {post.likes.length > 1 ? "likes" : "like"}
