@@ -7,6 +7,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "./../userSlice";
 import LikeBtn from "../../../base/loaders/LikeBtn";
+import moment from "moment";
 
 function Card({
   personDetails,
@@ -81,7 +82,7 @@ function Card({
         {post.likes.length} {post.likes.length > 1 ? "likes" : "like"}
       </div>
       <div className="text-sm text-gray-400 mt-2">
-        {new Date(post.updatedAt).toLocaleDateString()}
+        {moment(new Date(post.createdAt), "YYYYMMDD").fromNow()}
       </div>
     </div>
   );

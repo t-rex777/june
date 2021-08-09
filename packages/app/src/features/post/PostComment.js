@@ -16,6 +16,7 @@ import Base from "./../../base/Base";
 import { getPerson, selectPerson } from "../person/personSlice";
 import useLoader from "../../base/loaders/Loader";
 import LikeBtn from "../../base/loaders/LikeBtn";
+import moment from "moment";
 
 function PostComment() {
   const {
@@ -81,13 +82,15 @@ function PostComment() {
   };
   useEffect(() => {
     (async () => {
-      try {
-        setLoaderDisplay("block");
-        const res = dispatch(fetchPostById(postId));
-        (await res).payload && setLoaderDisplay("none");
-      } catch (error) {
-        setLoaderDisplay("none");
-        console.log(error);
+      if (user?._id) {
+        try {
+          setLoaderDisplay("block");
+          const res = dispatch(fetchPostById(postId));
+          (await res).payload && setLoaderDisplay("none");
+        } catch (error) {
+          setLoaderDisplay("none");
+          console.log(error);
+        }
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -199,7 +202,7 @@ function PostComment() {
                   {post.likes.length} {post.likes.length > 1 ? "likes" : "like"}
                 </div>
                 <div className="text-sm text-gray-400 mt-2">
-                  {new Date(post.updatedAt).toLocaleDateString()}
+                {moment(new Date(post.createdAt), "YYYYMMDD").fromNow()}
                 </div>
 
                 <form onSubmit={submitComment} className="mt-2 flex w-full">

@@ -8,6 +8,7 @@ import { selectUser } from "./../userAuth/userSlice";
 import { selectPost } from "../post/postSlice";
 import useLoader from "../../base/loaders/Loader";
 import { source } from "./../../utils";
+import moment from "moment";
 
 const NotificationPage = () => {
   const { LoaderComponent, setLoaderDisplay } = useLoader();
@@ -59,7 +60,9 @@ const NotificationPage = () => {
                   </span>
                   <span className="flex flex-col">
                     <p className=" ml-2">{item.notificationMessage}</p>
-                    <p className="text-gray-400 ml-2 text-xs font-bold">{new Date(item.updatedAt).toDateString()}</p>
+                    <p className="text-gray-400 ml-2 text-xs font-bold">    
+                      {moment(new Date(item.createdAt), "YYYYMMDD").fromNow()}
+                    </p>
                   </span>
                 </span>
               </li>
