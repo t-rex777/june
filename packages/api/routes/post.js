@@ -15,6 +15,7 @@ const {
   getNotificationsById,
   getJunePosts,
   getPost,
+  deleteNotification,
 } = require("../controllers/post");
 
 // middleware
@@ -32,5 +33,6 @@ router
   .patch("/post/unlike/:postId", unlikePost)
   .delete("/post/delete/:postId", deletePost)
 
-  .get("/usernotifications", getNotificationsById);
+  .get("/usernotifications", getNotificationsById)
+  .delete("/usernotifications/:notificationId", deleteNotification);
 module.exports = router;

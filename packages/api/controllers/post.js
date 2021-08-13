@@ -297,3 +297,21 @@ exports.deletePost = async (req, res) => {
     });
   }
 };
+
+exports.deleteNotification = async (req, res) => {
+  const notificationId = req.params.notificationId;
+
+  try {
+    const deletedNotification = await Notification.deleteOne({
+      _id: notificationId,
+    });
+    res.json({
+      message: `Notification ${deletedNotification} deleted successfully!`,
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+      message: "Notification didn't delete!",
+    });
+  }
+};
