@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { useAppSelector } from "../../app/hooks";
 import Base from "../../base/Base";
-import { fetchNotifications, selectNotification } from "./notificationSlice";
+import {
+  deleteNotification,
+  fetchNotifications,
+  selectNotification,
+} from "./notificationSlice";
 import { useAppDispatch } from "../../app/hooks";
 import { Image } from "cloudinary-react";
 import { selectUser } from "./../userAuth/userSlice";
@@ -31,7 +35,8 @@ const NotificationPage = () => {
       source.cancel();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, postStatus, userStatus]);
+  }, []);
+
   return (
     <Base className="flex flex-col justify-center items-center">
       <div>
@@ -58,15 +63,33 @@ const NotificationPage = () => {
                       />
                     )}
                   </span>
-                  <span className="flex flex-col">
+                  <span className="flex flex-col flex-grow">
                     <p className=" ml-2">{item.notificationMessage}</p>
-                    <p className="text-gray-400 ml-2 text-xs font-bold">    
+                    <p className="text-gray-400 ml-2 text-xs font-bold">
                       {moment(new Date(item.createdAt), "YYYYMMDD").fromNow()}
                     </p>
+                  </span>
+                  <span
+                    className="cursor-pointer"
+                    onClick={async () => {
+                      try {
+                        console.log("deleting...");
+                        await dispatch(deleteNotification(item._id));
+                      } catch (error) {
+                        console.log(error);
+                      }
+                    }}
+                  >
+                    &#10060;
                   </span>
                 </span>
               </li>
             ))}
+          {notification.length === 0 && (
+            <li className="border-2 text-center border-gray-400 px-3 py-2 my-2 rounded max-w-5xl">
+              No notifications found!
+            </li>
+          )}
         </ul>
       </div>
     </Base>

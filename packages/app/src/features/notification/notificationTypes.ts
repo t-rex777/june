@@ -15,6 +15,11 @@ export interface NotificationType {
 }
 
 export interface NotificationStateType {
-  notification: NotificationType[] | null;
-  notificationStatus: "idle" | "loading" | "fetched_notifications" | "failed";
+  notification: NotificationType[];
+  notificationStatus:
+    | "idle"
+    | "loading"
+    | "fetched_notifications"
+    | "failed"
+    | "deleted_notifications";
 }

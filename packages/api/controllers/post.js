@@ -306,7 +306,7 @@ exports.deleteNotification = async (req, res) => {
       _id: notificationId,
     });
     res.json({
-      message: `Notification ${deletedNotification} deleted successfully!`,
+      message: `Notification deleted successfully!`,
     });
   } catch (error) {
     res.status(400).json({
