@@ -16,26 +16,27 @@ import moment from "moment";
 
 const NotificationPage = () => {
   const { LoaderComponent, setLoaderDisplay } = useLoader();
-  const { userStatus } = useAppSelector(selectUser);
-  const { postStatus } = useAppSelector(selectPost);
+  const { user } = useAppSelector(selectUser);
   const { notification } = useAppSelector(selectNotification);
   const dispatch = useAppDispatch();
   useEffect(() => {
     (async () => {
       setLoaderDisplay("block");
-      try {
-        const res = await dispatch(fetchNotifications());
-        res.payload && setLoaderDisplay("none");
-      } catch (error) {
-        console.log(error);
-        setLoaderDisplay("none");
+      if (user?._id) {
+        try {
+          const res = await dispatch(fetchNotifications());
+          res.payload && setLoaderDisplay("none");
+        } catch (error) {
+          console.log(error);
+          setLoaderDisplay("none");
+        }
       }
     })();
     return () => {
       source.cancel();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   return (
     <Base className="flex flex-col justify-center items-center">
