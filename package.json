@@ -10,9 +10,11 @@
   "scripts": {
     "app": "yarn workspace @june/app start",
     "server": "yarn workspace @june/api serve",
+    "local-server": "yarn workspace @june/api local-serve",
     "build-app": "yarn workspace @june/app build",
     "build-server": "yarn workspace @june/api build",
     "start": "concurrently --kill-others-on-fail \"yarn app\"  \"yarn server\"",
+    "dev:start": "concurrently --kill-others-on-fail \"yarn app\"  \"yarn local-server\"",
     "start:server": "yarn workspace @june/api start"
   },
   "engines": {

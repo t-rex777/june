@@ -1,36 +1,77 @@
-import { Schema, model } from "mongoose";
-import { createHmac } from "crypto";
-import {v4 as uuidv4} from "uuid";
+const mongoose = require("mongoose");
+const { createHmac } = require("crypto");
+const { v4: uuidv4 } = require("uuid");
 
-const userSchema = new Schema(
+const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-      trim: true,
     },
-    userName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    email: {
+    username: {
       type: String,
       required: true,
       trim: true,
       unique: true,
     },
-    encrypted_password: {
+    email: {
       type: String,
       required: true,
+      unique: true,
     },
     bio: {
       type: String,
+      default: "",
     },
-    posts: {
-      type: Schema.Types.ObjectId,
-      ref: "Post",
+    profile_photo: {
+      type: String,
+      default: "june_gallary/user_qd3fb7",
     },
+    likedPosts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
+    commentedPosts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
+    followers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    followings: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    salt: {
+      type: String,
+    },
+    encrypted_password: {
+      type: String,
+    },
+    ga_id: {
+      type: String,
+    },
+    posts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
+    notifications: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Notification",
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -38,11 +79,11 @@ const userSchema = new Schema(
 userSchema
   .virtual("password")
   .set(function (password) {
-    this.password = this._password;
+    this._password = password;
     this.salt = uuidv4();
-    this.encrypted_password = securePassword(password)
+    this.encrypted_password = this.securePassword(password);
   })
-  .get(function (password) {
+  .get(function () {
     return this._password;
   });
 
@@ -52,9 +93,8 @@ userSchema.methods = {
       return "";
     }
     try {
-      return createHmac("sha256", this.salt)
-        .update(plainPassword)
-        .digest("hex");
+      const secret = this.salt;
+      return createHmac("sha256", secret).update(plainPassword).digest("hex");
     } catch (error) {
       return "";
     }
@@ -64,4 +104,4 @@ userSchema.methods = {
   },
 };
 
-module.exports = model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);
