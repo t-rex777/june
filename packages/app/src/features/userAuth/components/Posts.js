@@ -10,29 +10,29 @@ const Posts = ({ personDetails }) => {
   const [selectEditPost, setEditPost] = useState("");
 
   return (
-      <div className="flex flex-wrap justify-center">
-        {personDetails.posts &&
-          personDetails.posts.map((post) => (
-            <Card
-              key={post._id}
-              personDetails={personDetails}
-              post={post}
-              setEditPost={setEditPost}
+    <div className="grid justify-items-center	grid-col-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {personDetails.posts &&
+        personDetails.posts.map((post) => (
+          <Card
+            key={post._id}
+            personDetails={personDetails}
+            post={post}
+            setEditPost={setEditPost}
+            setCaptionModal={setCaptionModal}
+            edit={true}
+          />
+        ))}
+      <>
+        {editCaptionModal && personDetails._id === user._id && (
+          <span>
+            <PostEdit
+              postId={selectEditPost}
               setCaptionModal={setCaptionModal}
-              edit={true}
             />
-          ))}
-        <>
-          {editCaptionModal && personDetails._id === user._id && (
-            <span>
-              <PostEdit
-                postId={selectEditPost}
-                setCaptionModal={setCaptionModal}
-              />
-            </span>
-          )}
-        </>
-      </div>
+          </span>
+        )}
+      </>
+    </div>
   );
 };
 
